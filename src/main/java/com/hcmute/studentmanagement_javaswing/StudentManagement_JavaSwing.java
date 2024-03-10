@@ -4,13 +4,16 @@
 
 package com.hcmute.studentmanagement_javaswing;
 
+
 /**
  *
  * @author ADMIN
  */
 public class StudentManagement_JavaSwing {
 
+    
+    
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+
     }
 }
