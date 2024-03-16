@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.hcmute.studentmanagement_javaswing.Views;
+package com.stdManage.Views.Login;
 
-import com.hcmute.studentmanagement_javaswing.Components.TextField;
-import com.hcmute.studentmanagement_javaswing.Utils.Styles;
+import com.stdManage.Components.TextField;
+import com.stdManage.Utils.Styles;
 import java.awt.Component;
 import java.awt.Point;
 import javax.swing.border.Border;
@@ -44,8 +44,8 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txt_username = new com.hcmute.studentmanagement_javaswing.Components.TextField();
-        txt_password = new com.hcmute.studentmanagement_javaswing.Components.PasswordField();
+        txt_username = new com.stdManage.Components.TextField();
+        txt_password = new com.stdManage.Components.PasswordField();
         btn_login = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -159,7 +159,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btn_login;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private com.hcmute.studentmanagement_javaswing.Components.PasswordField txt_password;
-    private com.hcmute.studentmanagement_javaswing.Components.TextField txt_username;
+    private com.stdManage.Components.PasswordField txt_password;
+    private com.stdManage.Components.TextField txt_username;
     // End of variables declaration//GEN-END:variables
 }
