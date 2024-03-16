@@ -2,8 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.stdManage.Components;
-
+package com.stdManage.Views.Components;
 import com.stdManage.Utils.Styles;
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -26,7 +25,7 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
  * @author ADMIN
  */
 public class TextField extends JTextField{
-     public String getLabelText() {
+    public String getLabelText() {
         return labelText;
     }
 
