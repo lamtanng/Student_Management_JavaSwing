@@ -4,6 +4,9 @@
 
 package com.stdManage.Main;
 
+import com.stdManage.Views.Components.Header;
+import com.stdManage.Views.Login.Login;
+
 
 /**
  *
@@ -14,6 +17,11 @@ public class StudentManagement_JavaSwing {
     
     
     public static void main(String[] args) {
-
+       java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new Login().setVisible(true);
+            }
+        });
     }
 }

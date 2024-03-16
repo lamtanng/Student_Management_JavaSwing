@@ -25,6 +25,23 @@
     <artifactId>timingframework</artifactId>
     <version>1.0</version>
 </dependency>
-
+        <dependency>
+            <groupId>com.miglayout</groupId>
+            <artifactId>miglayout</artifactId>
+            <version>3.7.4</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
+    
+    <build>
+        <resources>
+            <resource>
+                <directory>/com/stdManage/Views/Components/Icons</directory>
+            </resource>
+
+<!--            <resource>
+                <directory>com/stdManage/Views/Swing/Icons</directory>
+            </resource>-->
+     </resources>
+    </build>
 </project>

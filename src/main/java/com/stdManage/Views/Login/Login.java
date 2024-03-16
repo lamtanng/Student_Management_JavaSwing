@@ -4,7 +4,7 @@
  */
 package com.stdManage.Views.Login;
 
-import com.stdManage.Components.TextField;
+import com.stdManage.Views.Components.*;
 import com.stdManage.Utils.Styles;
 import java.awt.Component;
 import java.awt.Point;
@@ -44,10 +44,10 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txt_username = new com.stdManage.Components.TextField();
-        txt_password = new com.stdManage.Components.PasswordField();
         btn_login = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        passwordField1 = new com.stdManage.Views.Components.PasswordField();
+        textField1 = new com.stdManage.Views.Components.TextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -61,12 +61,6 @@ public class Login extends javax.swing.JFrame {
         jPanel1.setAlignmentX(Component.CENTER_ALIGNMENT);
         jPanel1.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-        txt_username.setLabelText("Username");
-
-        txt_password.setCaretColor(new java.awt.Color(51, 255, 204));
-        txt_password.setLabelText("Password");
-        txt_password.setMargin(new java.awt.Insets(2, 6, 0, 6));
-
         btn_login.setText("LOG IN");
         btn_login.setBorder(null);
         btn_login.setName(""); // NOI18N
@@ -77,6 +71,10 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setText("WELCOME");
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        passwordField1.setLabelText("Password");
+
+        textField1.setLabelText("Username");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -85,21 +83,21 @@ public class Login extends javax.swing.JFrame {
                 .addGap(95, 95, 95)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_login, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_login, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(105, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(84, 84, 84)
+                .addGap(53, 53, 53)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(passwordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61)
                 .addComponent(btn_login, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(95, Short.MAX_VALUE))
         );
@@ -159,7 +157,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btn_login;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private com.stdManage.Components.PasswordField txt_password;
-    private com.stdManage.Components.TextField txt_username;
+    private com.stdManage.Views.Components.PasswordField passwordField1;
+    private com.stdManage.Views.Components.TextField textField1;
     // End of variables declaration//GEN-END:variables
 }
