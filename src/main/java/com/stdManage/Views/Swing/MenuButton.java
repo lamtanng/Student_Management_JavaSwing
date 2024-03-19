@@ -1,16 +1,21 @@
 package com.stdManage.Views.Swing;
 
+import com.stdManage.Utils.Styles;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
@@ -31,7 +36,7 @@ public class MenuButton extends JButton {
     private float animatSize;
     private Point pressedPoint;
     private float alpha;
-    private Color effectColor = new Color(255, 255, 255, 150);
+    private Color effectColor = Styles.COLOR_PRIMARY;
 
     public MenuButton(Icon icon, String text) {
         super(text);
@@ -43,7 +48,9 @@ public class MenuButton extends JButton {
     public MenuButton(String text) {
         super(text);
         init();
-        setBorder(new EmptyBorder(1, 50, 1, 1));
+        
+        //BORDER IS MARGIN
+        setBorder(new EmptyBorder(1, 60, 1, 1));
     }
 
     public MenuButton(String text, boolean subMenu) {
@@ -53,7 +60,9 @@ public class MenuButton extends JButton {
 
     private void init() {
         setContentAreaFilled(false);
-        setForeground(new Color(255, 255, 255));
+        setBorder(null);
+        //set text color
+        setForeground(Styles.COLOR_BLACK); 
         setHorizontalAlignment(JButton.LEFT);
         addMouseListener(new MouseAdapter() {
             @Override
@@ -66,6 +75,7 @@ public class MenuButton extends JButton {
                     animator.stop();
                 }
                 animator.start();
+                
             }
         });
         TimingTarget target = new TimingTargetAdapter() {
@@ -81,7 +91,8 @@ public class MenuButton extends JButton {
         animator = new Animator(400, target);
         animator.setResolution(0);
     }
-
+    
+    
     @Override
     protected void paintComponent(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs;
@@ -94,4 +105,6 @@ public class MenuButton extends JButton {
         g2.setComposite(AlphaComposite.SrcOver);
         super.paintComponent(grphcs);
     }
+    
+    
 }

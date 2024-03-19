@@ -4,10 +4,10 @@ import com.stdManage.Views.Components.Event.EventMenu;
 import com.stdManage.Views.Components.Event.EventMenuSelected;
 import com.stdManage.Views.Components.Event.EventShowPopupMenu;
 import com.stdManage.Models.ModelMenu;
+import com.stdManage.Utils.Styles;
 import com.stdManage.Views.Swing.MenuAnimation;
 import com.stdManage.Views.Swing.MenuItem;
 import com.stdManage.Views.Swing.ScrollBar.ScrollBarCustom;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -49,12 +49,14 @@ public class Menu extends javax.swing.JPanel {
         setOpaque(false);
         sp.getViewport().setOpaque(false);
         sp.setVerticalScrollBar(new ScrollBarCustom());
+        sp.setBackground(Styles.COLOR_WHITE);
         layout = new MigLayout("wrap, fillx, insets 0", "[fill]", "[]0[]");
         panel.setLayout(layout);
+        
     }
 
     public void initMenuItem() {
-        addMenu(new ModelMenu(new ImageIcon("/com/stdManage/Views/Components/Icons/1.png"), "Dashboard", "Home", "Buttons", "Cards", "Tabs", "Accordions", "Modals"));
+        addMenu(new ModelMenu(new ImageIcon("/com/stdManage/Views/Components/Icons/1.png"), "Dashboard", "Home", "Buttons"));
         addMenu(new ModelMenu(new ImageIcon( "/com/stdManage/Views/Components/Icons/2.png"), "Charts", "Morris", "Flot", "Line"));
         addMenu(new ModelMenu(new ImageIcon( "/com/stdManage/Views/Components/Icons/3.png"), "Report", "Income", "Expense", "Profit"));
         addMenu(new ModelMenu(new ImageIcon( "/com/stdManage/Views/Components/Icons/4.png"), "Message", "Sender", "Inbox", "User"));
@@ -71,7 +73,8 @@ public class Menu extends javax.swing.JPanel {
     }
 
     private void addMenu(ModelMenu menu) {
-        panel.add(new MenuItem(menu, getEventMenu(), event, panel.getComponentCount()), "h 40!");
+        MenuItem m = new MenuItem(menu, getEventMenu(), event, panel.getComponentCount());
+        panel.add(m, "h 40!");
     }
 
     private EventMenu getEventMenu() {
@@ -115,7 +118,6 @@ public class Menu extends javax.swing.JPanel {
 
         sp.setBorder(null);
         sp.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        sp.setViewportBorder(null);
 
         panel.setOpaque(false);
 
@@ -144,7 +146,7 @@ public class Menu extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(profile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sp, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE))
+                .addComponent(sp))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -152,7 +154,9 @@ public class Menu extends javax.swing.JPanel {
     protected void paintComponent(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        GradientPaint gra = new GradientPaint(0, 0, new Color(33, 105, 249), getWidth(), 0, new Color(93, 58, 196));
+        
+        //set background color menu
+        GradientPaint gra = new GradientPaint(0, 0, Styles.COLOR_WHITE, getWidth(), 0, Styles.COLOR_WHITE);
         g2.setPaint(gra);
         g2.fillRect(0, 0, getWidth(), getHeight());
         super.paintComponent(grphcs);
