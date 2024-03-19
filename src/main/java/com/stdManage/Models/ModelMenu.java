@@ -35,6 +35,7 @@ public class ModelMenu {
     }
 
     public ModelMenu() {
+        
     }
 
     private Icon icon;
