@@ -15,6 +15,6 @@ public class U_ColumnTitles {
     public static final String ORDER_TITLE = "Order";
     
     
-    public static final String[] ACCOUNT = {"Username", "Password", "Role", ACTION_TITLE };
-    public static final String[] GRADLE_DETAILS = {"ID", "Group", "Student", "Theory Mark", "Practice Mark", "Pay Status", "Certification",  ACTION_TITLE };
+    public static final String[] ACCOUNT = {"Username", "Password", "Role" };
+    public static final String[] GRADLE_DETAILS = {"ID", "Group", "Student", "Theory Mark", "Practice Mark", "Pay Status", "Certification" };
 }

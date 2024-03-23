@@ -19,9 +19,9 @@ public class PanelAction extends javax.swing.JPanel {
      */
     public PanelAction() {
         initComponents();
-        setBackground(U_Styles.COLOR_WHITE);
         cmdDelete.setBackground(U_Styles.COLOR_WHITE);
-        
+        cmdDelete.setIcon(new javax.swing.ImageIcon("src\\main\\resources\\images\\trash-xmark.png"));
+        cmdEdit.setIcon(new javax.swing.ImageIcon("src\\main\\resources\\images\\edit.png"));
     }
 
      public void initEvent(ITableActionEvent event, int row, int col) {
@@ -58,9 +58,6 @@ public class PanelAction extends javax.swing.JPanel {
         cmdDelete = new com.stdManage.Views.Swing.JTable.ActionButton();
         cmdView = new com.stdManage.Views.Swing.JTable.ActionButton();
 
-        cmdEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edit.png"))); // NOI18N
-
-        cmdDelete.setIcon(new javax.swing.ImageIcon("C:\\Workspace\\2023-2024\\NNLTTT\\StudentManagement_JavaSwing\\src\\main\\resources\\images\\trash-xmark.png")); // NOI18N
         cmdDelete.setBorderPainted(false);
 
         cmdView.setText("View");

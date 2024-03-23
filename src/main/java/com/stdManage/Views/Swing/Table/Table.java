@@ -55,10 +55,10 @@ public class Table extends JTable {
         });
     }
 
-    public void initTable(Object[] colsHeader){
+    public void initTable(Object[] colsHeader, Object[][] dataTable){
         deleteRows();
         fixTable();
-        createColumns(colsHeader);
+        createColumns(colsHeader, dataTable);
         createOrderColumn();
     }
     
@@ -76,9 +76,9 @@ public class Table extends JTable {
         }
     }
     
-    public void createColumns(Object[] colsHeader){
+    public void createColumns(Object[] colsHeader, Object[][] dataTable){
         setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
+                dataTable,
                 colsHeader
         )
         );
@@ -99,13 +99,11 @@ public class Table extends JTable {
     }
     
     public void createActionColumn(ITableActionEvent event){
-        int rowAction = getColumnModel().getColumnIndex(U_ColumnTitles.ACTION_TITLE);
-        getColumnModel().getColumn(rowAction).setCellRenderer(new DefaultTableCellRenderer(){
+        TableColumn col = new TableColumn(0, U_Styles.HEIGHT_ROW, new DefaultTableCellRenderer(){
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                
                 PanelAction action = new PanelAction();
-                Component com = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                
                 if (isSelected) {
                     action.setBackground(U_Styles.COLOR_PRIMARY);
                     action.setForeground(U_Styles.COLOR_WHITE);
@@ -117,9 +115,11 @@ public class Table extends JTable {
                 }
                 return action;
             }
-        });
-        getColumnModel().getColumn(rowAction).setCellEditor(new TableActionCellEditor(event));
+        }, new TableActionCellEditor(event) );
+        col.setHeaderValue(U_ColumnTitles.ACTION_TITLE);
+        addColumn(col);
     }
+
     
     public void addRow(Object[] row) {
         DefaultTableModel mod = (DefaultTableModel) getModel();
