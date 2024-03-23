@@ -14,8 +14,12 @@ import com.stdManage.Views.Swing.PopupMenu;
 import com.stdManage.Views.Swing.Icons.GoogleMaterialDesignIcons;
 import com.stdManage.Views.Swing.Icons.IconFontSwing;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JButton;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -32,6 +36,7 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         init();
+        setFocusable();
            }
     
     private void init() {
@@ -148,6 +153,33 @@ public class Main extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public boolean isButton(Component component) {
+        if (component instanceof JButton) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setFocusable() {
+        for (Component component : getAllComponents(this)) {
+            if (isButton(component)) {
+                ((JButton) component).setFocusable(false);
+            }
+        }
+    }
+
+    public static List<Component> getAllComponents(final Container c) {
+        Component[] comps = c.getComponents();
+        List<Component> compList = new ArrayList<>();
+        for (Component comp : comps) {
+            compList.add(comp);
+            if (comp instanceof Container) {
+                compList.addAll(getAllComponents((Container) comp));
+            }
+        }
+        return compList;
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
