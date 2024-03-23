@@ -4,11 +4,13 @@
  */
 package com.stdManage.Models;
 
+import com.stdManage.Interface.I_PaintRowTable;
+
 /**
  *
  * @author ADMIN
  */
-public class ClassGroup{
+public class ClassGroup implements I_PaintRowTable{
     private String id;
     private String class_id;
     private String teacher_id;
@@ -38,10 +40,21 @@ public class ClassGroup{
         this.day_of_week = day_of_week;
     }
 
+    @Override
+    public Object[] toModelTable() {
+        return new Object[]{id, class_id, teacher_id, classroom_id, 
+                            shift_id, students_min, students_max, start_date, 
+                            end_date, register_status, day_of_week};
+    }
+
     public String getId() {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     public String getClass_id() {
         return class_id;
     }
@@ -122,5 +135,6 @@ public class ClassGroup{
         this.day_of_week = day_of_week;
     }
 
+    
     
 }

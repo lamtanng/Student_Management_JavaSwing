@@ -4,17 +4,25 @@
  */
 package com.stdManage.Models;
 
+import com.stdManage.Interface.I_PaintRowTable;
+
 /**
  *
  * @author ADMIN
  */
-public class AttendanceRecord{
+public class AttendanceRecord implements I_PaintRowTable{
     private String id;
     private String check_date;
     private String class_group_id;
     private String student_id;
     private boolean is_present = false;
 
+    @Override
+    public Object[] toModelTable() {
+        return new Object[]{id, check_date, class_group_id, student_id, is_present };
+    }
+
+    
     public AttendanceRecord() {
     }
 
@@ -28,6 +36,11 @@ public class AttendanceRecord{
     public String getId() {
         return id;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
 
     public String getCheck_date() {
         return check_date;

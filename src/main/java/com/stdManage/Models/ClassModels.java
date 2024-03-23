@@ -4,21 +4,23 @@
  */
 package com.stdManage.Models;
 
+import com.stdManage.Interface.I_PaintRowTable;
+
 /**
  *
  * @author ADMIN
  */
-public class Class{
+public class ClassModels implements I_PaintRowTable{
     private String id;
     private String name;
     private String course_id;
     private int period_total;
-    private int fee;
+    private double fee;
 
-    public Class() {
+    public ClassModels() {
     }
 
-    public Class(String id, String name, String course_id, int period_total, int fee) {
+    public ClassModels(String id, String name, String course_id, int period_total, double fee) {
         this.id = id;
         this.name = name;
         this.course_id = course_id;
@@ -29,6 +31,12 @@ public class Class{
     public String getId() {
         return id;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    
 
     public String getName() {
         return name;
@@ -54,12 +62,17 @@ public class Class{
         this.period_total = period_total;
     }
 
-    public int getFee() {
+    public double getFee() {
         return fee;
     }
 
-    public void setFee(int fee) {
+    public void setFee(double fee) {
         this.fee = fee;
+    }
+
+    @Override
+    public Object[] toModelTable() {
+        return new Object[]{id, name, course_id, period_total, fee};
     }
     
     

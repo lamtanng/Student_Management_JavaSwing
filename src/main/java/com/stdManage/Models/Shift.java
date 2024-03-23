@@ -4,15 +4,22 @@
  */
 package com.stdManage.Models;
 
+import com.stdManage.Interface.I_PaintRowTable;
+
 /**
  *
  * @author ADMIN
  */
-public class Shift{
+public class Shift implements I_PaintRowTable{
     private int id;
     private String start_time;
     private String end_time;
 
+    @Override
+    public Object[] toModelTable() {
+        return new Object[]{id, start_time, end_time};
+    }
+    
     public Shift() {
     }
 
@@ -24,6 +31,10 @@ public class Shift{
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
     public String getStart_time() {
@@ -41,5 +52,7 @@ public class Shift{
     public void setEnd_time(String end_time) {
         this.end_time = end_time;
     }
+
+    
     
     }

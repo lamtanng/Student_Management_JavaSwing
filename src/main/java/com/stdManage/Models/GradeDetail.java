@@ -4,11 +4,13 @@
  */
 package com.stdManage.Models;
 
+import com.stdManage.Interface.I_PaintRowTable;
+
 /**
  *
  * @author ADMIN
  */
-public class GradeDetail{
+public class GradeDetail implements I_PaintRowTable{
     private String id;
     private String group_id;
     private String student_id;
@@ -17,6 +19,12 @@ public class GradeDetail{
     private boolean pay_status = false;
     private boolean certificate_status = false;
 
+    @Override
+    public Object[] toModelTable() {
+        return new Object[]{id, group_id, student_id, theory_mark,
+                            practice_mark, pay_status, certificate_status};
+    }
+    
     public GradeDetail() {
     }
 
@@ -34,6 +42,10 @@ public class GradeDetail{
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     public String getGroup_id() {
         return group_id;
     }
@@ -81,5 +93,6 @@ public class GradeDetail{
     public void setCertificate_status(boolean certificate_status) {
         this.certificate_status = certificate_status;
     }
+
     
     }

@@ -4,11 +4,13 @@
  */
 package com.stdManage.Models;
 
+import com.stdManage.Interface.I_PaintRowTable;
+
 /**
  *
  * @author ADMIN
  */
-public class Account{
+public class Account implements I_PaintRowTable{
     private String username;
     private String role;
     private String password;

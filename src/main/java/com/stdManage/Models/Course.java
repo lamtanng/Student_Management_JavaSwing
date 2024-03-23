@@ -4,11 +4,13 @@
  */
 package com.stdManage.Models;
 
+import com.stdManage.Interface.I_PaintRowTable;
+
 /**
  *
  * @author ADMIN
  */
-public class Course{
+public class Course implements I_PaintRowTable{
     private String id;
     private String name;
     
@@ -25,6 +27,9 @@ public class Course{
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -32,6 +37,11 @@ public class Course{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public Object[] toModelTable() {
+        return new Object[]{id, name};
     }
 
         
