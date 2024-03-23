@@ -3,7 +3,7 @@ package com.stdManage.Views.Swing;
 import com.stdManage.Views.Components.Event.EventMenu;
 import com.stdManage.Views.Components.Event.EventMenuSelected;
 import com.stdManage.Models.ModelMenu;
-import com.stdManage.Utils.Styles;
+import com.stdManage.Utils.U_Styles;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -114,7 +114,7 @@ public class MenuItem extends javax.swing.JPanel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
         //set submenu's bg color 
-        g2.setColor(Styles.COLOR_WHITE);
+        g2.setColor(U_Styles.COLOR_WHITE);
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
         g2.fillRect(0, 2, width, 38);
         
@@ -134,7 +134,7 @@ public class MenuItem extends javax.swing.JPanel {
         float ay1 = (1f - alpha) * size;
         
         //set arrow color
-        g2.setColor(Styles.COLOR_BLACK);
+        g2.setColor(U_Styles.COLOR_BLACK);
         g2.drawLine(x, (int) (y + ay), x + 4, (int) (y + ay1));
         g2.drawLine(x + 4, (int) (y + ay1), x + 8, (int) (y + ay));
     }

@@ -5,7 +5,7 @@
 package com.stdManage.Views.Login;
 
 import com.stdManage.Views.Components.*;
-import com.stdManage.Utils.Styles;
+import com.stdManage.Utils.U_Styles;
 import java.awt.Component;
 import java.awt.Point;
 import javax.swing.border.Border;
@@ -27,9 +27,9 @@ public class Login extends javax.swing.JFrame {
         }
 
     private void initOveride(){
-        btn_login.setBackground(Styles.COLOR_PRIMARY);
-        btn_login.setFont(Styles.TEXT_BOLD_MEDIUM);
-        btn_login.setForeground(Styles.COLOR_WHITE);
+        btn_login.setBackground(U_Styles.COLOR_PRIMARY);
+        btn_login.setFont(U_Styles.TEXT_BOLD_MEDIUM);
+        btn_login.setForeground(U_Styles.COLOR_WHITE);
         btn_login.setBorder(null);
         jPanel1.setAlignmentY(CENTER_ALIGNMENT);
     }

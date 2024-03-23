@@ -2,22 +2,12 @@ package com.stdManage.Views.Components.Form;
 
 import com.stdManage.Main.Main;
 import com.stdManage.Views.Components.Dialog.Message;
-import com.stdManage.Main.StudentManagement_JavaSwing;
-import com.stdManage.Models.ModelCard;
-import com.stdManage.Models.ModelStudent;
-import com.stdManage.Views.Swing.Icons.GoogleMaterialDesignIcons;
-import com.stdManage.Views.Swing.Icons.IconFontSwing;
 import com.stdManage.Views.Swing.NoticeBoard.ModelNoticeBoard;
-import com.stdManage.Views.Swing.Table.EventAction;
 import java.awt.Color;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 public class Form_Home extends javax.swing.JPanel {
 
     public Form_Home() {
         initComponents();
-        table1.fixTable(jScrollPane1);
         setOpaque(false);
         initData();
     }
@@ -29,26 +19,26 @@ public class Form_Home extends javax.swing.JPanel {
     }
 
     private void initTableData() {
-        EventAction eventAction = new EventAction() {
-            @Override
-            public void delete(ModelStudent student) {
-                if (showMessage("Delete Student : " + student.getName())) {
-                    System.out.println("User click OK");
-                } else {
-                    System.out.println("User click Cancel");
-                }
-            }
-
-            @Override
-            public void update(ModelStudent student) {
-                if (showMessage("Update Student : " + student.getName())) {
-                    System.out.println("User click OK");
-                } else {
-                    System.out.println("User click Cancel");
-                }
-            }
-        };
-//        table1.addRow(new ModelStudent(new ImageIcon(  "/com/raven/icon/profile.jpg"), "Jonh", "Male", "Java", 300).toRowTable(eventAction));
+//        EventAction<ModelStudent> eventAction = new EventAction() {
+//            @Override
+//            public void delete(ModelStudent student) {
+//                if (showMessage("Delete Student : " + student.getName())) {
+//                    System.out.println("User click OK");
+//                } else {
+//                    System.out.println("User click Cancel");
+//                }
+//            }
+//
+//            @Override
+//            public void update(ModelStudent student) {
+//                if (showMessage("Update Student : " + student.getName())) {
+//                    System.out.println("User click OK");
+//                } else {
+//                    System.out.println("User click Cancel");
+//                }
+//            }
+//        };
+        //table1.addRow(new ModelStudent(new ImageIcon(  "/com/raven/icon/profile.jpg"), "Jonh", "Male", "Java", 300).toRowTable(eventAction));
 //        table1.addRow(new ModelStudent(new ImageIcon(  "/com/raven/icon/profile1.jpg"), "Dara", "Male", "C++", 300).toRowTable(eventAction));
 //        table1.addRow(new ModelStudent(new ImageIcon(  "/com/raven/icon/profile2.jpg"), "Bora", "Male", "C#", 300).toRowTable(eventAction));
 //        table1.addRow(new ModelStudent(new ImageIcon(  "/com/raven/icon/profile2.jpg"), "Bora", "Male", "C#", 300).toRowTable(eventAction));

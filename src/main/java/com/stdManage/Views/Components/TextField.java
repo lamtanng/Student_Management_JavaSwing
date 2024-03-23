@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.stdManage.Views.Components;
-import com.stdManage.Utils.Styles;
+import com.stdManage.Utils.U_Styles;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -17,6 +17,8 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.text.html.StyleSheet;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
@@ -50,8 +52,10 @@ public class TextField extends JTextField{
     private Color lineColor = new Color(3, 155, 216);
 
     public TextField() {
-        setFont(Styles.TEXT_PLAIN_MEDIUM);
+        setFont(U_Styles.TEXT_PLAIN_MEDIUM);
         setBorder(new EmptyBorder(20, 3, 10, 3));
+//        setBorder(new LineBorder(U_Styles.COLOR_PRIMARY));
+        
         setSelectionColor(new Color(76, 204, 255));
         addMouseListener(new MouseAdapter() {
             @Override

@@ -1,91 +1,184 @@
 package com.stdManage.Views.Swing.Table;
 
+import com.stdManage.Utils.U_ColumnTitles;
+import com.stdManage.Utils.U_Styles;
+import com.stdManage.Views.Swing.JTable.ITableActionEvent;
+import com.stdManage.Views.Swing.JTable.PanelAction;
+import com.stdManage.Views.Swing.JTable.TableActionCellEditor;
+import com.stdManage.Views.Swing.JTable.TableActionCellRender;
 import com.stdManage.Views.Swing.ScrollBar.ScrollBarCustom;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JViewport;
+import javax.swing.border.AbstractBorder;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
 
 public class Table extends JTable {
 
     public Table() {
         setShowHorizontalLines(true);
-        setGridColor(new Color(230, 230, 230));
-        setRowHeight(40);
-        getTableHeader().setReorderingAllowed(false);
-        getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
+        setGridColor(U_Styles.COLOR_WHITE);
+        setRowHeight(U_Styles.HEIGHT_ROW);
+        getTableHeader().setReorderingAllowed(true);
+
+        //set header column title
+        getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer(){
             @Override
-            public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
-                TableHeader header = new TableHeader(o + "");
-                if (i1 == 4) {
-                    header.setHorizontalAlignment(JLabel.CENTER);
-                }
-                return header;
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                TableHeader header = new TableHeader(value+"");
+                header.setHorizontalAlignment(JLabel.LEFT);
+                header.setForeground(U_Styles.COLOR_GRAY3);   
+                return header; 
             }
         });
-        setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+        
+        //paint row
+        setDefaultRenderer(Object.class, new DefaultTableCellRenderer(){
             @Override
-            public Component getTableCellRendererComponent(JTable jtable, Object o, boolean selected, boolean focus, int i, int i1) {
-                if (o instanceof ModelProfile) {
-                    ModelProfile data = (ModelProfile) o;
-                    Profile cell = new Profile(data);
-                    if (selected) {
-                        cell.setBackground(new Color(239, 244, 255));
-                    } else {
-                        cell.setBackground(Color.WHITE);
-                    }
-                    return cell;
-
-                } else if (o instanceof ModelAction) {
-                    ModelAction data = (ModelAction) o;
-                    Action cell = new Action(data);
-                    if (selected) {
-                        cell.setBackground(new Color(239, 244, 255));
-                    } else {
-                        cell.setBackground(Color.WHITE);
-                    }
-                    return cell;
-                } else {
-                    Component com = super.getTableCellRendererComponent(jtable, o, selected, focus, i, i1);
-                    setBorder(noFocusBorder);
-                    com.setForeground(new Color(102, 102, 102));
-                    if (selected) {
-                        com.setBackground(new Color(239, 244, 255));
-                    } else {
-                        com.setBackground(Color.WHITE);
-                    }
-                    return com;
-                }
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component com = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                return paintRow(com, isSelected, row, column);
             }
         });
     }
 
-    @Override
-    public TableCellEditor getCellEditor(int row, int col) {
-        if (col == 4) {
-            return new TableCellAction();
-        } else {
-            return super.getCellEditor(row, col);
+    public void initTable(Object[] colsHeader){
+        deleteRows();
+        fixTable();
+        createColumns(colsHeader);
+        createOrderColumn();
+    }
+    
+    /**
+     * @param arrIdx int[]
+     * 
+     * @see  
+     * hide all index column
+     * any value in array is index column
+     */
+    public void hideColumnAt(int[] arrIdx){
+        for (int idx : arrIdx) {
+            getColumnModel().getColumn(idx).setMinWidth(0);
+            getColumnModel().getColumn(idx).setMaxWidth(0);
         }
     }
-
+    
+    public void createColumns(Object[] colsHeader){
+        setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                colsHeader
+        )
+        );
+    }
+    
+    public void createOrderColumn(){
+        TableColumn col = new TableColumn(0, U_Styles.HEIGHT_ROW, new DefaultTableCellRenderer(){
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                value = row + 1;
+                Component com = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                return paintRow(com, isSelected, row, column);
+            }
+        }, new DefaultCellEditor(new JTextField()));
+        col.setHeaderValue(U_ColumnTitles.ORDER_TITLE);
+        addColumn(col);
+        moveColumn(getColumnModel().getColumnIndex(U_ColumnTitles.ORDER_TITLE), 0);
+    }
+    
+    public void createActionColumn(ITableActionEvent event){
+        int rowAction = getColumnModel().getColumnIndex(U_ColumnTitles.ACTION_TITLE);
+        getColumnModel().getColumn(rowAction).setCellRenderer(new DefaultTableCellRenderer(){
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                
+                PanelAction action = new PanelAction();
+                Component com = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (isSelected) {
+                    action.setBackground(U_Styles.COLOR_PRIMARY);
+                    action.setForeground(U_Styles.COLOR_WHITE);
+                } else {
+                    if(row %2 == 0){
+                        action.setBackground(Color.WHITE);
+                    }
+                    else action.setBackground(U_Styles.COLOR_GRAY1);
+                }
+                return action;
+            }
+        });
+        getColumnModel().getColumn(rowAction).setCellEditor(new TableActionCellEditor(event));
+    }
+    
     public void addRow(Object[] row) {
         DefaultTableModel mod = (DefaultTableModel) getModel();
         mod.addRow(row);
     }
+    
+    public void deleteColumns(){
+        for (int i = getColumnCount()-1; i >=0 ; i--) {
+            this.removeColumn(getColumnModel().getColumn(i));
+        }
+    }
+    
+    public void deleteRows(){
+        DefaultTableModel model = (DefaultTableModel) this.getModel();
+        model.setRowCount(0);
+        
+    }
 
-    public void fixTable(JScrollPane scroll) {
-        scroll.getViewport().setBackground(Color.WHITE);
-        scroll.setVerticalScrollBar(new ScrollBarCustom());
-        JPanel p = new JPanel();
-        p.setBackground(Color.WHITE);
-        scroll.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        scroll.setBorder(new EmptyBorder(5, 10, 5, 10));
+    /**
+     * Custom Table
+     */
+    public void fixTable() {
+        System.out.println("Table/+++ ");
+        try {
+            Component parentViewPort = getParent();
+            
+            if(parentViewPort instanceof JViewport){
+                JScrollPane parentScroll = (JScrollPane) parentViewPort.getParent();
+                parentViewPort.setBackground(U_Styles.COLOR_WHITE);
+        
+                parentScroll.setVerticalScrollBar(new ScrollBarCustom());
+                JPanel p = new JPanel();
+                p.setBackground(U_Styles.COLOR_WHITE);
+                parentScroll.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
+                parentScroll.setBorder(new EmptyBorder(5, 10, 5, 10));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+    }
+    
+    public Component paintRow(Component com, boolean isSelected, int row, int column){
+                com.setForeground(U_Styles.COLOR_GRAY4);
+                setBorder(null);
+                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                com.setFont(U_Styles.TEXT_PLAIN_MEDIUM);
+                setCellSelectionEnabled(false);
+                if (isSelected) {
+                    com.setFocusable(false);
+                    com.setBackground(U_Styles.COLOR_WHITE);
+                    com.setForeground(U_Styles.COLOR_BLACK);
+//                    setBorder(new LineBorder(Styles.COLOR_PRIMARY));
+//                    setCellSelectionEnabled(false);
+                } else {
+                    if(row %2 == 0){
+                        com.setBackground(Color.WHITE);
+                    }
+                    else com.setBackground(U_Styles.COLOR_GRAY1);
+                }
+                return com;
     }
 }
