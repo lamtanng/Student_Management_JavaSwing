@@ -49,9 +49,10 @@ public class F_GroupManager extends javax.swing.JPanel {
      */
     public F_GroupManager() {
         initComponents();
-        tbl_GroupDetails1.initTable(U_ColumnTitles.GRADLE_DETAILS);
+        Object[][] dataTable = accDao.findAll();
+        tbl_GroupDetails1.initTable(U_ColumnTitles.ACCOUNT, dataTable);
         handleTableAction();
-        //fillTableData();
+//        fillTableData();
         
         //init cbb
         initComboboxs();
@@ -157,10 +158,10 @@ public class F_GroupManager extends javax.swing.JPanel {
     
 
     private void fillTableData() {
-        List<GradeDetail> list = gradeDao.findAllbyGroup(currentGroup);
-        list.forEach((a) -> {
-            tbl_GroupDetails1.addRow(a.toModelTable());
-        });
+//        Object[][] list = accDao.findAll();
+//        list.forEach((a) -> {
+//            tbl_GroupDetails1.addRow(a.toModelTable());
+//        });
     }
 
     private void paintTable() {
@@ -289,13 +290,13 @@ public class F_GroupManager extends javax.swing.JPanel {
 
     private void cbb_courseItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_courseItemStateChanged
         // TODO add your handling code here:
-        int idx = cbb_course.getSelectedIndex();
-        if (idx >= 0) {
-            Course value = (Course) cbb_course.getSelectedItem();
-            String currentCourse = value.getId();
-            //System.out.println("Course id : " + currentCourse);
-            initClassCbb(currentCourse);
-        }
+//        int idx = cbb_course.getSelectedIndex();
+//        if (idx >= 0) {
+//            Course value = (Course) cbb_course.getSelectedItem();
+//            String currentCourse = value.getId();
+//            //System.out.println("Course id : " + currentCourse);
+//            initClassCbb(currentCourse);
+//        }
     }//GEN-LAST:event_cbb_courseItemStateChanged
 
     private void cbb_classItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_classItemStateChanged
@@ -309,12 +310,12 @@ public class F_GroupManager extends javax.swing.JPanel {
     }//GEN-LAST:event_cbb_classItemStateChanged
 
     private void cbb_groupClassItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_groupClassItemStateChanged
-        int idx = cbb_groupClass.getSelectedIndex();
-        if (idx >= 0) {
-            ClassGroup value = (ClassGroup) cbb_groupClass.getSelectedItem();
-            currentGroup = value.getId();
-            loadStudentTable(currentGroup);
-        }
+//        int idx = cbb_groupClass.getSelectedIndex();
+//        if (idx >= 0) {
+//            ClassGroup value = (ClassGroup) cbb_groupClass.getSelectedItem();
+//            currentGroup = value.getId();
+//            loadStudentTable(currentGroup);
+//        }
     }//GEN-LAST:event_cbb_groupClassItemStateChanged
 
 

@@ -5,11 +5,15 @@
 package com.stdManage.Dao;
 
 import com.stdManage.Models.Account;
+import com.stdManage.Models.ClassModels;
+import com.stdManage.Utils.U_HelperDao;
 import com.stdManage.Utils.U_ModelFields;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /**
  *
@@ -19,69 +23,37 @@ public class AccountDao{
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
-    
-//    public Object[][] findAll(){
-//        Object[][] listModel = new Object[][]{};
-//        List<List<Object>> listcate = new ArrayList<List<Object>>();
-//        String sql = "Select * from account";
-//
-//        try {
-//                conn = new DBConnectionDao().getConn();
-//                ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
-//                rs = ps.executeQuery();// Chuyển dữ liệu ra view
-//                while (rs.next()) {
-//
-//                        account category = new account();
-//                        category.setUsername(rs.getString(NameModels.ACCOUNT_USERNAME));
-//                        category.setPassword(rs.getString(NameModels.ACCOUNT_PASSWORD));
-//                        category.setRole(rs.getString(NameModels.ACCOUNT_ROLE));
-//                        category.setCode(rs.getString(NameModels.ACCOUNT_CODE));
-//                        category.setStatus(rs.getInt(NameModels.ACCOUNT_STATUS));
-//                        
-//                        
-//                        Object[] obj = category.toModelTable();
-//                        listcate.add(Arrays.asList(obj));
-//
-//                        System.out.println("AccountDAO/ >>>" + Arrays.stream(listcate.get(0).toArray()).toList());
-//                } // View nào sẽ nhận dữ liệu
-//                listModel = new Object[][] {
-//                                            {Arrays.stream(listcate.get(0).toArray()).toList()}
-//                                        };
-//                
-//                conn.close();
-//        } catch (Exception e) {
-//                e.printStackTrace();
-//        }
-//
-//        return listModel;
-//    }
-    
-    public List<Account> findAll(){
-        List<Account> listcate = new ArrayList<Account>();
-		String sql = "Select * from account";
-                
-		try {
-			conn = new DBConnectionDao().getConn();
-                        ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
-			rs = ps.executeQuery();// Chuyển dữ liệu ra view
-			while (rs.next()) {
-
-				Account category = new Account();
-				category.setUsername(rs.getString(U_ModelFields.ACCOUNT.USERNAME));
-				category.setPassword(rs.getString(U_ModelFields.ACCOUNT.PASSWORD));
-				category.setRole(rs.getString(U_ModelFields.ACCOUNT.ROLE));
-				listcate.add(category);
-                                Object[] obj = category.toModelTable();
-                                
-			}
-
-			conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return listcate;
+    U_HelperDao heplerDao = new U_HelperDao();
+    public Object[][] findAll(){
+        
+        List<Object[]> listData= new ArrayList<Object[]>();
+        String sql = "Select * from account";
+        Object result[][] = new Object[][]{};
+        
+        try {
+                conn = new DBConnectionDao().getConn();
+                ps = conn.prepareStatement(sql);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                   getList(listData);
+                } 
+                conn.close();
+                result = heplerDao.covertToDataTable(listData);
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
+        return result;
     }
+    
+     private void getList(List<Object[]> list) throws SQLException{
+        Account dataModel = new Account();
+        dataModel.setUsername(rs.getString(U_ModelFields.ACCOUNT.USERNAME));
+        dataModel.setPassword(rs.getString(U_ModelFields.ACCOUNT.PASSWORD));
+        dataModel.setRole(rs.getString(U_ModelFields.ACCOUNT.ROLE));
+        Object[] obj = dataModel.toModelTable();
+        list.add(obj);
+    }
+
 
 }
 
