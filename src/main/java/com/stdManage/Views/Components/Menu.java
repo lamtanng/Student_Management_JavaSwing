@@ -4,7 +4,7 @@ import com.stdManage.Views.Components.Event.EventMenu;
 import com.stdManage.Views.Components.Event.EventMenuSelected;
 import com.stdManage.Views.Components.Event.EventShowPopupMenu;
 import com.stdManage.Models.ModelMenu;
-import com.stdManage.Utils.Styles;
+import com.stdManage.Utils.U_Styles;
 import com.stdManage.Views.Swing.MenuAnimation;
 import com.stdManage.Views.Swing.MenuItem;
 import com.stdManage.Views.Swing.ScrollBar.ScrollBarCustom;
@@ -49,7 +49,7 @@ public class Menu extends javax.swing.JPanel {
         setOpaque(false);
         sp.getViewport().setOpaque(false);
         sp.setVerticalScrollBar(new ScrollBarCustom());
-        sp.setBackground(Styles.COLOR_WHITE);
+        sp.setBackground(U_Styles.COLOR_WHITE);
         layout = new MigLayout("wrap, fillx, insets 0", "[fill]", "[]0[]");
         panel.setLayout(layout);
         
@@ -156,7 +156,7 @@ public class Menu extends javax.swing.JPanel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
         //set background color menu
-        GradientPaint gra = new GradientPaint(0, 0, Styles.COLOR_WHITE, getWidth(), 0, Styles.COLOR_WHITE);
+        GradientPaint gra = new GradientPaint(0, 0, U_Styles.COLOR_WHITE, getWidth(), 0, U_Styles.COLOR_WHITE);
         g2.setPaint(gra);
         g2.fillRect(0, 0, getWidth(), getHeight());
         super.paintComponent(grphcs);

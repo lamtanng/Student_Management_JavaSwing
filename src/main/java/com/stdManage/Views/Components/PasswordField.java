@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.stdManage.Views.Components;
-import com.stdManage.Utils.Styles;
+import com.stdManage.Utils.U_Styles;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FontMetrics;
@@ -68,7 +68,7 @@ public class PasswordField extends JPasswordField{
     private boolean showAndHide;
 
     public PasswordField() {
-        setFont(Styles.TEXT_PLAIN_MEDIUM);
+        setFont(U_Styles.TEXT_PLAIN_MEDIUM);
         setBorder(new EmptyBorder(20, 3, 10, 30));
         setSelectionColor(new Color(76, 204, 255));
         addMouseListener(new MouseAdapter() {

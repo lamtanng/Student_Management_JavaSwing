@@ -1,6 +1,6 @@
 package com.stdManage.Views.Swing;
 
-import com.stdManage.Utils.Styles;
+import com.stdManage.Utils.U_Styles;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -36,7 +36,7 @@ public class MenuButton extends JButton {
     private float animatSize;
     private Point pressedPoint;
     private float alpha;
-    private Color effectColor = Styles.COLOR_PRIMARY;
+    private Color effectColor = U_Styles.COLOR_PRIMARY;
 
     public MenuButton(Icon icon, String text) {
         super(text);
@@ -62,7 +62,7 @@ public class MenuButton extends JButton {
         setContentAreaFilled(false);
         setBorder(null);
         //set text color
-        setForeground(Styles.COLOR_BLACK); 
+        setForeground(U_Styles.COLOR_BLACK); 
         setHorizontalAlignment(JButton.LEFT);
         addMouseListener(new MouseAdapter() {
             @Override
