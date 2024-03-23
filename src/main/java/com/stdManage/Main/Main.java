@@ -1,6 +1,6 @@
 package com.stdManage.Main;
 
-import com.stdManage.Utils.Styles;
+import com.stdManage.Utils.U_Styles;
 import com.stdManage.Views.Components.Header;
 import com.stdManage.Views.Components.Menu;
 import com.stdManage.Views.Components.Event.EventMenuSelected;
@@ -8,6 +8,7 @@ import com.stdManage.Views.Components.Event.EventShowPopupMenu;
 import com.stdManage.Views.Components.Form.Form1;
 import com.stdManage.Views.Components.Form.Form_Home;
 import com.stdManage.Views.Components.Form.MainForm;
+import com.stdManage.Views.Student.F_GroupManager;
 import com.stdManage.Views.Swing.MenuItem;
 import com.stdManage.Views.Swing.PopupMenu;
 import com.stdManage.Views.Swing.Icons.GoogleMaterialDesignIcons;
@@ -106,7 +107,7 @@ public class Main extends javax.swing.JFrame {
         //  Init google icon font
         IconFontSwing.register(GoogleMaterialDesignIcons.getIconFont());
         //  Start with this form
-        main.showForm(new Form_Home());
+        main.showForm(new F_GroupManager());
     }
     
     @SuppressWarnings("unchecked")

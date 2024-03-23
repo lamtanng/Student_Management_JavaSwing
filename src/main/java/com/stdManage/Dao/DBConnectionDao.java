@@ -13,11 +13,11 @@ import javax.swing.JOptionPane;
  * @author ADMIN
  */
 public class DBConnectionDao {
-    public static Connection conn(){
+    public static Connection getConn(){
         try {
-            String url = "jdbc:mysql://localhost:3307/testdb?zeroDateTimeBehavior=CONVERT_TO_NULL";
-            String user = "admin";
-            String pass = "123456";
+            String url = "jdbc:mysql://localhost:3306/schedule_management";
+            String user = "root";
+            String pass = "nguyentanlam001230";
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(url, user, pass);
             return conn;
