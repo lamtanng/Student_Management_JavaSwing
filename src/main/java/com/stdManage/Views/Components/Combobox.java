@@ -1,7 +1,8 @@
 package com.stdManage.Views.Components;
 
-
+import com.stdManage.Main.Main;
 import com.stdManage.Utils.U_Styles;
+import com.stdManage.Views.Components.Dialog.Message;
 import com.stdManage.Views.Swing.ScrollBar.ScrollBarCustom;
 import java.awt.Color;
 import java.awt.Component;
@@ -23,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -40,12 +42,12 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author ADMIN
  */
-public class Combobox<E> extends JComboBox<E>{
+public class Combobox<E> extends JComboBox<E> {
+
     public String getLabeText() {
         return labeText;
     }
@@ -69,25 +71,31 @@ public class Combobox<E> extends JComboBox<E>{
     @Override
     public void updateUI() {
         super.updateUI();
-        installUI();
+
     }
-    
-    public void init(E[] data, int idxSelected, String title){
+
+    public void init(E[] data, int idxSelected, String title, int idx) {
         setModel(new javax.swing.DefaultComboBoxModel(data));
         setSelectedIndex(idxSelected);
         setLabeText(title);
+        installUI(idx);
     }
 
-    private void installUI() {
+
+    private void installUI(int idxOfObject) {
         setUI(new ComboUI(this));
         setRenderer(new DefaultListCellRenderer() {
             @Override
-            public Component getListCellRendererComponent(JList<?> jlist, Object o, int i, boolean bln, boolean bln1) {
-                Component com = super.getListCellRendererComponent(jlist, o, i, bln, bln1);
-                setBorder(new EmptyBorder(5, 5, 5, 5));
-                if (bln) {
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                Component com = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                setBorder(new EmptyBorder(0, 10, 0, 0));
+                if (isSelected) {
                     //set hover color
-                    com.setBackground(U_Styles.COLOR_GRAY1);
+                    this.setBackground(U_Styles.COLOR_GRAY1);
+                }
+                if (value instanceof Object[]) {
+                    Object[] item = (Object[]) value;
+                    setText(item[1].toString());
                 }
                 return com;
             }
@@ -98,8 +106,6 @@ public class Combobox<E> extends JComboBox<E>{
         //set bg combobox
         setBackground(U_Styles.COLOR_WHITE);
         setBorder(new EmptyBorder(15, 3, 5, 3));
-        
-        installUI();
     }
 
     private class ComboUI extends BasicComboBoxUI {
@@ -122,7 +128,7 @@ public class Combobox<E> extends JComboBox<E>{
                 @Override
                 public void mouseExited(MouseEvent me) {
                     mouseOver = false;
-                    
+
                     repaint();
                 }
             });
@@ -215,7 +221,7 @@ public class Combobox<E> extends JComboBox<E>{
                     ScrollBarCustom sb = new ScrollBarCustom();
                     //số item mỗi lần cuộn chuột
                     sb.setUnitIncrement(10);
-                    
+
                     //scroll color
                     sb.setForeground(U_Styles.COLOR_PRIMARY);
                     scroll.setVerticalScrollBar(sb);
@@ -236,14 +242,14 @@ public class Combobox<E> extends JComboBox<E>{
             g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
             int width = getWidth();
             int height = getHeight();
-            
+
             if (mouseOver) {
                 g2.setColor(lineColor);
             } else {
                 g2.setColor(U_Styles.COLOR_GRAY4);
             }
             g2.fillRect(2, height - 1, width - 4, 1);
-            
+
             createHintText(g2);
             createLineStyle(g2);
             g2.dispose();
