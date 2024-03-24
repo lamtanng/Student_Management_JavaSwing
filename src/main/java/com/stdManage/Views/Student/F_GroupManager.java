@@ -16,7 +16,9 @@ import com.stdManage.Models.ClassGroup;
 import com.stdManage.Models.Course;
 import com.stdManage.Models.GradeDetail;
 import com.stdManage.Utils.U_ColumnTitles;
+import com.stdManage.Utils.U_HelperDao;
 import com.stdManage.Utils.U_Styles;
+import com.stdManage.Views.Components.Combobox;
 import com.stdManage.Views.Components.Dialog.Message;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -25,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import com.stdManage.Views.Swing.JTable.ITableActionEvent;
 import com.stdManage.Views.Swing.Table.Table;
 import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.border.EmptyBorder;
@@ -40,6 +43,7 @@ public class F_GroupManager extends javax.swing.JPanel {
     ClassDao classDao = new ClassDao();
     ClassGroupDao groupDao = new ClassGroupDao();
     GradeDetailDao gradeDao = new GradeDetailDao();
+    U_HelperDao helpDao = new U_HelperDao();
     
     String currentCourse = "-1";
     String currentClass = "-1";
@@ -49,87 +53,36 @@ public class F_GroupManager extends javax.swing.JPanel {
      */
     public F_GroupManager() {
         initComponents();
-        Object[][] dataTable = accDao.findAll();
-        tbl_GroupDetails1.initTable(U_ColumnTitles.ACCOUNT, dataTable);
-        handleTableAction();
-//        fillTableData();
-        
+      
         //init cbb
-        initComboboxs();
+        initCourseCbb();
 
     }
 
-    private void loadStudentTable(String groupId){
-        tbl_GroupDetails1.deleteRows();
-        fillTableData();
+    private void loadTableData(){
+        tbl_GroupDetails1.initTable(U_ColumnTitles.GRADLE_DETAILS, gradeDao.findAllbyGroup(currentGroup));
+        handleTableAction();
+    }
+    
+    private void loadStudentTable(){
+        loadTableData();
         tbl_GroupDetails1.hideColumnAt(new int[]{6,7});
     }
     
-    private void initComboboxs() {
-        initCourseCbb();
+    
+    private void initGroupCbb(){
+        List<Object[]> list = helpDao.covertToListObject1D(groupDao.findAllbyCourse(currentClass));
+        cbb_groupClass.init(list.toArray(), -1, "Group", 1);
     }
     
-    private void initGroupCbb(String class_id){
-        cbb_groupClass.init(groupDao.findAllbyCourse(class_id).toArray(), -1, "Group");
-        cbb_groupClass.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-                if (value instanceof ClassGroup) {
-                    ClassGroup item = (ClassGroup) value;
-                    setText(item.getId());
-                }
-                setBorder(new EmptyBorder(5, 5, 5, 5));
-                if (isSelected) {
-                    //set hover color
-                    this.setBackground(U_Styles.COLOR_GRAY1);
-                }
-                return this;
-            }
-        });
-    }
-    
-    private void initClassCbb(String course_id){
-        cbb_class.init(classDao.findAllbyCourse(course_id).toArray(), -1, "Class");
-        cbb_class.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-                if (value instanceof ClassModels) {
-                    ClassModels item = (ClassModels) value;
-                    setText(item.getName());
-                }
-                setBorder(new EmptyBorder(5, 5, 5, 5));
-                if (isSelected) {
-                    //set hover color
-                    this.setBackground(U_Styles.COLOR_GRAY1);
-                }
-                return this;
-            }
-        });
+    private void initClassCbb(){
+        List<Object[]> list = helpDao.covertToListObject1D(classDao.findAllbyCourse(currentCourse));
+        cbb_class.init(list.toArray(), -1, "Class", 1);
     }
 
     private void initCourseCbb(){
-        cbb_course.init(courseDao.findAll().toArray(), -1, "Course");
-        cbb_course.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-                if (value instanceof Course) {
-                    Course item = (Course) value;
-                    setText(item.getName());
-                }
-                setBorder(new EmptyBorder(0, 10, 0, 0));
-                if (isSelected) {
-                    //set hover color
-                    this.setBackground(U_Styles.COLOR_GRAY1);
-                }
-                return this;
-            }
-        });
-
-//        String[] data = {"a", "b", "c", "d", "e", "b", "c", "d", "e"};
-//        cbb_course.init(data, -1, "Course");
+        List<Object[]> list = courseDao.convertToListObject1D(courseDao.findAll());
+        cbb_course.init(list.toArray(), -1, "Course", 1);
     }
     
     private void handleTableAction() {
@@ -156,24 +109,13 @@ public class F_GroupManager extends javax.swing.JPanel {
         tbl_GroupDetails1.createActionColumn(event);
     }
     
-
-    private void fillTableData() {
-//        Object[][] list = accDao.findAll();
-//        list.forEach((a) -> {
-//            tbl_GroupDetails1.addRow(a.toModelTable());
-//        });
-    }
-
-    private void paintTable() {
-        tbl_GroupDetails1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = tbl_GroupDetails1.rowAtPoint(e.getPoint());
-                int col = tbl_GroupDetails1.columnAtPoint(e.getPoint());
-
-                System.out.println(".mouseClicked>> " + row + col + tbl_GroupDetails1.getValueAt(row, col));
-            }
-        });
+    private String getIdCbbSeleted(Combobox cbb, int idxValue){
+        int idxSelected = cbb.getSelectedIndex();
+        if (idxSelected >= 0) {
+            Object[] value = (Object[]) cbb.getSelectedItem();
+            return value[idxValue].toString();
+        }
+        return null;
     }
 
     private boolean showMessage(String message) {
@@ -198,6 +140,8 @@ public class F_GroupManager extends javax.swing.JPanel {
         textField1 = new com.stdManage.Views.Components.TextField();
         cbb_class = new com.stdManage.Views.Components.Combobox();
         cbb_groupClass = new com.stdManage.Views.Components.Combobox();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table1 = new com.stdManage.Views.Swing.Table.Table();
 
         setPreferredSize(new java.awt.Dimension(1058, 741));
 
@@ -253,7 +197,7 @@ public class F_GroupManager extends javax.swing.JPanel {
                         .addComponent(cbb_class, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(46, 46, 46)
                         .addComponent(cbb_groupClass, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(297, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,6 +212,19 @@ public class F_GroupManager extends javax.swing.JPanel {
                 .addGap(28, 28, 28))
         );
 
+        table1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(table1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -275,6 +232,8 @@ public class F_GroupManager extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 703, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -282,40 +241,31 @@ public class F_GroupManager extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbb_courseItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_courseItemStateChanged
-        // TODO add your handling code here:
-//        int idx = cbb_course.getSelectedIndex();
-//        if (idx >= 0) {
-//            Course value = (Course) cbb_course.getSelectedItem();
-//            String currentCourse = value.getId();
-//            //System.out.println("Course id : " + currentCourse);
-//            initClassCbb(currentCourse);
-//        }
+        currentCourse = getIdCbbSeleted(cbb_course, 0);
+        initClassCbb();
     }//GEN-LAST:event_cbb_courseItemStateChanged
 
     private void cbb_classItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_classItemStateChanged
-        int idx = cbb_class.getSelectedIndex();
-        if (idx >= 0) {
-            ClassModels value = (ClassModels) cbb_class.getSelectedItem();
-            String currentClass = value.getId();
-            //System.out.println("Course id : " + currentCourse);
-            initGroupCbb(currentClass);
-        }
+        currentClass = getIdCbbSeleted(cbb_class, 0);
+        initGroupCbb();
     }//GEN-LAST:event_cbb_classItemStateChanged
 
     private void cbb_groupClassItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_groupClassItemStateChanged
-//        int idx = cbb_groupClass.getSelectedIndex();
-//        if (idx >= 0) {
-//            ClassGroup value = (ClassGroup) cbb_groupClass.getSelectedItem();
-//            currentGroup = value.getId();
-//            loadStudentTable(currentGroup);
-//        }
+        currentGroup = getIdCbbSeleted(cbb_groupClass, 0);
+        loadStudentTable();
     }//GEN-LAST:event_cbb_groupClassItemStateChanged
 
 
@@ -325,6 +275,8 @@ public class F_GroupManager extends javax.swing.JPanel {
     private com.stdManage.Views.Components.Combobox cbb_groupClass;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private com.stdManage.Views.Swing.Table.Table table1;
     private com.stdManage.Views.Swing.Table.Table tbl_GroupDetails1;
     private com.stdManage.Views.Components.TextField textField1;
     // End of variables declaration//GEN-END:variables
