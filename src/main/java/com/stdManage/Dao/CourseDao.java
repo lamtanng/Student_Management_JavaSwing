@@ -4,11 +4,14 @@
  */
 package com.stdManage.Dao;
 
+import com.stdManage.Models.Account;
 import com.stdManage.Models.Course;
+import com.stdManage.Utils.U_HelperDao;
 import com.stdManage.Utils.U_ModelFields;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,33 +19,43 @@ import java.util.List;
  *
  * @author ADMIN
  */
-public class CourseDao {
+public class CourseDao{
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
+    U_HelperDao heplerDao = new U_HelperDao();
     
-    public List<Course> findAll(){
-        List<Course> courses = new ArrayList<Course>();
+    public Object[][] findAll(){
+        List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "Select * from course";
-
+        Object result[][] = new Object[][]{};
+        
         try {
                 conn = new DBConnectionDao().getConn();
                 ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
                 rs = ps.executeQuery();// Chuyển dữ liệu ra view
                 while (rs.next()) {
-
-                    Course model = new Course();
-                    model.setId(rs.getString(U_ModelFields.COURSE.ID));
-                    model.setName(rs.getString(U_ModelFields.COURSE.NAME));
-                    courses.add(model);
-                    Object[] obj = model.toModelTable();
+                    getList(listData);
                 }
 
                 conn.close();
+                result = heplerDao.covertToDataTable(listData);
         } catch (Exception e) {
                 e.printStackTrace();
         }
 
-        return courses;
+        return result;
+    }
+    
+    public List<Object[]> convertToListObject1D(Object[][] list2D){
+        return heplerDao.covertToListObject1D(list2D);
+    }
+    
+    private void getList(List<Object[]> list) throws SQLException{
+        Course model = new Course();
+        model.setId(rs.getString(U_ModelFields.COURSE.ID));
+        model.setName(rs.getString(U_ModelFields.COURSE.NAME));
+        Object[] obj = model.toModelTable();
+        list.add(obj);
     }
 }

@@ -4,6 +4,8 @@
  */
 package com.stdManage.Utils;
 
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,5 +19,13 @@ public class U_HelperDao {
             listModel[i] = listData.get(i);
         }
         return listModel;
+    }
+    
+    public List<Object[]> covertToListObject1D(Object[][] list2D) {
+        List<Object[]> list1D = new ArrayList<Object[]>();
+        for (Object[] row : list2D) {
+            list1D.add(row);
+        }   
+        return list1D;
     }
 }

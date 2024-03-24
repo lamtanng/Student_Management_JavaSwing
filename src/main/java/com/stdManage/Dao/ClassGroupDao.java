@@ -5,6 +5,7 @@
 package com.stdManage.Dao;
 
 import com.stdManage.Models.ClassGroup;
+import com.stdManage.Utils.U_HelperDao;
 import com.stdManage.Utils.U_ModelFields;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,49 +22,52 @@ public class ClassGroupDao {
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
+    U_HelperDao heplerDao = new U_HelperDao();
     
-    public List<ClassGroup> findAll(){
-        List<ClassGroup> list = new ArrayList<ClassGroup>();
+    public Object[][] findAll(){
+        List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "Select * from class_group";
-
+        Object result[][] = new Object[][]{};
+        
         try {
                 conn = new DBConnectionDao().getConn();
                 ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
                 rs = ps.executeQuery();// Chuyển dữ liệu ra view
                 while (rs.next()) {
-                    getList(list);
+                    getList(listData);
                 }
                 conn.close();
+                result = heplerDao.covertToDataTable(listData);
         } catch (Exception e) {
                 e.printStackTrace();
         }
 
-        return list;
+        return result;
     }
     
-    public List<ClassGroup> findAllbyCourse(String id){
-        List<ClassGroup> list = new ArrayList<ClassGroup>();
+    public Object[][] findAllbyCourse(String id){
+        List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "Select * from class_group where class_id = ?";
+        Object result[][] = new Object[][]{};
         
         try {
-            
-            conn = new DBConnectionDao().getConn();
-            ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
-            ps.setString(1,id );
-            rs = ps.executeQuery();// Chuyển dữ liệu ra view
-            while (rs.next()) {
-                getList(list);
-            }
-
-            conn.close();
+                conn = new DBConnectionDao().getConn();
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, id);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    getList(listData);
+                }
+                conn.close();
+                result = heplerDao.covertToDataTable(listData);
         } catch (Exception e) {
                 e.printStackTrace();
         }
 
-        return list;
+        return result;
     }
     
-    private void getList(List<ClassGroup> list) throws SQLException{
+    private void getList(List<Object[]> list) throws SQLException{
         ClassGroup model = new ClassGroup();
         model.setId(rs.getString(U_ModelFields.CLASS_GROUP.ID));
         model.setClass_id(rs.getString(U_ModelFields.CLASS_GROUP.CLASS_ID));
@@ -77,6 +81,7 @@ public class ClassGroupDao {
         model.setRegister_status(rs.getBoolean(U_ModelFields.CLASS_GROUP.REGISTER_STATUS));
         model.setDay_of_week(rs.getString(U_ModelFields.CLASS_GROUP.DAY_OF_WEEK));
         
-        list.add(model);
+        Object[] obj = model.toModelTable();
+        list.add(obj);
     }
 }

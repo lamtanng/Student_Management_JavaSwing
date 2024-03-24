@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import com.stdManage.Models.ClassModels;
+import com.stdManage.Utils.U_HelperDao;
 import com.stdManage.Utils.U_ModelFields;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,55 +22,59 @@ public class ClassDao {
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
+    U_HelperDao heplerDao = new U_HelperDao();
     
-    public List<ClassModels> findAll(){
-        List<ClassModels> list = new ArrayList<ClassModels>();
+    public Object[][] findAll(){
+        List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "Select * from class";
-
+        Object result[][] = new Object[][]{};
+        
         try {
                 conn = new DBConnectionDao().getConn();
                 ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
                 rs = ps.executeQuery();// Chuyển dữ liệu ra view
                 while (rs.next()) {
-                    getList(list);
+                    getList(listData);
                 }
                 conn.close();
+                result = heplerDao.covertToDataTable(listData);
         } catch (Exception e) {
                 e.printStackTrace();
         }
 
-        return list;
+        return result;
     }
     
-    public List<ClassModels> findAllbyCourse(String course_id){
-        List<ClassModels> list = new ArrayList<ClassModels>();
+    public Object[][] findAllbyCourse(String id){
+        List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "Select * from class where course_id = ?";
+        Object result[][] = new Object[][]{};
         
         try {
-            
-            conn = new DBConnectionDao().getConn();
-            ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
-            ps.setString(1,course_id );
-            rs = ps.executeQuery();// Chuyển dữ liệu ra view
-            while (rs.next()) {
-                getList(list);
-            }
-
-            conn.close();
+                conn = new DBConnectionDao().getConn();
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, id);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    getList(listData);
+                }
+                conn.close();
+                result = heplerDao.covertToDataTable(listData);
         } catch (Exception e) {
                 e.printStackTrace();
         }
 
-        return list;
+        return result;
     }
     
-    private void getList(List<ClassModels> list) throws SQLException{
+    private void getList(List<Object[]> list) throws SQLException{
         ClassModels model = new ClassModels();
         model.setId(rs.getString(U_ModelFields.CLASS.ID));
         model.setName(rs.getString(U_ModelFields.CLASS.NAME));
         model.setCourse_id(rs.getString(U_ModelFields.CLASS.COURSE_ID));
         model.setPeriod_total(rs.getInt(U_ModelFields.CLASS.PERIOD_TOTAL));
         model.setFee(rs.getDouble(U_ModelFields.CLASS.FEE));
-        list.add(model);
+        Object[] obj = model.toModelTable();
+        list.add(obj);
     }
 }
