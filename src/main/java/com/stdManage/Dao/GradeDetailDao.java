@@ -6,6 +6,7 @@ package com.stdManage.Dao;
 
 import com.stdManage.Models.ClassModels;
 import com.stdManage.Models.GradeDetail;
+import com.stdManage.Utils.U_HelperDao;
 import com.stdManage.Utils.U_ModelFields;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,50 +23,55 @@ public class GradeDetailDao {
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
+    U_HelperDao heplerDao = new U_HelperDao();
     U_ModelFields.GRADE_DETAIL grade_detail = new U_ModelFields.GRADE_DETAIL();
     
-    public List<GradeDetail> findAll(){
-        List<GradeDetail> list = new ArrayList<GradeDetail>();
+    public Object[][] findAll(){
+        List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "Select * from grade_detail";
-
+        Object result[][] = new Object[][]{};
+        
         try {
                 conn = new DBConnectionDao().getConn();
                 ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
                 rs = ps.executeQuery();// Chuyển dữ liệu ra view
                 while (rs.next()) {
-                    getList(list);
+                    getList(listData);
                 }
                 conn.close();
+                result = heplerDao.covertToDataTable(listData);
         } catch (Exception e) {
                 e.printStackTrace();
         }
 
-        return list;
+        return result;
     }
     
-    public List<GradeDetail> findAllbyGroup(String id){
-        List<GradeDetail> list = new ArrayList<GradeDetail>();
+    public Object[][] findAllbyGroup(String id){
+        List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "Select * from grade_detail where group_id = ?";
-
+        Object result[][] = new Object[][]{};
+        
         try {
                 conn = new DBConnectionDao().getConn();
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, id);
-                rs = ps.executeQuery();// Chuyển dữ liệu ra view
+                rs = ps.executeQuery();
                 while (rs.next()) {
-                    getList(list);
+                    getList(listData);
                 }
                 conn.close();
+                result = heplerDao.covertToDataTable(listData);
         } catch (Exception e) {
                 e.printStackTrace();
         }
 
-        return list;
+        return result;
     }
     
     
     
-    private void getList(List<GradeDetail> list) throws SQLException{
+    private void getList(List<Object[]> list) throws SQLException{
         GradeDetail model = new GradeDetail();
         model.setId(rs.getString(U_ModelFields.GRADE_DETAIL.ID));
         model.setGroup_id(rs.getString(U_ModelFields.GRADE_DETAIL.GROUP_ID));
@@ -74,6 +80,7 @@ public class GradeDetailDao {
         model.setPractice_mark(rs.getDouble(U_ModelFields.GRADE_DETAIL.PRACTICE_MARK));
         model.setPay_status(rs.getBoolean(U_ModelFields.GRADE_DETAIL.PAY_STATUS));
         model.setCertificate_status(rs.getBoolean(U_ModelFields.GRADE_DETAIL.CERT_STATUS));
-        list.add(model);
+        Object[] obj = model.toModelTable();
+        list.add(obj);
     }   
 }
