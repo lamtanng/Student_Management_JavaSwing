@@ -14,16 +14,17 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author ADMIN
  */
 public class TableActionCellRender extends DefaultTableCellRenderer{
+    private int typeAction; 
+
+    public TableActionCellRender(int typeAction) {
+        super();
+        this.typeAction = typeAction;
+    }
     
     @Override
     public Component getTableCellRendererComponent(JTable jtable, Object o, boolean isSeleted, boolean bln1, int row, int column) {
         Component com = super.getTableCellRendererComponent(jtable, o, isSeleted, bln1, row, column);
-        PanelAction action = new PanelAction();
-//        if (isSeleted == false && row % 2 == 0) {
-//            action.setBackground(Color.BLUE);
-//        } else {
-//            action.setBackground(com.getBackground());
-//        }
-        return action;
+//        PanelAction action = new PanelAction(typeAction);
+        return com;
     }
 }
