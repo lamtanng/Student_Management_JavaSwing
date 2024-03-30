@@ -5,7 +5,6 @@ import com.stdManage.Utils.U_Styles;
 import com.stdManage.Views.Swing.JTable.ITableActionEvent;
 import com.stdManage.Views.Swing.JTable.PanelAction;
 import com.stdManage.Views.Swing.JTable.TableActionCellEditor;
-import com.stdManage.Views.Swing.JTable.TableActionCellRender;
 import com.stdManage.Views.Swing.ScrollBar.ScrollBarCustom;
 import java.awt.Color;
 import java.awt.Component;
@@ -98,11 +97,11 @@ public class Table extends JTable {
         moveColumn(getColumnModel().getColumnIndex(U_ColumnTitles.ORDER_TITLE), 0);
     }
     
-    public void createActionColumn(ITableActionEvent event){
+    public void createActionColumn(ITableActionEvent event, int typeAction){
         TableColumn col = new TableColumn(0, U_Styles.HEIGHT_ROW, new DefaultTableCellRenderer(){
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                PanelAction action = new PanelAction();
+                PanelAction action = new PanelAction(typeAction);
                 
                 if (isSelected) {
                     action.setBackground(U_Styles.COLOR_PRIMARY);
@@ -115,7 +114,7 @@ public class Table extends JTable {
                 }
                 return action;
             }
-        }, new TableActionCellEditor(event) );
+        }, new TableActionCellEditor(event, typeAction) );
         col.setHeaderValue(U_ColumnTitles.ACTION_TITLE);
         addColumn(col);
     }

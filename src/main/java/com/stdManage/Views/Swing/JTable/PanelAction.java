@@ -4,9 +4,11 @@
  */
 package com.stdManage.Views.Swing.JTable;
 
+import com.stdManage.Utils.U_Common;
 import com.stdManage.Utils.U_Styles;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -17,34 +19,83 @@ public class PanelAction extends javax.swing.JPanel {
     /**
      * Creates new form PanelAction
      */
-    public PanelAction() {
+    private int typeAction;
+
+    ActionButton btn_First = new com.stdManage.Views.Swing.JTable.ActionButton();
+    ActionButton btn_Second = new com.stdManage.Views.Swing.JTable.ActionButton();
+
+    public PanelAction(int typeAction) {
         initComponents();
-        cmdDelete.setBackground(U_Styles.COLOR_WHITE);
-        cmdDelete.setIcon(new javax.swing.ImageIcon("src\\main\\resources\\images\\trash-xmark.png"));
-        cmdEdit.setIcon(new javax.swing.ImageIcon("src\\main\\resources\\images\\edit.png"));
+        this.typeAction = typeAction;
+        initActionButton();
+        setImageButton();
+
     }
 
-     public void initEvent(ITableActionEvent event, int row, int col) {
-        cmdEdit.addActionListener(new ActionListener() {
+    public void initEvent(ITableActionEvent event, int row, int col) {
+        if (typeAction == U_Common.ActionTable.EDIT_DELETE) {
+            //handle second buton
+            btn_Second.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    event.onSecondButton(row, col);
+                }
+            });
+        }
+        
+        //handle first action
+        btn_First.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                event.onEdit(row, col);
+                event.onFirstButton(row, col);
             }
         });
-        cmdDelete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                event.onDelete(row, col);
-            }
-        });
-        cmdView.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                event.onView(row, col);
-            }
-        });
+
     }
-     
+
+    private void initActionButton() {
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_First, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_Second, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 44, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btn_First, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_Second, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 10, Short.MAX_VALUE))
+        );
+    }
+
+    private void setImageButton() {
+        //2 action buttons
+        if (typeAction == U_Common.ActionTable.EDIT_DELETE) {
+            btn_First.setIcon(createImageIcon("edit.png"));
+            btn_Second.setIcon(createImageIcon("trash-xmark.png"));
+
+        } else {//1 action button
+            btn_Second.setVisible(false);
+            
+            if (typeAction == U_Common.ActionTable.ADD) {
+                btn_First.setIcon(createImageIcon("add-button.png"));
+
+            } else if (typeAction == U_Common.ActionTable.DELETE) {
+                btn_First.setIcon(createImageIcon("add-button.png"));
+            }
+        }
+    }
+
+    private ImageIcon createImageIcon(String imgName) {
+        ImageIcon icon = new ImageIcon(U_Common.IMAGE_RESOURCE.concat(imgName));
+        return icon;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,41 +105,19 @@ public class PanelAction extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmdEdit = new com.stdManage.Views.Swing.JTable.ActionButton();
-        cmdDelete = new com.stdManage.Views.Swing.JTable.ActionButton();
-        cmdView = new com.stdManage.Views.Swing.JTable.ActionButton();
-
-        cmdDelete.setBorderPainted(false);
-
-        cmdView.setText("View");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(cmdEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cmdDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cmdView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGap(0, 84, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmdEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 10, Short.MAX_VALUE))
+            .addGap(0, 32, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.stdManage.Views.Swing.JTable.ActionButton cmdDelete;
-    private com.stdManage.Views.Swing.JTable.ActionButton cmdEdit;
-    private com.stdManage.Views.Swing.JTable.ActionButton cmdView;
     // End of variables declaration//GEN-END:variables
 }

@@ -17,16 +17,16 @@ import javax.swing.JTable;
  */
 public class TableActionCellEditor extends DefaultCellEditor{
     private ITableActionEvent event;
-
-    public TableActionCellEditor(ITableActionEvent event) {
+    private int typeaction;
+    public TableActionCellEditor(ITableActionEvent event, int typeAction) {
         super(new JCheckBox());
-        
         this.event = event;
+        this.typeaction = typeAction;
     }
 
     @Override
     public Component getTableCellEditorComponent(JTable jtable, Object o, boolean bln, int row, int column) {
-        PanelAction action = new PanelAction();
+        PanelAction action = new PanelAction(typeaction);
         action.initEvent(event, row, column);
         return action;
     }

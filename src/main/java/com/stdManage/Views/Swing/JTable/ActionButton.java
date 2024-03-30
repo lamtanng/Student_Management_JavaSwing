@@ -4,6 +4,7 @@
  */
 package com.stdManage.Views.Swing.JTable;
 
+import com.stdManage.Utils.U_Styles;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,6 +25,7 @@ public class ActionButton extends JButton{
     public ActionButton() {
         setContentAreaFilled(false);
         setBorder(new EmptyBorder(3, 3, 3, 3));
+        setBackground(U_Styles.COLOR_WHITE);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {

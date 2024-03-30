@@ -15,6 +15,7 @@ import com.stdManage.Models.ClassModels;
 import com.stdManage.Models.ClassGroup;
 import com.stdManage.Models.Course;
 import com.stdManage.Models.GradeDetail;
+import com.stdManage.Utils.U_Common;
 import com.stdManage.Utils.U_ColumnTitles;
 import com.stdManage.Utils.U_HelperDao;
 import com.stdManage.Utils.U_Styles;
@@ -44,56 +45,54 @@ public class F_GroupManager extends javax.swing.JPanel {
     ClassGroupDao groupDao = new ClassGroupDao();
     GradeDetailDao gradeDao = new GradeDetailDao();
     U_HelperDao helpDao = new U_HelperDao();
-    
+
     String currentCourse = "-1";
     String currentClass = "-1";
     String currentGroup = "-1";
+
     /**
      * Creates new form F_GroupManager
      */
     public F_GroupManager() {
         initComponents();
-      
         //init cbb
         initCourseCbb();
-
     }
 
-    private void loadTableData(){
+    private void loadTableData() {
         tbl_GroupDetails1.initTable(U_ColumnTitles.GRADLE_DETAILS, gradeDao.findAllbyGroup(currentGroup));
         handleTableAction();
     }
-    
-    private void loadStudentTable(){
+
+    private void loadStudentTable() {
         loadTableData();
-        tbl_GroupDetails1.hideColumnAt(new int[]{6,7});
-    }
-    
-    
-    private void initGroupCbb(){
-        List<Object[]> list = helpDao.covertToListObject1D(groupDao.findAllbyCourse(currentClass));
-        cbb_groupClass.init(list.toArray(), -1, "Group", 1);
-    }
-    
-    private void initClassCbb(){
-        List<Object[]> list = helpDao.covertToListObject1D(classDao.findAllbyCourse(currentCourse));
-        cbb_class.init(list.toArray(), -1, "Class", 1);
+        tbl_GroupDetails1.hideColumnAt(new int[]{6, 7});
     }
 
-    private void initCourseCbb(){
-        List<Object[]> list = courseDao.convertToListObject1D(courseDao.findAll());
-        cbb_course.init(list.toArray(), -1, "Course", 1);
+    private void initGroupCbb() {
+        List<Object[]> list = helpDao.covertToListObject1D(groupDao.findAllbyCourse(currentClass));
+        cbb_groupClass.init(list.toArray(), 0, "Group", 1);
     }
-    
+
+    private void initClassCbb() {
+        List<Object[]> list = helpDao.covertToListObject1D(classDao.findAllbyCourse(currentCourse));
+        cbb_class.init(list.toArray(), 0, "Class", 1);
+    }
+
+    private void initCourseCbb() {
+        List<Object[]> list = courseDao.convertToListObject1D(courseDao.findAll());
+        cbb_course.init(list.toArray(), 0, "Course", 1);
+    }
+
     private void handleTableAction() {
         ITableActionEvent event = new ITableActionEvent() {
             @Override
-            public void onEdit(int row, int col) {
+            public void onFirstButton(int row, int col) {
                 System.out.println("Edit row : " + row);
             }
 
             @Override
-            public void onDelete(int row, int col) {
+            public void onSecondButton(int row, int col) {
                 if (tbl_GroupDetails1.isEditing()) {
                     tbl_GroupDetails1.getCellEditor().stopCellEditing();
                 }
@@ -101,15 +100,11 @@ public class F_GroupManager extends javax.swing.JPanel {
                 model.removeRow(row);
             }
 
-            @Override
-            public void onView(int row, int col) {
-                System.out.println("View row : " + row + "+ col : " + col);
-            }
         };
-        tbl_GroupDetails1.createActionColumn(event);
+        tbl_GroupDetails1.createActionColumn(event, U_Common.ActionTable.ADD);
     }
-    
-    private String getIdCbbSeleted(Combobox cbb, int idxValue){
+
+    private String getCbbObjectAt(Combobox cbb, int idxValue) {
         int idxSelected = cbb.getSelectedIndex();
         if (idxSelected >= 0) {
             Object[] value = (Object[]) cbb.getSelectedItem();
@@ -254,17 +249,17 @@ public class F_GroupManager extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbb_courseItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_courseItemStateChanged
-        currentCourse = getIdCbbSeleted(cbb_course, 0);
+        currentCourse = getCbbObjectAt(cbb_course, 0);
         initClassCbb();
     }//GEN-LAST:event_cbb_courseItemStateChanged
 
     private void cbb_classItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_classItemStateChanged
-        currentClass = getIdCbbSeleted(cbb_class, 0);
+        currentClass = getCbbObjectAt(cbb_class, 0);
         initGroupCbb();
     }//GEN-LAST:event_cbb_classItemStateChanged
 
     private void cbb_groupClassItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_groupClassItemStateChanged
-        currentGroup = getIdCbbSeleted(cbb_groupClass, 0);
+        currentGroup = getCbbObjectAt(cbb_groupClass, 0);
         loadStudentTable();
     }//GEN-LAST:event_cbb_groupClassItemStateChanged
 
