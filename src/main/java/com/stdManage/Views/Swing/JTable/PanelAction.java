@@ -76,25 +76,22 @@ public class PanelAction extends javax.swing.JPanel {
     private void setImageButton() {
         //2 action buttons
         if (typeAction == U_Common.ActionTable.EDIT_DELETE) {
-            btn_First.setIcon(createImageIcon("edit.png"));
-            btn_Second.setIcon(createImageIcon("trash-xmark.png"));
+            btn_First.setIcon(U_Common.createImageIcon("edit.png"));
+            btn_Second.setIcon(U_Common.createImageIcon("trash-xmark.png"));
 
         } else {//1 action button
             btn_Second.setVisible(false);
             
             if (typeAction == U_Common.ActionTable.ADD) {
-                btn_First.setIcon(createImageIcon("add-button.png"));
+                btn_First.setIcon(U_Common.createImageIcon("add-button.png"));
 
             } else if (typeAction == U_Common.ActionTable.DELETE) {
-                btn_First.setIcon(createImageIcon("add-button.png"));
+                btn_First.setIcon(U_Common.createImageIcon("add-button.png"));
             }
         }
     }
 
-    private ImageIcon createImageIcon(String imgName) {
-        ImageIcon icon = new ImageIcon(U_Common.IMAGE_RESOURCE.concat(imgName));
-        return icon;
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

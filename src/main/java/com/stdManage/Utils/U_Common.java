@@ -4,6 +4,8 @@
  */
 package com.stdManage.Utils;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author ADMIN
@@ -11,6 +13,10 @@ package com.stdManage.Utils;
 public class U_Common {
 
     public static final String IMAGE_RESOURCE = "src\\main\\resources\\images\\";
+    public static final ImageIcon createImageIcon(String imgName) {
+        ImageIcon icon = new ImageIcon(IMAGE_RESOURCE.concat(imgName));
+        return icon;
+    }
     
     public class ActionTable {
         public static final int EDIT_DELETE = 1;
