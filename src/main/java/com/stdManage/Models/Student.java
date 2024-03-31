@@ -17,13 +17,12 @@ public class Student implements I_PaintRowTable{
     private String gender;
     private String address;
     private String phone;
-    private String email;
     private String username;
 
     @Override
     public Object[] toModelTable() {
         return new Object[]{id, name, birth_date, gender,
-                            address, phone, email, username};
+                            address, phone, username};
     }
 
     public Student() {
@@ -36,7 +35,6 @@ public class Student implements I_PaintRowTable{
         this.gender = gender;
         this.address = address;
         this.phone = phone;
-        this.email = email;
         this.username = username;
     }
 
@@ -87,14 +85,6 @@ public class Student implements I_PaintRowTable{
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getUsername() {

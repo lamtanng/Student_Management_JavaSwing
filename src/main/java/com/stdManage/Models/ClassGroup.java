@@ -15,7 +15,7 @@ public class ClassGroup implements I_PaintRowTable{
     private String class_id;
     private String teacher_id;
     private String classroom_id;
-    private int shift_id;
+    private String shift_id;
     private int students_min;
     private int students_max;
     private String start_date;
@@ -26,7 +26,7 @@ public class ClassGroup implements I_PaintRowTable{
     public ClassGroup() {
     }
 
-    public ClassGroup(String id, String class_id, String teacher_id, String classroom_id, int shift_id, int students_min, int students_max, String start_date, String end_date, boolean register_status, String day_of_week) {
+    public ClassGroup(String id, String class_id, String teacher_id, String classroom_id, String shift_id, int students_min, int students_max, String start_date, String end_date, boolean register_status, String day_of_week) {
         this.id = id;
         this.class_id = class_id;
         this.teacher_id = teacher_id;
@@ -79,11 +79,11 @@ public class ClassGroup implements I_PaintRowTable{
         this.classroom_id = classroom_id;
     }
 
-    public int getShift_id() {
+    public String getShift_id() {
         return shift_id;
     }
 
-    public void setShift_id(int shift_id) {
+    public void setShift_id(String shift_id) {
         this.shift_id = shift_id;
     }
 

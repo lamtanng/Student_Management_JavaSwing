@@ -6,6 +6,7 @@ import com.stdManage.Views.Components.Dialog.Message;
 import com.stdManage.Views.Swing.ScrollBar.ScrollBarCustom;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -25,6 +26,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -74,28 +76,42 @@ public class Combobox<E> extends JComboBox<E> {
 
     }
 
-    public void init(E[] data, int idxSelected, String title, int idx) {
+    public void init(E[] data, int idxSelected, String title, int idxShow) {
         setModel(new javax.swing.DefaultComboBoxModel(data));
         setSelectedIndex(idxSelected);
+        
         setLabeText(title);
-        installUI(idx);
+        installUI(idxShow);
+    }
+    /**
+     * 
+     * @param idxValue
+     * @return Object[idxValue]
+     */
+    public Object getObjectValueAt(int idxValue) {
+        int idxSelected = this.getSelectedIndex();
+        if (idxSelected >= 0) {
+            Object[] value = (Object[]) this.getSelectedItem();
+            return value[idxValue].toString();
+        }
+        return null;
     }
 
-
-    private void installUI(int idxOfObject) {
+    private void installUI(int idxShow) {
         setUI(new ComboUI(this));
         setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 Component com = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                setBorder(new EmptyBorder(0, 10, 0, 0));
+                setBorder(new EmptyBorder(5,5,5,5));
+                
                 if (isSelected) {
                     //set hover color
-                    this.setBackground(U_Styles.COLOR_GRAY1);
+                    this.setBackground(U_Styles.COLOR_PRIMARY);
                 }
                 if (value instanceof Object[]) {
                     Object[] item = (Object[]) value;
-                    setText(item[1].toString());
+                    setText(item[idxShow].toString());
                 }
                 return com;
             }
@@ -216,19 +232,30 @@ public class Combobox<E> extends JComboBox<E> {
                 protected JScrollPane createScroller() {
                     //height item
                     list.setFixedCellHeight(U_Styles.HEIGHT_ROW);
+                   // list.setPreferredSize(new Dimension(200,200));
+                    
+//                    JPanel panel = new JPanel();
+//                    panel.add(list);
+                    
                     JScrollPane scroll = new JScrollPane(list);
-                    scroll.setBackground(Color.WHITE);
+                    scroll.setBackground(Color.BLUE);
+//                    scroll.setSize(new Dimension(200,200));
+//                    scroll.setLocation(scroll.getLocation().x, scroll.getLocation().y - 10);
+                    //create scroll mouse
                     ScrollBarCustom sb = new ScrollBarCustom();
                     //số item mỗi lần cuộn chuột
                     sb.setUnitIncrement(10);
-
-                    //scroll color
+                    //scroll mouse color
                     sb.setForeground(U_Styles.COLOR_PRIMARY);
                     scroll.setVerticalScrollBar(sb);
+                    scroll.setBorder(new LineBorder(U_Styles.COLOR_BLACK, 2));
+                    System.out.println(".createScroller() " + scroll.getSize());
                     return scroll;
                 }
             };
             pop.setBorder(new LineBorder(U_Styles.COLOR_GRAY2, 1));
+           // pop.setBackground(Color.BLUE);
+            //pop.setPreferredSize(new Dimension(200,200));
             return pop;
         }
 
@@ -263,12 +290,13 @@ public class Combobox<E> extends JComboBox<E> {
             Rectangle2D r2 = ft.getStringBounds(combo.getLabeText(), g2);
             double height = getHeight() - in.top - in.bottom;
             double textY = (height - r2.getHeight()) / 2;
-            double size;
+            double size = 0;
             if (animateHinText) {
                 if (show) {
                     size = 18 * (1 - location);
-                } else {
-                    size = (18 * location) + 2;
+                } 
+                else {
+                    size = 18+ 2;
                 }
             } else {
                 size = 18 + 2;
@@ -293,6 +321,7 @@ public class Combobox<E> extends JComboBox<E> {
         }
 
         private void showing(boolean action) {
+            
             if (animator.isRunning()) {
                 animator.stop();
             } else {
@@ -300,7 +329,7 @@ public class Combobox<E> extends JComboBox<E> {
             }
             animator.setStartFraction(1f - location);
             show = action;
-            location = 1f - location;
+            location = 1f - location ;
             animator.start();
         }
 

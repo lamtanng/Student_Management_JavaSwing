@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author ADMIN
  */
-public class GradeDetailDao {
+public class GradeDetailDao implements InterfaceDao{
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -69,9 +69,31 @@ public class GradeDetailDao {
         return result;
     }
     
+    public Object[][] findAll_ExceptGroup(String id){
+        List<Object[]> listData = new ArrayList<Object[]>();
+        String sql = "Select * from grade_detail where group_id <> ?";
+        Object result[][] = new Object[][]{};
+        
+        try {
+                conn = new DBConnectionDao().getConn();
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, id);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    getList(listData);
+                }
+                conn.close();
+                result = heplerDao.covertToDataTable(listData);
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
+
+        return result;
+    }
     
     
-    private void getList(List<Object[]> list) throws SQLException{
+    
+    public void getList(List<Object[]> list) throws SQLException{
         GradeDetail model = new GradeDetail();
         model.setId(rs.getString(U_ModelFields.GRADE_DETAIL.ID));
         model.setGroup_id(rs.getString(U_ModelFields.GRADE_DETAIL.GROUP_ID));

@@ -141,7 +141,6 @@ public class Table extends JTable {
      * Custom Table
      */
     public void fixTable() {
-        System.out.println("Table/+++ ");
         try {
             Component parentViewPort = getParent();
             
