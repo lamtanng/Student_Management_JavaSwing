@@ -1,9 +1,12 @@
+create database schedule_management;
 use schedule_management;
+
 CREATE TABLE account(
     username VARCHAR(20) PRIMARY KEY,
     password VARCHAR(20) NOT NULL,
     role VARCHAR(20) NOT NULL
 );
+
 CREATE TABLE teacher (
     _id VARCHAR(20) PRIMARY KEY,
     full_name NVARCHAR(50) NOT NULL,
@@ -35,18 +38,20 @@ CREATE TABLE classroom (
     seat INT
 );
 
+
 CREATE TABLE shift (
-    _id INT PRIMARY KEY,
+    _id VARCHAR(20) PRIMARY KEY,
     start_time VARCHAR(10) NOT NULL,
     end_time VARCHAR(10) NOT NULL
 );
+
 
 CREATE TABLE class_group (
     _id VARCHAR(20) PRIMARY KEY,
     class_id VARCHAR(20),
     teacher_id VARCHAR(20),
     classroom_id VARCHAR(20),
-    shift_id INT,
+    shift_id VARCHAR(20),
     students_min INT,
     students_max INT,
     start_date DATE NOT NULL,
@@ -82,17 +87,15 @@ CREATE TABLE grade_detail (
     _id VARCHAR(20) PRIMARY KEY,
     group_id VARCHAR(20),
     student_id VARCHAR(20),
+    class_group_id VARCHAR(20),
     theory_mark REAL,
     practice_mark REAL,
     pay_status BIT NOT NULL DEFAULT 0,
     certificate_status BIT NOT NULL DEFAULT 0,
     CONSTRAINT fk_gradedetail_classgroup FOREIGN KEY (group_id) REFERENCES class_group(_id) ON DELETE CASCADE,
+    CONSTRAINT fk_noti_classgroup FOREIGN KEY (class_group_id) REFERENCES class_group(_id) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT fk_gradedetail_student FOREIGN KEY (student_id) REFERENCES student(_id) ON DELETE CASCADE
 );
-
-ALTER TABLE notification 
-    ADD class_group_id VARCHAR(20),
-	ADD CONSTRAINT fk_noti_classgroup FOREIGN KEY (class_group_id) REFERENCES class_group(_id) ON DELETE SET NULL ON UPDATE CASCADE;
 
 CREATE TABLE attendance_record (
 	_id VARCHAR(20) PRIMARY KEY,
@@ -103,3 +106,6 @@ CREATE TABLE attendance_record (
     CONSTRAINT fk_attendancerecord_classgroup FOREIGN KEY (class_group_id) REFERENCES class_group(_id) ON DELETE CASCADE,
     CONSTRAINT fk_attendancerecord_student FOREIGN KEY (student_id) REFERENCES student(_id) ON DELETE CASCADE
 );
+
+
+
