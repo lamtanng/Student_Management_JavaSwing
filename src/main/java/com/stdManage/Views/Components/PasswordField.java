@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.stdManage.Views.Components;
+
+import com.stdManage.Utils.U_Common;
 import com.stdManage.Utils.U_Styles;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -25,11 +27,13 @@ import javax.swing.border.EmptyBorder;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
+
 /**
  *
  * @author ADMIN
  */
-public class PasswordField extends JPasswordField{
+public class PasswordField extends JPasswordField {
+
     public boolean isShowAndHide() {
         return showAndHide;
     }
@@ -62,8 +66,8 @@ public class PasswordField extends JPasswordField{
     private boolean mouseOver = false;
     private String labelText = "Label";
     private Color lineColor = new Color(3, 155, 216);
-    //private final Image eye;
-    //private final Image eye_hide;
+    private final Image eye;
+    private final Image eye_hide;
     private boolean hide = true;
     private boolean showAndHide;
 
@@ -137,15 +141,16 @@ public class PasswordField extends JPasswordField{
             }
 
         };
-        //eye = new javax.swing.ImageIcon(getClass().getResource("/com/hcmute/studentmanagement_javaswing/Components/eye.png")).getImage();
-        //eye_hide = new javax.swing.ImageIcon(getClass().getResource("/com/hcmute/studentmanagement_javaswing/Components/eye_hide.png")).getImage();
+        eye = U_Common.createImageIcon("eye.png").getImage();
+        eye_hide = U_Common.createImageIcon("hidden-eye.png").getImage();
+//        eye = new javax.swing.ImageIcon(getClass().getResource(U_Common.IMAGE_RESOURCE.concat("eye.png"))).getImage();
+//        eye_hide = new javax.swing.ImageIcon(getClass().getResource(U_Common.IMAGE_RESOURCE.concat("eye_hide.png"))).getImage();
         animator = new Animator(300, target);
         animator.setResolution(0);
         animator.setAcceleration(0.5f);
         animator.setDeceleration(0.5f);
     }
 
-    
     private void showing(boolean action) {
         if (animator.isRunning()) {
             animator.stop();
@@ -183,7 +188,7 @@ public class PasswordField extends JPasswordField{
     private void createShowHide(Graphics2D g2) {
         int x = getWidth() - 30 + 5;
         int y = (getHeight() - 20) / 2;
-        //g2.drawImage(hide ? eye_hide : eye, x, y, null);
+        g2.drawImage(hide ? eye_hide : eye, x, y, null);
     }
 
     private void createHintText(Graphics2D g2) {
