@@ -9,29 +9,13 @@ import com.stdManage.Dao.ClassDao;
 import com.stdManage.Dao.ClassGroupDao;
 import com.stdManage.Dao.CourseDao;
 import com.stdManage.Dao.GradeDetailDao;
-import com.stdManage.Main.Main;
-import com.stdManage.Models.Account;
-import com.stdManage.Models.ClassModels;
+import com.stdManage.Dao.StudentDao;
 import com.stdManage.Models.ClassGroup;
-import com.stdManage.Models.Course;
-import com.stdManage.Models.GradeDetail;
 import com.stdManage.Utils.U_Common;
 import com.stdManage.Utils.U_ColumnTitles;
 import com.stdManage.Utils.U_HelperDao;
-import com.stdManage.Utils.U_Styles;
-import com.stdManage.Views.Components.Combobox;
-import com.stdManage.Views.Components.Dialog.Message;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.table.DefaultTableModel;
 import com.stdManage.Views.Swing.JTable.ITableActionEvent;
-import com.stdManage.Views.Swing.Table.Table;
-import java.awt.Component;
-import java.util.ArrayList;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JList;
-import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -44,34 +28,46 @@ public class F_GroupManager extends javax.swing.JPanel {
     ClassDao classDao = new ClassDao();
     ClassGroupDao groupDao = new ClassGroupDao();
     GradeDetailDao gradeDao = new GradeDetailDao();
+    StudentDao stuDao = new StudentDao();
     U_HelperDao helpDao = new U_HelperDao();
 
-    String currentCourse = "-1";
-    String currentClass = "-1";
-    String currentGroup = "-1";
+    String currentCourse = "";
+    String currentClass = "";
+    String currentGroup = " ";
 
-    /**
-     * Creates new form F_GroupManager
-     */
+    String[] stuOtherCols = {"ID", "Name"};
+
     public F_GroupManager() {
         initComponents();
-        //init cbb
         initCourseCbb();
     }
 
-    private void loadTableData() {
-        tbl_GroupDetails1.initTable(U_ColumnTitles.GRADLE_DETAILS, gradeDao.findAllbyGroup(currentGroup));
-        handleTableAction();
+    private void loadStudentOtherTable() {
+        tbl_StudentOther.initTable(stuOtherCols, stuDao.findAll_ExceptGroup(currentGroup));
+        handleStudentOtherTable();
     }
 
-    private void loadStudentTable() {
-        loadTableData();
-        tbl_GroupDetails1.hideColumnAt(new int[]{6, 7});
+    private void loadStudentOfGroupTable() {
+        tbl_StudentGroup.initTable(U_ColumnTitles.GRADLE_DETAILS, gradeDao.findAllbyGroup(currentGroup));
+        tbl_StudentGroup.hideColumnAt(new int[]{6, 7});
+        handleStudentOfGroupTable();
+    }
+
+    private void loadGroupInfo() {
+        ClassGroup gr = groupDao.findOne(currentGroup);
+        txt_Teacher.setText(gr.getTeacher_id());
+        txt_Room.setText(gr.getClassroom_id());
+        txt_Shift.setText(String.valueOf(gr.getShift_id()));
+        txt_StuMin.setText(String.valueOf(gr.getStudents_min()));
+        txt_StuMax.setText(String.valueOf(gr.getStudents_max()));
+        txt_StartDate.setText(gr.getStart_date());
+        txt_EndDate.setText(gr.getEnd_date());
+        txt_DayOfWeek.setText(gr.getDay_of_week());
     }
 
     private void initGroupCbb() {
         List<Object[]> list = helpDao.covertToListObject1D(groupDao.findAllbyCourse(currentClass));
-        cbb_groupClass.init(list.toArray(), 0, "Group", 1);
+        cbb_groupClass.init(list.toArray(), 0, "Group", 0);
     }
 
     private void initClassCbb() {
@@ -84,63 +80,65 @@ public class F_GroupManager extends javax.swing.JPanel {
         cbb_course.init(list.toArray(), 0, "Course", 1);
     }
 
-    private void handleTableAction() {
+    private void handleStudentOfGroupTable() {
         ITableActionEvent event = new ITableActionEvent() {
             @Override
             public void onFirstButton(int row, int col) {
-                System.out.println("Edit row : " + row);
+                //remove
             }
 
             @Override
             public void onSecondButton(int row, int col) {
-                if (tbl_GroupDetails1.isEditing()) {
-                    tbl_GroupDetails1.getCellEditor().stopCellEditing();
-                }
-                DefaultTableModel model = (DefaultTableModel) tbl_GroupDetails1.getModel();
-                model.removeRow(row);
+
             }
 
         };
-        tbl_GroupDetails1.createActionColumn(event, U_Common.ActionTable.ADD);
+        tbl_StudentGroup.createActionColumn(event, U_Common.ActionTable.DELETE);
     }
 
-    private String getCbbObjectAt(Combobox cbb, int idxValue) {
-        int idxSelected = cbb.getSelectedIndex();
-        if (idxSelected >= 0) {
-            Object[] value = (Object[]) cbb.getSelectedItem();
-            return value[idxValue].toString();
-        }
-        return null;
+    private void handleStudentOtherTable() {
+        ITableActionEvent event = new ITableActionEvent() {
+            @Override
+            public void onFirstButton(int row, int col) {
+                //add
+
+            }
+
+            @Override
+            public void onSecondButton(int row, int col) {
+
+            }
+
+        };
+        tbl_StudentOther.createActionColumn(event, U_Common.ActionTable.ADD);
     }
 
-    private boolean showMessage(String message) {
-        Message obj = new Message(Main.getFrames()[0], true);
-        obj.showMessage(message);
-        return obj.isOk();
-    }
+    
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_GroupDetails1 = new com.stdManage.Views.Swing.Table.Table();
+        tbl_StudentGroup = new com.stdManage.Views.Swing.Table.Table();
         jPanel1 = new javax.swing.JPanel();
         cbb_course = new com.stdManage.Views.Components.Combobox();
-        textField1 = new com.stdManage.Views.Components.TextField();
+        txt_Teacher = new com.stdManage.Views.Components.TextField();
         cbb_class = new com.stdManage.Views.Components.Combobox();
         cbb_groupClass = new com.stdManage.Views.Components.Combobox();
+        txt_Room = new com.stdManage.Views.Components.TextField();
+        txt_Shift = new com.stdManage.Views.Components.TextField();
+        txt_StuMax = new com.stdManage.Views.Components.TextField();
+        txt_StuMin = new com.stdManage.Views.Components.TextField();
+        txt_StartDate = new com.stdManage.Views.Components.TextField();
+        txt_EndDate = new com.stdManage.Views.Components.TextField();
+        txt_DayOfWeek = new com.stdManage.Views.Components.TextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        table1 = new com.stdManage.Views.Swing.Table.Table();
+        tbl_StudentOther = new com.stdManage.Views.Swing.Table.Table();
 
         setPreferredSize(new java.awt.Dimension(1058, 741));
 
-        tbl_GroupDetails1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_StudentGroup.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -151,63 +149,97 @@ public class F_GroupManager extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tbl_GroupDetails1);
+        jScrollPane1.setViewportView(tbl_StudentGroup);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        cbb_course.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbb_courseItemStateChanged(evt);
+        cbb_course.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbb_courseActionPerformed(evt);
             }
         });
 
-        textField1.setLabelText("Course");
+        txt_Teacher.setLabelText("Teacher");
 
-        cbb_class.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbb_classItemStateChanged(evt);
+        cbb_class.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbb_classActionPerformed(evt);
             }
         });
 
-        cbb_groupClass.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbb_groupClassItemStateChanged(evt);
+        cbb_groupClass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbb_groupClassActionPerformed(evt);
             }
         });
+
+        txt_Room.setLabelText("Room");
+
+        txt_Shift.setLabelText("Shift");
+
+        txt_StuMax.setLabelText("Max");
+
+        txt_StuMin.setLabelText("Min");
+
+        txt_StartDate.setLabelText("Start");
+
+        txt_EndDate.setLabelText("End");
+
+        txt_DayOfWeek.setLabelText("Day Of Week");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(cbb_course, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txt_Teacher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cbb_course, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_DayOfWeek, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(268, 268, 268))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(cbb_class, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46)
-                        .addComponent(cbb_groupClass, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(cbb_class, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txt_Room, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_EndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(cbb_groupClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txt_Shift, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_StartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(52, 52, 52)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_StuMin, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_StuMax, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(147, 147, 147))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbb_course, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbb_class, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbb_groupClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_Teacher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_Room, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_Shift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_StuMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
-                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_StuMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_StartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_EndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_DayOfWeek, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
-        table1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_StudentOther.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -218,50 +250,46 @@ public class F_GroupManager extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(table1);
+        jScrollPane2.setViewportView(tbl_StudentOther);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 703, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbb_courseItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_courseItemStateChanged
-        currentCourse = getCbbObjectAt(cbb_course, 0);
+    private void cbb_courseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbb_courseActionPerformed
+        currentCourse = (String) cbb_course.getObjectValueAt(0);
         initClassCbb();
-    }//GEN-LAST:event_cbb_courseItemStateChanged
+    }//GEN-LAST:event_cbb_courseActionPerformed
 
-    private void cbb_classItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_classItemStateChanged
-        currentClass = getCbbObjectAt(cbb_class, 0);
+    private void cbb_classActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbb_classActionPerformed
+        currentClass = (String) cbb_class.getObjectValueAt(0);
         initGroupCbb();
-    }//GEN-LAST:event_cbb_classItemStateChanged
+    }//GEN-LAST:event_cbb_classActionPerformed
 
-    private void cbb_groupClassItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_groupClassItemStateChanged
-        currentGroup = getCbbObjectAt(cbb_groupClass, 0);
-        loadStudentTable();
-    }//GEN-LAST:event_cbb_groupClassItemStateChanged
+    private void cbb_groupClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbb_groupClassActionPerformed
+        currentGroup = (String) cbb_groupClass.getObjectValueAt(0);
+        System.err.println("IDDD >>> " + currentGroup);
+        loadStudentOfGroupTable();
+        loadStudentOtherTable();
+        loadGroupInfo();
+    }//GEN-LAST:event_cbb_groupClassActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -271,8 +299,15 @@ public class F_GroupManager extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private com.stdManage.Views.Swing.Table.Table table1;
-    private com.stdManage.Views.Swing.Table.Table tbl_GroupDetails1;
-    private com.stdManage.Views.Components.TextField textField1;
+    private com.stdManage.Views.Swing.Table.Table tbl_StudentGroup;
+    private com.stdManage.Views.Swing.Table.Table tbl_StudentOther;
+    private com.stdManage.Views.Components.TextField txt_DayOfWeek;
+    private com.stdManage.Views.Components.TextField txt_EndDate;
+    private com.stdManage.Views.Components.TextField txt_Room;
+    private com.stdManage.Views.Components.TextField txt_Shift;
+    private com.stdManage.Views.Components.TextField txt_StartDate;
+    private com.stdManage.Views.Components.TextField txt_StuMax;
+    private com.stdManage.Views.Components.TextField txt_StuMin;
+    private com.stdManage.Views.Components.TextField txt_Teacher;
     // End of variables declaration//GEN-END:variables
 }

@@ -13,6 +13,11 @@ import java.util.List;
  * @author PC
  */
 public class U_HelperDao {
+    
+    public Object[] convertToArrObj(Object ...values){
+        return values;
+    }
+    
     public Object[][] covertToDataTable(List<Object[]> listData) {
         Object[][] listModel = new Object[listData.size()][];
         for(int i = 0; i < listData.size(); i++){

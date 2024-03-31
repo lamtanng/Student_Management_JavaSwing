@@ -11,7 +11,7 @@ import com.stdManage.Interface.I_PaintRowTable;
  * @author ADMIN
  */
 public class Shift implements I_PaintRowTable{
-    private int id;
+    private String id;
     private String start_time;
     private String end_time;
 
@@ -23,17 +23,17 @@ public class Shift implements I_PaintRowTable{
     public Shift() {
     }
 
-    public Shift(int id, String start_time, String end_time) {
+    public Shift(String id, String start_time, String end_time) {
         this.id = id;
         this.start_time = start_time;
         this.end_time = end_time;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
     
