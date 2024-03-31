@@ -3,7 +3,7 @@ use schedule_management;
 insert into account values
 	("admin", "123456", "admin"),
 	("teacher1", "123456", "teacher"),
-	("teacher2", "123456", "teacher"),
+	("teacher2", "123456", "teacher"),	
 	("teacher3", "123456", "teacher"),
     ("student1", "123456", "student"),
 	("student2", "123456", "student"),
@@ -50,6 +50,12 @@ VALUES
     ('4', 'PYTHON_CB', 'TEA001', 'ROOM001', "SHIFT004", 1, 3, '2024-04-01', '2024-06-30', 1, '6'),
     ('5', 'PYTHON_CB', 'TEA003', 'ROOM003', "SHIFT001", 1, 3, '2024-04-01', '2024-06-30', 1, '5');
 Select * from class_group where _id = "CPP_CB01";
+SELECT student._id, student.full_name 
+FROM student JOIN grade_detail 
+ON student._id = grade_detail.student_id 
+WHERE grade_detail.group_id <> "CPP_CB01"
+GROUP BY student._id, student.full_name ;
+
 
 insert into student values
     (uf_AutoGenerateID("student"), 'Nguyễn Tấn Lâm', '1990-01-01', 'Nam', '123 ABC Street, XYZ City', '123456789', 'student1'),
@@ -62,8 +68,7 @@ insert into notification values
     (uf_AutoGenerateID("notification"), "JAVA_CB01", 'TEA001', "Thông báo 1", "Nội dung thông báo 1" ),
     (uf_AutoGenerateID("notification"),"JAVA_NC01" ,'TEA002', "Thông báo 1", "Nội dung thông báo 1");
  
-Select * from grade_detail;
-Select * from student;
+
 INSERT INTO grade_detail (_id, group_id, student_id, theory_mark, practice_mark, pay_status, certificate_status)
 VALUES
     (uf_AutoGenerateID("grade_detail"), 'CPP_CB01', 'STU001', 8.5, 7.2, 1, 0),
@@ -76,6 +81,6 @@ VALUES
 select * from attendance_record;
 INSERT INTO attendance_record (_id, check_date, class_group_id, student_id, is_present)
 VALUES
-    ('1', '2024-04-01', 'CPP_CB01', 'STU001', 1),
-    ('2', '2024-04-02', 'JAVA_CB01', 'STU002', 0),
-    ('3', '2024-04-03', 'JAVA_NC01', 'STU003', 1);
+    (uf_AutoGenerateID("attendance_record"), '2024-04-01', 'CPP_CB01', 'STU001', 1),
+    (uf_AutoGenerateID("attendance_record"), '2024-04-02', 'JAVA_CB01', 'STU002', 0),
+    (uf_AutoGenerateID("attendance_record"), '2024-04-03', 'JAVA_NC01', 'STU003', 1);
