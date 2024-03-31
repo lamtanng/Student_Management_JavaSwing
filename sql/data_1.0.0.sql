@@ -9,10 +9,11 @@ insert into account values
 	("student2", "123456", "student"),
 	("student3", "123456", "student");
 
+select * from teacher;
 insert into teacher values
-    ('GV1', 'Nguyễn Văn A', '1990-01-01', 'Nam', '123 ABC Street, XYZ City', '123456789', 'nguyenvana@example.com', 'teacher1'),
-    ('GV2', 'Trần Thị B', '1985-05-10', 'Nữ', '456 DEF Street, XYZ City', '987654321', 'tranthib@example.com', 'teacher2'),
-    ('GV3', 'Nguyễn Thị E', '1995-07-05', 'Nữ', '654 MNO Street, XYZ City', '777777777', 'nguyenthie@example.com', 'teacher3');
+    (uf_AutoGenerateID("teacher"), 'Nguyễn Văn A', '1990-01-01', 'Nam', '123 ABC Street, XYZ City', '123456789', 'nguyenvana@example.com', 'teacher1'),
+    (uf_AutoGenerateID("teacher"), 'Trần Thị B', '1985-05-10', 'Nữ', '456 DEF Street, XYZ City', '987654321', 'tranthib@example.com', 'teacher2'),
+    (uf_AutoGenerateID("teacher"), 'Nguyễn Thị E', '1995-07-05', 'Nữ', '654 MNO Street, XYZ City', '777777777', 'nguyenthie@example.com', 'teacher3');
 
 insert into course values
 	("1", "Course 01"),
@@ -44,11 +45,13 @@ VALUES
     ('3', '3', 'GV3', 'Room3', 3, 1, 2, '2024-04-01', '2024-06-30', 0, '4'),
     ('4', '2', 'GV2', 'Room3', 4, 1, 3, '2024-04-01', '2024-06-30', 1, '6'),
     ('5', '4', 'GV3', 'Room1', 1, 1, 3, '2024-04-01', '2024-06-30', 1, '5');
-    
+Select * from class_group where _id = 1;
+
 insert into student values
     ('ST1', 'Nguyễn Tấn Lâm', '1990-01-01', 'Nam', '123 ABC Street, XYZ City', '123456789', 'student1'),
     ('ST2', 'Nguyễn Vũ Trương Giang', '1985-05-10', 'Nam', '456 DEF Street, XYZ City', '987654321','student2'),
     ('ST3', 'Lê Duy Khiêm', '1995-07-05', 'Nam', '654 MNO Street, XYZ City', '777777777', 'student3');
+Select * from student;
     
 insert into notification values
     ('NOTI1', 'GV1', "Thông báo 1", "Nội dung thông báo 1", "1"),
@@ -61,8 +64,15 @@ VALUES
     ('3', '2', 'ST3', 9.2, 8.9, 1, 1),
     ('4', '2', 'ST2', 6.7, 7.3, 0, 0),
     ('5', '3', 'ST1', 8.9, 9.1, 1, 1);
-Select * from grade_detail where group_id = "1";
-    
+   
+select * from grade_detail;
+Update grade_detail SET group_id = 3 where student_id = "ST1" and _id = "5";
+SELECT student._id, student.full_name 
+FROM student JOIN grade_detail ON student._id = grade_detail.student_id 
+WHERE grade_detail.group_id <> 2
+Group by student._id, student.full_name;
+
+
 INSERT INTO attendance_record (_id, check_date, class_group_id, student_id, is_present)
 VALUES
     ('1', '2024-04-01', '1', 'ST1', 1),
