@@ -53,7 +53,8 @@ public class StudentDao implements InterfaceDao{
         String sql = "SELECT student._id, student.full_name "
                 + "FROM student JOIN grade_detail "
                 + "ON student._id = grade_detail.student_id "
-                + "WHERE grade_detail.group_id <> ?;";
+                + "WHERE grade_detail.group_id <> ? "
+                + "GROUP BY student._id, student.full_name;";
         
         Object result[][] = new Object[][]{};
         
