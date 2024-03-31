@@ -285,7 +285,6 @@ public class F_GroupManager extends javax.swing.JPanel {
 
     private void cbb_groupClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbb_groupClassActionPerformed
         currentGroup = (String) cbb_groupClass.getObjectValueAt(0);
-        System.err.println("IDDD >>> " + currentGroup);
         loadStudentOfGroupTable();
         loadStudentOtherTable();
         loadGroupInfo();
