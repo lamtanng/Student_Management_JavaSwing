@@ -20,7 +20,7 @@ public class StudentManagement_JavaSwing {
        java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Main().setVisible(true);
+                new Login().setVisible(true);
             }
         });
     }

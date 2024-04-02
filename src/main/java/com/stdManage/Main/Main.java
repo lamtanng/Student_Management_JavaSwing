@@ -8,6 +8,7 @@ import com.stdManage.Views.Components.Event.EventShowPopupMenu;
 import com.stdManage.Views.Components.Form.Form1;
 import com.stdManage.Views.Components.Form.Form_Home;
 import com.stdManage.Views.Components.Form.MainForm;
+import com.stdManage.Views.General.F_Class;
 import com.stdManage.Views.Student.F_GroupManager;
 import com.stdManage.Views.Swing.MenuItem;
 import com.stdManage.Views.Swing.PopupMenu;
@@ -51,7 +52,7 @@ public class Main extends javax.swing.JFrame {
                 System.out.println("Menu Index : " + menuIndex + " SubMenu Index " + subMenuIndex);
                 if (menuIndex == 0) {
                     if (subMenuIndex == 0) {
-                        main.showForm(new Form_Home());
+                        main.showForm(new F_Class());
                     } else if (subMenuIndex == 1) {
                         main.showForm(new Form1());
                     }
