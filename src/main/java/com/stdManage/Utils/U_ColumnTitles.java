@@ -17,4 +17,5 @@ public class U_ColumnTitles {
     
     public static final String[] ACCOUNT = {"Username", "Password", "Role" };
     public static final String[] GRADLE_DETAILS = {"ID", "Group", "Student", "Theory Mark", "Practice Mark", "Pay Status", "Certification" };
+    public static final String[] CLASS = {"ID", "Title", "Course", "Period total", "Fee"};
 }
