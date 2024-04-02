@@ -19,13 +19,14 @@ import javax.swing.JOptionPane;
  *
  * @author ADMIN
  */
-public class ClassDao implements InterfaceDao {
+public class ClassDao implements InterfaceDao<ClassModels> {
 
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
     U_HelperDao heplerDao = new U_HelperDao();
 
+    @Override
     public Object[][] findAll() {
         List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "Select * from class";
@@ -69,6 +70,7 @@ public class ClassDao implements InterfaceDao {
         return result;
     }
 
+    @Override
     public void delete(String id) {
         String sql = "Delete from class where _id = ?";
         try {
@@ -83,6 +85,7 @@ public class ClassDao implements InterfaceDao {
         }
     }
 
+    @Override
     public void update(ClassModels model) {
         String sql = "Update class SET name = ?, period_total = ?, fee = ? WHERE _id = ?";
         try {
@@ -100,6 +103,7 @@ public class ClassDao implements InterfaceDao {
         }
     }
 
+    @Override
     public void add(ClassModels model) {
         String sql = "insert into class values (?, ?,?, ?, ?)";
         try {
@@ -117,6 +121,7 @@ public class ClassDao implements InterfaceDao {
         }
     }
 
+    @Override
     public void getList(List<Object[]> list) throws SQLException {
         ClassModels model = new ClassModels();
         getModel(model);
@@ -124,6 +129,7 @@ public class ClassDao implements InterfaceDao {
         list.add(obj);
     }
 
+    @Override
     public void getModel(ClassModels model) {
         try {
             model.setId(rs.getString(U_ModelFields.CLASS.ID));
@@ -134,5 +140,10 @@ public class ClassDao implements InterfaceDao {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Get model failure!\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    @Override
+    public ClassModels findOne(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

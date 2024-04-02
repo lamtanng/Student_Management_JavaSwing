@@ -14,83 +14,143 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ADMIN
  */
-public class StudentDao implements InterfaceDao{
+public class StudentDao implements InterfaceDao<Student> {
+
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
     U_HelperDao heplerDao = new U_HelperDao();
     static final U_ModelFields.STUDENT table = new U_ModelFields.STUDENT();
-    
-    
-    public Object[][] findAll(){
+
+    public Object[][] findAll() {
         List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "Select * from student";
         Object result[][] = new Object[][]{};
-        
+
         try {
-                conn = new DBConnectionDao().getConn();
-                ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
-                rs = ps.executeQuery();// Chuyển dữ liệu ra view
-                while (rs.next()) {
-                    getList(listData);
-                }
-                conn.close();
-                result = heplerDao.covertToDataTable(listData);
+            conn = new DBConnectionDao().getConn();
+            ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
+            rs = ps.executeQuery();// Chuyển dữ liệu ra view
+            while (rs.next()) {
+                getList(listData);
+            }
+            conn.close();
+            result = heplerDao.covertToDataTable(listData);
         } catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
 
         return result;
     }
-    
-    public Object[][] findAll_ExceptGroup(String id){
+
+    @Override
+    public void add(Student model) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void delete(String id) {
+        String sql = "Delete from student where _id = ?";
+        try {
+            conn = new DBConnectionDao().getConn();
+            ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
+            ps.setString(1, id);
+            ps.executeUpdate();
+            conn.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Delete model failure!\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public void update(Student model) {
+        String sql = "UPDATE student "
+                + "SET "
+                + "full_name = ?, birth_date = ?, gender = ?, address = ?, phone = ? "
+                + "WHERE _id = ?;";
+        try {
+            conn = new DBConnectionDao().getConn();
+            ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
+            ps.setString(1, model.getName());
+            ps.setString(2, model.getBirth_date());
+            ps.setString(3, model.getGender());
+            ps.setString(4, model.getAddress());
+            ps.setString(5, model.getPhone());
+            ps.setString(6, model.getId());
+            ps.executeUpdate();
+            conn.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Update model failure!\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public Object[][] findAll_ExceptGroup(String id) {
         List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "SELECT student._id, student.full_name "
                 + "FROM student JOIN grade_detail "
                 + "ON student._id = grade_detail.student_id "
                 + "WHERE grade_detail.group_id <> ? "
                 + "GROUP BY student._id, student.full_name;";
-        
+
         Object result[][] = new Object[][]{};
-        
+
         try {
-                conn = new DBConnectionDao().getConn();
-                ps = conn.prepareStatement(sql);
-                ps.setString(1, id);
-                rs = ps.executeQuery();
-                while (rs.next()) {
-                    Student stu = new Student();
-                    stu.setId(rs.getString(table.ID));
-                    stu.setName(rs.getString(table.NAME));
-                    
-                    Object[] obj = heplerDao.convertToArrObj(stu.getId(), stu.getName());
-                    listData.add(obj);
-                }
-                conn.close();
-                result = heplerDao.covertToDataTable(listData);
+            conn = new DBConnectionDao().getConn();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Student stu = new Student();
+                stu.setId(rs.getString(table.ID));
+                stu.setName(rs.getString(table.NAME));
+
+                Object[] obj = heplerDao.convertToArrObj(stu.getId(), stu.getName());
+                listData.add(obj);
+            }
+            conn.close();
+            result = heplerDao.covertToDataTable(listData);
         } catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
 
         return result;
     }
-    
-    
-    public void getList(List<Object[]> list) throws SQLException{
+
+    @Override
+    public Student findOne(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void getList(List<Object[]> list) throws SQLException {
         Student model = new Student();
-        model.setId(rs.getString(table.ID));
-        model.setName(rs.getString(table.NAME));
-        model.setBirth_date(rs.getString(table.BIRTH_DAY.toString()));
-        model.setGender(rs.getString(table.GENDER));
-        model.setAddress(rs.getString(table.ADDRESS));
-        model.setPhone(rs.getString(table.PHONE));
-        model.setUsername(rs.getString(table.USERNAME));
+        getModel(model);
         Object[] obj = model.toModelTable();
         list.add(obj);
-    }   
+    }
+
+    @Override
+    public void getModel(Student model) {
+        try {
+            model.setId(rs.getString(table.ID));
+            model.setName(rs.getString(table.NAME));
+            model.setBirth_date(rs.getString(table.BIRTH_DAY.toString()));
+            model.setGender(rs.getString(table.GENDER));
+            model.setAddress(rs.getString(table.ADDRESS));
+            model.setPhone(rs.getString(table.PHONE));
+            model.setUsername(rs.getString(table.USERNAME));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.DEFAULT_OPTION);
+        }
+
+    }
+
 }

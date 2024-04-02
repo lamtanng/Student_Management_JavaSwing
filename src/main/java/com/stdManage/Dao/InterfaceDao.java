@@ -4,6 +4,7 @@
  */
 package com.stdManage.Dao;
 
+import com.stdManage.Models.ClassModels;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,7 +12,13 @@ import java.util.List;
  *
  * @author ADMIN
  */
-public interface InterfaceDao {
+public interface InterfaceDao<T> {
+    
     public Object[][] findAll();
+    public T findOne(String id);
+    public void add(T model);
+    public void update(T model);
+    public void delete(String id);
     public void getList(List<Object[]> list) throws SQLException;
+    public void getModel(T model);
 }
