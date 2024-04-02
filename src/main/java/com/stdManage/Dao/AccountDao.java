@@ -5,6 +5,7 @@
 package com.stdManage.Dao;
 
 import com.stdManage.Models.Account;
+import com.stdManage.Models.ClassGroup;
 import com.stdManage.Models.ClassModels;
 import com.stdManage.Utils.U_HelperDao;
 import com.stdManage.Utils.U_ModelFields;
@@ -15,46 +16,77 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ADMIN
  */
-public class AccountDao{
+public class AccountDao implements InterfaceDao {
+
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
     U_HelperDao heplerDao = new U_HelperDao();
-    public Object[][] findAll(){
-        
-        List<Object[]> listData= new ArrayList<Object[]>();
+
+    public Object[][] findAll() {
+
+        List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "Select * from account";
         Object result[][] = new Object[][]{};
-        
+
         try {
-                conn = new DBConnectionDao().getConn();
-                ps = conn.prepareStatement(sql);
-                rs = ps.executeQuery();
-                while (rs.next()) {
-                   getList(listData);
-                } 
-                conn.close();
-                result = heplerDao.covertToDataTable(listData);
+            conn = new DBConnectionDao().getConn();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                getList(listData);
+            }
+            conn.close();
+            result = heplerDao.covertToDataTable(listData);
         } catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
         return result;
     }
-    
-     private void getList(List<Object[]> list) throws SQLException{
+
+    public Account findOne(String username, String pass) {
+        Account model = new Account();
+        String sql = "Select * from account where username = ? and password = ?";
+
+        try {
+            conn = new DBConnectionDao().getConn();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, pass);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                getModel(model);
+            }
+            conn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Username or Password incorrect !", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return model;
+    }
+
+    public void getList(List<Object[]> list) throws SQLException {
         Account dataModel = new Account();
-        dataModel.setUsername(rs.getString(U_ModelFields.ACCOUNT.USERNAME));
-        dataModel.setPassword(rs.getString(U_ModelFields.ACCOUNT.PASSWORD));
-        dataModel.setRole(rs.getString(U_ModelFields.ACCOUNT.ROLE));
+        getModel(dataModel);
         Object[] obj = dataModel.toModelTable();
         list.add(obj);
     }
 
+    private void getModel(Account dataModel) {
+        try {
+            dataModel.setUsername(rs.getString(U_ModelFields.ACCOUNT.USERNAME));
+            dataModel.setPassword(rs.getString(U_ModelFields.ACCOUNT.PASSWORD));
+            dataModel.setRole(rs.getString(U_ModelFields.ACCOUNT.ROLE));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Get model is failure !", JOptionPane.ERROR_MESSAGE);
+        }
 
+    }
 }
-
-

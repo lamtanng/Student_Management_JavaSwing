@@ -72,8 +72,9 @@
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="jLabel1" alignment="2" min="-2" pref="116" max="-2" attributes="0"/>
                       <Component id="btn_login" alignment="2" min="-2" pref="261" max="-2" attributes="0"/>
-                      <Component id="passwordField1" alignment="2" min="-2" pref="222" max="-2" attributes="0"/>
-                      <Component id="textField1" alignment="2" min="-2" pref="219" max="-2" attributes="0"/>
+                      <Component id="txt_Password" alignment="2" min="-2" pref="222" max="-2" attributes="0"/>
+                      <Component id="txt_UserName" alignment="2" min="-2" pref="219" max="-2" attributes="0"/>
+                      <Component id="btn_ShutDown" alignment="2" min="-2" pref="51" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="105" max="32767" attributes="0"/>
               </Group>
@@ -85,12 +86,14 @@
                   <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" pref="74" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                  <Component id="textField1" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_UserName" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="passwordField1" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_Password" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btn_login" min="-2" pref="55" max="-2" attributes="0"/>
-                  <EmptySpace pref="95" max="32767" attributes="0"/>
+                  <EmptySpace pref="69" max="32767" attributes="0"/>
+                  <Component id="btn_ShutDown" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -104,6 +107,9 @@
             </Property>
             <Property name="name" type="java.lang.String" value="" noResource="true"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_loginActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -120,15 +126,23 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="com.stdManage.Views.Components.PasswordField" name="passwordField1">
+        <Component class="com.stdManage.Views.Components.PasswordField" name="txt_Password">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="Password"/>
           </Properties>
         </Component>
-        <Component class="com.stdManage.Views.Components.TextField" name="textField1">
+        <Component class="com.stdManage.Views.Components.TextField" name="txt_UserName">
           <Properties>
             <Property name="labelText" type="java.lang.String" value="Username"/>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_UserNameKeyPressed"/>
+          </Events>
+        </Component>
+        <Component class="com.stdManage.Views.Swing.Button" name="btn_ShutDown">
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ShutDownMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
