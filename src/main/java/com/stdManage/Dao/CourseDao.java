@@ -14,48 +14,77 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ADMIN
  */
-public class CourseDao{
+public class CourseDao implements InterfaceDao<Course> {
+
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
     U_HelperDao heplerDao = new U_HelperDao();
-    
-    public Object[][] findAll(){
+
+    @Override
+    public Object[][] findAll() {
         List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "Select * from course";
         Object result[][] = new Object[][]{};
-        
-        try {
-                conn = new DBConnectionDao().getConn();
-                ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
-                rs = ps.executeQuery();// Chuyển dữ liệu ra view
-                while (rs.next()) {
-                    getList(listData);
-                }
 
-                conn.close();
-                result = heplerDao.covertToDataTable(listData);
+        try {
+            conn = new DBConnectionDao().getConn();
+            ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
+            rs = ps.executeQuery();// Chuyển dữ liệu ra view
+            while (rs.next()) {
+                getList(listData);
+            }
+
+            conn.close();
+            result = heplerDao.covertToDataTable(listData);
         } catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
 
         return result;
     }
-    
-    public List<Object[]> convertToListObject1D(Object[][] list2D){
-        return heplerDao.covertToListObject1D(list2D);
+
+    @Override
+    public Course findOne(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    private void getList(List<Object[]> list) throws SQLException{
+
+    @Override
+    public void add(Course model) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void update(Course model) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void delete(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void getList(List<Object[]> list) throws SQLException {
         Course model = new Course();
-        model.setId(rs.getString(U_ModelFields.COURSE.ID));
-        model.setName(rs.getString(U_ModelFields.COURSE.NAME));
+        getModel(model);
         Object[] obj = model.toModelTable();
         list.add(obj);
+    }
+
+    @Override
+    public void getModel(Course model) {
+        try {
+            model.setId(rs.getString(U_ModelFields.COURSE.ID));
+        model.setName(rs.getString(U_ModelFields.COURSE.NAME));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error getting model !", JOptionPane.DEFAULT_OPTION);
+        }
     }
 }

@@ -22,13 +22,14 @@ import javax.swing.JOptionPane;
  *
  * @author ADMIN
  */
-public class AccountDao implements InterfaceDao {
+public class AccountDao implements InterfaceDao<Account> {
 
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
     U_HelperDao heplerDao = new U_HelperDao();
 
+    @Override
     public Object[][] findAll() {
 
         List<Object[]> listData = new ArrayList<Object[]>();
@@ -72,6 +73,22 @@ public class AccountDao implements InterfaceDao {
         return model;
     }
 
+    @Override
+    public void add(Account model) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void update(Account model) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void delete(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
     public void getList(List<Object[]> list) throws SQLException {
         Account dataModel = new Account();
         getModel(dataModel);
@@ -79,7 +96,7 @@ public class AccountDao implements InterfaceDao {
         list.add(obj);
     }
 
-    private void getModel(Account dataModel) {
+    public void getModel(Account dataModel) {
         try {
             dataModel.setUsername(rs.getString(U_ModelFields.ACCOUNT.USERNAME));
             dataModel.setPassword(rs.getString(U_ModelFields.ACCOUNT.PASSWORD));
@@ -89,4 +106,10 @@ public class AccountDao implements InterfaceDao {
         }
 
     }
+
+    @Override
+    public Account findOne(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

@@ -19,13 +19,14 @@ import javax.swing.JOptionPane;
  *
  * @author ADMIN
  */
-public class ClassGroupDao {
+public class ClassGroupDao implements InterfaceDao<ClassGroup> {
 
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
     U_HelperDao heplerDao = new U_HelperDao();
 
+    @Override
     public Object[][] findAll() {
         List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "Select * from class_group";
@@ -68,7 +69,8 @@ public class ClassGroupDao {
 
         return result;
     }
-    
+
+    @Override
     public ClassGroup findOne(String id) {
         ClassGroup model = new ClassGroup();
         String sql = "Select * from class_group where _id = ?";
@@ -89,14 +91,31 @@ public class ClassGroupDao {
         return model;
     }
 
-    private void getList(List<Object[]> list) throws SQLException {
+    @Override
+    public void add(ClassGroup model) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void update(ClassGroup model) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void delete(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void getList(List<Object[]> list) throws SQLException {
         ClassGroup model = new ClassGroup();
         getModel(model);
         Object[] obj = model.toModelTable();
         list.add(obj);
     }
 
-    private void getModel(ClassGroup model) {
+    @Override
+    public void getModel(ClassGroup model) {
         try {
             model.setId(rs.getString(U_ModelFields.CLASS_GROUP.ID));
             model.setClass_id(rs.getString(U_ModelFields.CLASS_GROUP.CLASS_ID));
@@ -114,4 +133,5 @@ public class ClassGroupDao {
         }
 
     }
+
 }
