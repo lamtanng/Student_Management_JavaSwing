@@ -10,6 +10,7 @@ import com.stdManage.Views.Components.Form.Form_Home;
 import com.stdManage.Views.Components.Form.MainForm;
 import com.stdManage.Views.General.F_Class;
 import com.stdManage.Views.Student.F_GroupManager;
+import com.stdManage.Views.Student.F_Student;
 import com.stdManage.Views.Swing.MenuItem;
 import com.stdManage.Views.Swing.PopupMenu;
 import com.stdManage.Views.Swing.Icons.GoogleMaterialDesignIcons;
@@ -55,6 +56,13 @@ public class Main extends javax.swing.JFrame {
                         main.showForm(new F_Class());
                     } else if (subMenuIndex == 1) {
                         main.showForm(new Form1());
+                    }
+                }
+                else if (menuIndex == 1) {
+                    if (subMenuIndex == 0) {
+                        main.showForm(new F_Student());
+                    } else if (subMenuIndex == 1) {
+                        main.showForm(new F_GroupManager());
                     }
                 }
             }

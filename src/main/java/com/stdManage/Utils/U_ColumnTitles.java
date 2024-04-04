@@ -103,8 +103,9 @@ public class U_ColumnTitles {
         public static final String ADDRESS = "Address";
         public static final String PHONE = "Phone";
         public static final String USERNAME = "Username";
+        public static final String IMAGE = "Image";
         public static final String[] COLUMNS_TITLE = {STUDENT.ID, STUDENT.NAME, STUDENT.BIRTH_DAY,
-            STUDENT.GENDER, STUDENT.ADDRESS, STUDENT.PHONE, STUDENT.USERNAME};
+            STUDENT.GENDER, STUDENT.ADDRESS, STUDENT.PHONE, STUDENT.USERNAME, STUDENT.IMAGE};
 
     }
     

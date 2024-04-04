@@ -73,17 +73,17 @@ public class PanelAction extends javax.swing.JPanel {
     private void setImageButton() {
         //2 action buttons
         if (typeAction == U_Common.ActionTable.EDIT_DELETE) {
-            btn_First.setIcon(U_Common.createImageIcon("edit.png"));
-            btn_Second.setIcon(U_Common.createImageIcon("trash-xmark.png"));
+            btn_First.setIcon(U_Common.createImageIcon("edit.png", U_Common.IMAGE_FOLDER));
+            btn_Second.setIcon(U_Common.createImageIcon("trash-xmark.png", U_Common.IMAGE_FOLDER));
 
         } else {//1 action button
             btn_Second.setVisible(false);
             
             if (typeAction == U_Common.ActionTable.ADD) {
-                btn_First.setIcon(U_Common.createImageIcon("add-button.png"));
+                btn_First.setIcon(U_Common.createImageIcon("add-button.png", U_Common.IMAGE_FOLDER));
 
             } else if (typeAction == U_Common.ActionTable.DELETE) {
-                btn_First.setIcon(U_Common.createImageIcon("trash-xmark.png"));
+                btn_First.setIcon(U_Common.createImageIcon("trash-xmark.png", U_Common.IMAGE_FOLDER));
             }
         }
     }

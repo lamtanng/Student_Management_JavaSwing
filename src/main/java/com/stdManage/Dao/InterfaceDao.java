@@ -5,6 +5,7 @@
 package com.stdManage.Dao;
 
 import com.stdManage.Models.ClassModels;
+import com.stdManage.Utils.U_HelperDao;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -13,7 +14,6 @@ import java.util.List;
  * @author ADMIN
  */
 public interface InterfaceDao<T> {
-    
     public Object[][] findAll();
     public T findOne(String id);
     public void add(T model);

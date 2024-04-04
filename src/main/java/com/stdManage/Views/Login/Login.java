@@ -75,7 +75,7 @@ public class Login extends javax.swing.JFrame {
         btn_login.setBorder(null);
         jPanel1.setAlignmentY(CENTER_ALIGNMENT);
 
-        btn_ShutDown.setIcon(U_Common.createImageIcon("power-on.png"));
+        btn_ShutDown.setIcon(U_Common.createImageIcon("power-on.png", U_Common.IMAGE_FOLDER));
     }
 
     private boolean isEmptyInput() {
