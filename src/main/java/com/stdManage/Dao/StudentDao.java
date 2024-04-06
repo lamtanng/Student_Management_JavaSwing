@@ -4,7 +4,6 @@
  */
 package com.stdManage.Dao;
 
-import com.stdManage.Models.GradeDetail;
 import com.stdManage.Models.Student;
 import com.stdManage.Utils.U_HelperDao;
 import com.stdManage.Utils.U_ModelFields;
@@ -25,9 +24,12 @@ public class StudentDao implements InterfaceDao<Student> {
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
-    U_HelperDao heplerDao = new U_HelperDao();
-    static final U_ModelFields.STUDENT table = new U_ModelFields.STUDENT();
+    U_HelperDao helperDao = new U_HelperDao();
 
+    private static final U_ModelFields.STUDENT table = new U_ModelFields.STUDENT();
+    private static final String FUNC_GEN_ID = U_HelperDao.GEN_ID("student");
+
+    @Override
     public Object[][] findAll() {
         List<Object[]> listData = new ArrayList<Object[]>();
         String sql = "Select * from student";
@@ -35,13 +37,13 @@ public class StudentDao implements InterfaceDao<Student> {
 
         try {
             conn = new DBConnectionDao().getConn();
-            ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
-            rs = ps.executeQuery();// Chuyển dữ liệu ra view
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
             while (rs.next()) {
                 getList(listData);
             }
             conn.close();
-            result = heplerDao.covertToDataTable(listData);
+            result = helperDao.covertToDataTable(listData);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,7 +53,25 @@ public class StudentDao implements InterfaceDao<Student> {
 
     @Override
     public void add(Student model) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "insert into student values (?, ?, ?, ?, ?, ?, ?)";
+        try {
+            conn = new DBConnectionDao().getConn();
+            ps = conn.prepareStatement(sql);
+
+            ps.setString(2, FUNC_GEN_ID);
+            ps.setString(2, model.getName());
+            ps.setString(3, model.getBirth_date());
+            ps.setString(4, model.getGender());
+            ps.setString(5, model.getAddress());
+            ps.setString(6, model.getPhone());
+            ps.setString(7, model.getUsername());
+
+            ps.executeUpdate();
+            conn.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @Override
@@ -73,7 +93,7 @@ public class StudentDao implements InterfaceDao<Student> {
     public void update(Student model) {
         String sql = "UPDATE student "
                 + "SET "
-                + "full_name = ?, birth_date = ?, gender = ?, address = ?, phone = ? "
+                + "full_name = ?, birth_date = ?, gender = ?, address = ?, phone = ?, image =? "
                 + "WHERE _id = ?;";
         try {
             conn = new DBConnectionDao().getConn();
@@ -83,7 +103,8 @@ public class StudentDao implements InterfaceDao<Student> {
             ps.setString(3, model.getGender());
             ps.setString(4, model.getAddress());
             ps.setString(5, model.getPhone());
-            ps.setString(6, model.getId());
+            ps.setString(6, model.getImage());
+            ps.setString(7, model.getId());
             ps.executeUpdate();
             conn.close();
 
@@ -112,11 +133,11 @@ public class StudentDao implements InterfaceDao<Student> {
                 stu.setId(rs.getString(table.ID));
                 stu.setName(rs.getString(table.NAME));
 
-                Object[] obj = heplerDao.convertToArrObj(stu.getId(), stu.getName());
+                Object[] obj = helperDao.convertToArrObj(stu.getId(), stu.getName());
                 listData.add(obj);
             }
             conn.close();
-            result = heplerDao.covertToDataTable(listData);
+            result = helperDao.covertToDataTable(listData);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -126,7 +147,25 @@ public class StudentDao implements InterfaceDao<Student> {
 
     @Override
     public Student findOne(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Student stu = new Student();
+        String sql = "SELECT * from student WHERE _id = ?";
+
+        Object result[][] = new Object[][]{};
+
+        try {
+            conn = new DBConnectionDao().getConn();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                getModel(stu);
+            }
+            conn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.DEFAULT_OPTION);
+
+        }
+        return stu;
     }
 
     @Override
@@ -147,8 +186,9 @@ public class StudentDao implements InterfaceDao<Student> {
             model.setAddress(rs.getString(table.ADDRESS));
             model.setPhone(rs.getString(table.PHONE));
             model.setUsername(rs.getString(table.USERNAME));
+            model.setImage(rs.getString(table.IMAGE));
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.DEFAULT_OPTION);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Get model fail !", JOptionPane.DEFAULT_OPTION);
         }
 
     }

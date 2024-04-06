@@ -10,7 +10,8 @@ import com.stdManage.Interface.I_PaintRowTable;
  *
  * @author ADMIN
  */
-public class Student implements I_PaintRowTable{
+public class Student implements I_PaintRowTable {
+
     private String id;
     private String name;
     private String birth_date;
@@ -18,17 +19,18 @@ public class Student implements I_PaintRowTable{
     private String address;
     private String phone;
     private String username;
+    private String image = "";
 
     @Override
     public Object[] toModelTable() {
         return new Object[]{id, name, birth_date, gender,
-                            address, phone, username};
+            address, phone, username, image};
     }
 
     public Student() {
     }
 
-    public Student(String id, String name, String birth_date, String gender, String address, String phone, String email, String username) {
+    public Student(String id, String name, String birth_date, String gender, String address, String phone, String email, String username, String image) {
         this.id = id;
         this.name = name;
         this.birth_date = birth_date;
@@ -36,6 +38,7 @@ public class Student implements I_PaintRowTable{
         this.address = address;
         this.phone = phone;
         this.username = username;
+        this.image = image;
     }
 
     public String getId() {
@@ -45,7 +48,6 @@ public class Student implements I_PaintRowTable{
     public void setId(String id) {
         this.id = id;
     }
-    
 
     public String getName() {
         return name;
@@ -95,7 +97,12 @@ public class Student implements I_PaintRowTable{
         this.username = username;
     }
 
-    
-   
-    
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
 }

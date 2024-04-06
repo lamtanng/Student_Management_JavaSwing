@@ -48,7 +48,7 @@ public class F_GroupManager extends javax.swing.JPanel {
     }
 
     private void loadStudentOfGroupTable() {
-        tbl_StudentGroup.initTable(U_ColumnTitles.GRADLE_DETAILS, gradeDao.findAllbyGroup(currentGroup));
+        tbl_StudentGroup.initTable(U_ColumnTitles.GRADE_DETAIL.COLUMNS_TITLE, gradeDao.findAllbyGroup(currentGroup));
         tbl_StudentGroup.hideColumnAt(new int[]{6, 7});
         handleStudentOfGroupTable();
     }
@@ -76,7 +76,7 @@ public class F_GroupManager extends javax.swing.JPanel {
     }
 
     private void initCourseCbb() {
-        List<Object[]> list = courseDao.convertToListObject1D(courseDao.findAll());
+        List<Object[]> list = helpDao.covertToListObject1D(courseDao.findAll());
         cbb_course.init(list.toArray(), 0, "Course", 1);
     }
 

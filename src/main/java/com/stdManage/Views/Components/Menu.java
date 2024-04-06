@@ -56,8 +56,8 @@ public class Menu extends javax.swing.JPanel {
     }
 
     public void initMenuItem() {
-        addMenu(new ModelMenu(new ImageIcon("/com/stdManage/Views/Components/Icons/1.png"), "Dashboard", "Home", "Buttons"));
-        addMenu(new ModelMenu(new ImageIcon( "/com/stdManage/Views/Components/Icons/2.png"), "Charts", "Morris", "Flot", "Line"));
+        addMenu(new ModelMenu(new ImageIcon("/com/stdManage/Views/Components/Icons/1.png"), "General Management", "Class"));
+        addMenu(new ModelMenu(new ImageIcon( "/com/stdManage/Views/Components/Icons/2.png"), "Student", "Profiles", "Grade Detail"));
         addMenu(new ModelMenu(new ImageIcon( "/com/stdManage/Views/Components/Icons/3.png"), "Report", "Income", "Expense", "Profit"));
         addMenu(new ModelMenu(new ImageIcon( "/com/stdManage/Views/Components/Icons/4.png"), "Message", "Sender", "Inbox", "User"));
         addMenu(new ModelMenu(new ImageIcon( "/com/stdManage/Views/Components/Icons/5.png"), "Staff", "Sender", "Inbox", "User"));

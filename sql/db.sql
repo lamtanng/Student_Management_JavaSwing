@@ -107,5 +107,12 @@ CREATE TABLE attendance_record (
     CONSTRAINT fk_attendancerecord_student FOREIGN KEY (student_id) REFERENCES student(_id) ON DELETE CASCADE
 );
 
+SET SQL_SAFE_UPDATES = 0;
+ALTER TABLE student
+ADD COLUMN image VARCHAR(255) DEFAULT "";
+
+ALTER TABLE teacher
+ADD COLUMN image VARCHAR(255) DEFAULT "";
+Update teacher set image = '';
 
 

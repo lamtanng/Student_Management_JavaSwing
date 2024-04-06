@@ -8,11 +8,7 @@ import com.stdManage.Dao.ClassDao;
 import com.stdManage.Models.ClassModels;
 import com.stdManage.Utils.U_Common;
 import com.stdManage.Utils.U_ColumnTitles;
-import com.stdManage.Views.Components.Combobox;
-import com.stdManage.Views.Components.InputPopup;
-import com.stdManage.Views.Swing.Button;
 import com.stdManage.Views.Swing.JTable.ITableActionEvent;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableColumnModel;
 
@@ -31,7 +27,7 @@ public class F_Class extends javax.swing.JPanel {
     }
 
     private void loadClassTable() {
-        tbl_Class.initTable(U_ColumnTitles.CLASS, classDao.findAll());
+        tbl_Class.initTable(U_ColumnTitles.CLASS.COLUMNS_TITLE, classDao.findAll());
         handleClassTable();
     }
 
@@ -89,7 +85,7 @@ public class F_Class extends javax.swing.JPanel {
 
     private void initComp() {
         btn_Add.setText("");
-        btn_Add.setIcon(U_Common.createImageIcon("add-button.png"));
+        btn_Add.setIcon(U_Common.createImageIcon("add-button.png", U_Common.IMAGE_FOLDER));
     }
 
     @SuppressWarnings("unchecked")

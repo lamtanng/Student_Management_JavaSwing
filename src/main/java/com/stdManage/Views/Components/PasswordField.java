@@ -141,8 +141,8 @@ public class PasswordField extends JPasswordField {
             }
 
         };
-        eye = U_Common.createImageIcon("eye.png").getImage();
-        eye_hide = U_Common.createImageIcon("hidden-eye.png").getImage();
+        eye = U_Common.createImageIcon("eye.png", U_Common.IMAGE_FOLDER).getImage();
+        eye_hide = U_Common.createImageIcon("hidden-eye.png", U_Common.IMAGE_FOLDER).getImage();
 //        eye = new javax.swing.ImageIcon(getClass().getResource(U_Common.IMAGE_RESOURCE.concat("eye.png"))).getImage();
 //        eye_hide = new javax.swing.ImageIcon(getClass().getResource(U_Common.IMAGE_RESOURCE.concat("eye_hide.png"))).getImage();
         animator = new Animator(300, target);
