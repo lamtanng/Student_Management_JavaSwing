@@ -9,9 +9,6 @@ package com.stdManage.Views.Components.InputPopup;
  * @author ADMIN
  */
 public interface I_PopupAction {
-
-    public void handleCancle();
-
     public void handleFinish();
 
 }

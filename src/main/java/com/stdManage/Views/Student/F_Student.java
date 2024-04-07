@@ -8,12 +8,27 @@ import com.stdManage.Dao.StudentDao;
 import com.stdManage.Models.Student;
 import com.stdManage.Utils.U_Common;
 import com.stdManage.Utils.U_ColumnTitles;
-import com.stdManage.Utils.U_Image;
+import com.stdManage.Views.Components.Combobox;
+import com.stdManage.Views.Components.InputPopup.I_PopupAction;
 import com.stdManage.Views.Components.InputPopup.InputPopup;
 import com.stdManage.Views.Components.TextField;
 import com.stdManage.Views.Swing.JTable.ITableActionEvent;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Properties;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.text.DateFormatter;
+import org.jdatepicker.impl.DateComponentFormatter;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 public class F_Student extends javax.swing.JPanel {
 
@@ -36,41 +51,101 @@ public class F_Student extends javax.swing.JPanel {
         showInfo();
     }
 
+    public TextField createTextField(String lableText, String text) {
+        TextField txt = new TextField();
+        txt.setLabelText(lableText);
+        txt.setText(text);
+        return txt;
+    }
+
+    private void showPopup() {
+        TextField txt_NameUpd = createTextField(U_ColumnTitles.STUDENT.NAME, currentStu.getName());
+        TextField txt_AddressUpd = createTextField(U_ColumnTitles.STUDENT.ADDRESS, currentStu.getAddress());
+        TextField txt_PhoneUpd = createTextField(U_ColumnTitles.STUDENT.PHONE, currentStu.getPhone());
+        Combobox<String> cbb_Gender = new Combobox<String>();
+        cbb_Gender.setModel(new DefaultComboBoxModel(new String[]{"Nam", "Nữ"}));
+        cbb_Gender.setSelectedItem(currentStu.getGender());
+
+        UtilDateModel model = new UtilDateModel();
+        model.setValue(Date.valueOf(currentStu.getBirth_date()));
+        model.setSelected(true);
+        JDatePanelImpl datePanel = new JDatePanelImpl(model, new Properties());
+        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new JFormattedTextField.AbstractFormatter() {
+            private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+
+            @Override
+            public Object stringToValue(String text) throws ParseException {
+                return dateFormatter.parseObject(text);
+            }
+
+            @Override
+            public String valueToString(Object value) throws ParseException {
+                if (value != null) {
+                    return dateFormatter.format((Date) value);
+                }
+                return "";
+            }
+        });
+
+        I_PopupAction event = new I_PopupAction() {
+            @Override
+            public void handleFinish() {
+                currentStu.setName(txt_NameUpd.getText().toString().trim());
+                currentStu.setAddress(txt_AddressUpd.getText().toString().trim());
+                currentStu.setPhone(txt_PhoneUpd.getText().toString().trim());
+                currentStu.setGender(cbb_Gender.getSelectedItem().toString().trim());
+//                currentStu.setBirth_date(LocalDate.parse(model.getValue().toString()));
+
+                Date getDate = Date.valueOf(model.getValue().toString());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String formattedDate = dateFormat.format(getDate);
+                System.out.println("~~~~~~>currenrStu" + getDate);
+            }
+        };
+
+        InputPopup p = new InputPopup(event);
+        p.createComponents(txt_NameUpd, txt_AddressUpd, txt_PhoneUpd, cbb_Gender, datePicker);
+        p.setVisible(true);
+    }
+
     private void createActionColumn() {
 
         ITableActionEvent e = new ITableActionEvent() {
             //update
             @Override
             public void onFirstButton(int row, int col) {
-                path = profile_Stu.getPath();
-                try {
-                    currentStu = getSelectedStudent(row);
-                    Student oldStu = stuDao.findOne(currentStu.getId());
 
-                    if (path != null) {
-                        if (!oldStu.getImage().isBlank()) {
-                            U_Image.deleteImage(oldStu.getImage(), U_Common.PROFILE_FOLDER);
-                        }
-                        fileName = U_Image.uploadImage(path, U_Common.PROFILE_FOLDER);
-                        currentStu.setImage(fileName);
-                        
-                    } else if (path.isBlank()) { //clear avt
-                        currentStu.setImage("");
-                        
-                    } else {//reset old avt
-                        currentStu.setImage(oldStu.getImage());
-                    }
-
-                    stuDao.update(currentStu);
-                    JOptionPane.showMessageDialog(tbl_Student, "Success !", "Update", JOptionPane.PLAIN_MESSAGE);
-                    loadStudentTable();
-
-                    //focus student edited
-                    currentStu = getSelectedStudent(row);
-                    showInfo();
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(tbl_Student, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                currentStu = getSelectedStudent(row);
+                showPopup();
+//                path = profile_Stu.getPath();
+//                try {
+//                    currentStu = getSelectedStudent(row);
+//                    Student oldStu = stuDao.findOne(currentStu.getId());
+//
+//                    if (path != null) {
+//                        if (!oldStu.getImage().isBlank()) {
+//                            U_Image.deleteImage(oldStu.getImage(), U_Common.PROFILE_FOLDER);
+//                        }
+//                        fileName = U_Image.uploadImage(path, U_Common.PROFILE_FOLDER);
+//                        currentStu.setImage(fileName);
+//
+//                    } else if (path.isBlank()) { //clear avt
+//                        currentStu.setImage("");
+//
+//                    } else {//reset old avt
+//                        currentStu.setImage(oldStu.getImage());
+//                    }
+//
+//                    stuDao.update(currentStu);
+//                    JOptionPane.showMessageDialog(tbl_Student, "Success !", "Update", JOptionPane.PLAIN_MESSAGE);
+//                    loadStudentTable();
+//
+//                    //focus student edited
+//                    currentStu = getSelectedStudent(row);
+//                    showInfo();
+//                } catch (Exception e) {
+//                    JOptionPane.showMessageDialog(tbl_Student, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//                }
             }
 
             //delete
@@ -107,7 +182,7 @@ public class F_Student extends javax.swing.JPanel {
 
         ImageIcon avt = new ImageIcon(U_Common.RESOURCE.concat(U_Common.PROFILE_FOLDER).concat(currentStu.getImage()));
         profile_Stu.showInfo(currentStu.getId(), currentStu.getName(),
-                currentStu.getBirth_date(), currentStu.getGender(),
+                currentStu.getBirth_date().toString(), currentStu.getGender(),
                 currentStu.getPhone(), avt);
     }
 
@@ -115,7 +190,7 @@ public class F_Student extends javax.swing.JPanel {
         if (tbl_Student.getRowCount() >= 1 && row >= 0) {
             currentStu.setId(tbl_Student.getValueAt(row, tbl_Student.getColumnByName(STUDENT_TABLE.ID)).toString());
             currentStu.setName(tbl_Student.getValueAt(row, tbl_Student.getColumnByName(STUDENT_TABLE.NAME)).toString());
-            currentStu.setBirth_date(tbl_Student.getValueAt(row, tbl_Student.getColumnByName(STUDENT_TABLE.BIRTH_DAY)).toString());
+            currentStu.setBirth_date(LocalDate.parse((tbl_Student.getValueAt(row, tbl_Student.getColumnByName(STUDENT_TABLE.BIRTH_DAY)).toString())));
             currentStu.setAddress(tbl_Student.getValueAt(row, tbl_Student.getColumnByName(STUDENT_TABLE.ADDRESS)).toString());
             currentStu.setPhone(tbl_Student.getValueAt(row, tbl_Student.getColumnByName(STUDENT_TABLE.PHONE)).toString());
             currentStu.setGender(tbl_Student.getValueAt(row, tbl_Student.getColumnByName(STUDENT_TABLE.GENDER)).toString());
@@ -131,7 +206,7 @@ public class F_Student extends javax.swing.JPanel {
 
             return currentStu;
         }
-        return new Student("", "", "", "", "", "", "", "", "");
+        return new Student("", "", LocalDate.now(), "", "", "", "", "", "");
     }
 
     @SuppressWarnings("unchecked")

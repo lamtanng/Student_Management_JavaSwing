@@ -8,9 +8,11 @@ import com.stdManage.Models.Student;
 import com.stdManage.Utils.U_HelperDao;
 import com.stdManage.Utils.U_ModelFields;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -60,7 +62,7 @@ public class StudentDao implements InterfaceDao<Student> {
 
             ps.setString(2, FUNC_GEN_ID);
             ps.setString(2, model.getName());
-            ps.setString(3, model.getBirth_date());
+            ps.setDate(3, Date.valueOf(model.getBirth_date()));
             ps.setString(4, model.getGender());
             ps.setString(5, model.getAddress());
             ps.setString(6, model.getPhone());
@@ -93,18 +95,35 @@ public class StudentDao implements InterfaceDao<Student> {
     public void update(Student model) {
         String sql = "UPDATE student "
                 + "SET "
-                + "full_name = ?, birth_date = ?, gender = ?, address = ?, phone = ?, image =? "
+                + "full_name = ?, birth_date = ?, gender = ?, address = ?, phone = ?"
                 + "WHERE _id = ?;";
         try {
             conn = new DBConnectionDao().getConn();
             ps = conn.prepareStatement(sql);// Truy vấn dữ liệu
             ps.setString(1, model.getName());
-            ps.setString(2, model.getBirth_date());
+            ps.setDate(2, Date.valueOf(model.getBirth_date()));
             ps.setString(3, model.getGender());
             ps.setString(4, model.getAddress());
             ps.setString(5, model.getPhone());
-            ps.setString(6, model.getImage());
-            ps.setString(7, model.getId());
+            ps.setString(6, model.getId());
+            ps.executeUpdate();
+            conn.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Update model failure!\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void update_avatar(Student model) {
+        String sql = "UPDATE student "
+                + "SET "
+                + "image =? "
+                + "WHERE _id = ?;";
+        try {
+            conn = new DBConnectionDao().getConn();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, model.getImage());
+            ps.setString(2, model.getId());
             ps.executeUpdate();
             conn.close();
 
@@ -181,7 +200,7 @@ public class StudentDao implements InterfaceDao<Student> {
         try {
             model.setId(rs.getString(table.ID));
             model.setName(rs.getString(table.NAME));
-            model.setBirth_date(rs.getString(table.BIRTH_DAY.toString()));
+            model.setBirth_date(LocalDate.parse(rs.getDate(table.BIRTH_DAY).toString()));
             model.setGender(rs.getString(table.GENDER));
             model.setAddress(rs.getString(table.ADDRESS));
             model.setPhone(rs.getString(table.PHONE));
