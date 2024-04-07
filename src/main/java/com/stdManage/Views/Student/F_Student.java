@@ -9,6 +9,8 @@ import com.stdManage.Models.Student;
 import com.stdManage.Utils.U_Common;
 import com.stdManage.Utils.U_ColumnTitles;
 import com.stdManage.Utils.U_Image;
+import com.stdManage.Views.Components.InputPopup.InputPopup;
+import com.stdManage.Views.Components.TextField;
 import com.stdManage.Views.Swing.JTable.ITableActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -197,12 +199,11 @@ public class F_Student extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AddActionPerformed
-        //create account before, then trigger auto create student
+//        create account before, then trigger auto create student
         int confCreateAcc = JOptionPane.showConfirmDialog(tbl_Student, "You must have an account before.", "Create account", JOptionPane.YES_NO_OPTION);
         if (confCreateAcc == JOptionPane.YES_OPTION) {
             //navigate to create acc
         }
-
     }//GEN-LAST:event_btn_AddActionPerformed
 
     private void tbl_StudentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_StudentMouseClicked
