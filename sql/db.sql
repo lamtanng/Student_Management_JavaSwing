@@ -115,4 +115,36 @@ ALTER TABLE teacher
 ADD COLUMN image VARCHAR(255) DEFAULT "";
 Update teacher set image = '';
 
+ALTER TABLE course
+ADD COLUMN status boolean default true;
+
+ALTER TABLE class
+ADD COLUMN status boolean default true;
+
+ALTER TABLE class_group
+ADD COLUMN status boolean default true;
+
+ALTER TABLE class_group
+ADD COLUMN is_open boolean default false;
+
+ALTER TABLE grade_detail
+ADD COLUMN status boolean default true;
+
+ALTER TABLE class
+DROP CONSTRAINT fk_class_course;
+
+ALTER TABLE class
+ADD CONSTRAINT fk_class_course FOREIGN KEY (course_id)
+REFERENCES course(_id)
+ON UPDATE CASCADE;
+
+ALTER TABLE class_group
+DROP CONSTRAINT fk_classgroup_class;
+
+ALTER TABLE class_group
+ADD CONSTRAINT fk_classgroup_class FOREIGN KEY (class_id) REFERENCES class(_id) ON UPDATE CASCADE;
+
+ALTER TABLE grade_detail
+DROP CONSTRAINT fk_gradedetail_classgroup
+
 

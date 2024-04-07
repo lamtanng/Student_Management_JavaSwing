@@ -22,11 +22,14 @@ public class ClassGroup implements I_PaintRowTable{
     private String end_date;
     private boolean register_status = false;
     private String day_of_week;
+    private boolean is_open = false;
+    private boolean status = true;
+    
 
     public ClassGroup() {
     }
 
-    public ClassGroup(String id, String class_id, String teacher_id, String classroom_id, String shift_id, int students_min, int students_max, String start_date, String end_date, boolean register_status, String day_of_week) {
+    public ClassGroup(String id, String class_id, String teacher_id, String classroom_id, String shift_id, int students_min, int students_max, String start_date, String end_date, boolean register_status, String day_of_week, boolean is_open) {
         this.id = id;
         this.class_id = class_id;
         this.teacher_id = teacher_id;
@@ -38,13 +41,14 @@ public class ClassGroup implements I_PaintRowTable{
         this.end_date = end_date;
         this.register_status = register_status;
         this.day_of_week = day_of_week;
+        this.is_open = is_open;
     }
 
     @Override
     public Object[] toModelTable() {
         return new Object[]{id, class_id, teacher_id, classroom_id, 
                             shift_id, students_min, students_max, start_date, 
-                            end_date, register_status, day_of_week};
+                            end_date, register_status, day_of_week, is_open};
     }
 
     public String getId() {
@@ -133,6 +137,22 @@ public class ClassGroup implements I_PaintRowTable{
 
     public void setDay_of_week(String day_of_week) {
         this.day_of_week = day_of_week;
+    }
+
+    public boolean isIs_open() {
+        return is_open;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setIs_open(boolean is_open) {
+        this.is_open = is_open;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     

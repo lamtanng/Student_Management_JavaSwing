@@ -29,7 +29,7 @@ public class ClassDao implements InterfaceDao<ClassModels> {
     @Override
     public Object[][] findAll() {
         List<Object[]> listData = new ArrayList<Object[]>();
-        String sql = "Select * from class";
+        String sql = "Select * from class where status = true";
         Object result[][] = new Object[][]{};
 
         try {
@@ -50,7 +50,7 @@ public class ClassDao implements InterfaceDao<ClassModels> {
 
     public Object[][] findAllbyCourse(String id) {
         List<Object[]> listData = new ArrayList<Object[]>();
-        String sql = "Select * from class where course_id = ?";
+        String sql = "Select * from class where course_id = ? and status = true ";
         Object result[][] = new Object[][]{};
 
         try {
