@@ -30,7 +30,7 @@ public class CourseDao implements InterfaceDao<Course> {
     @Override
     public Object[][] findAll() {
         List<Object[]> listData = new ArrayList<Object[]>();
-        String sql = "Select * from course";
+        String sql = "Select * from course where status = true";
         Object result[][] = new Object[][]{};
 
         try {

@@ -16,6 +16,7 @@ public class ClassModels implements I_PaintRowTable{
     private String course_id;
     private int period_total;
     private double fee;
+    private boolean status = true;
 
     public ClassModels() {
     }
@@ -68,6 +69,14 @@ public class ClassModels implements I_PaintRowTable{
 
     public void setFee(double fee) {
         this.fee = fee;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     @Override

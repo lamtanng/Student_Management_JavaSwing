@@ -18,6 +18,7 @@ public class GradeDetail implements I_PaintRowTable{
     private double practice_mark;
     private boolean pay_status = false;
     private boolean certificate_status = false;
+    private boolean status = true;
 
     @Override
     public Object[] toModelTable() {
@@ -94,5 +95,13 @@ public class GradeDetail implements I_PaintRowTable{
         this.certificate_status = certificate_status;
     }
 
-    
+    public boolean isStatus() {
+        return status;
     }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    
+}

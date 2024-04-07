@@ -13,6 +13,7 @@ import com.stdManage.Interface.I_PaintRowTable;
 public class Course implements I_PaintRowTable{
     private String id;
     private String name;
+    private boolean status = false;
     
 
     public Course() {
@@ -39,6 +40,14 @@ public class Course implements I_PaintRowTable{
         this.name = name;
     }
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
     @Override
     public Object[] toModelTable() {
         return new Object[]{id, name};

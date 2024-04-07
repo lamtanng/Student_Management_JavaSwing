@@ -29,7 +29,7 @@ public class ClassGroupDao implements InterfaceDao<ClassGroup> {
     @Override
     public Object[][] findAll() {
         List<Object[]> listData = new ArrayList<Object[]>();
-        String sql = "Select * from class_group";
+        String sql = "Select * from class_group where status = true";
         Object result[][] = new Object[][]{};
 
         try {
@@ -50,7 +50,7 @@ public class ClassGroupDao implements InterfaceDao<ClassGroup> {
 
     public Object[][] findAllbyCourse(String id) {
         List<Object[]> listData = new ArrayList<Object[]>();
-        String sql = "Select * from class_group where class_id = ?";
+        String sql = "Select * from class_group where class_id = ? and status = true";
         Object result[][] = new Object[][]{};
 
         try {
@@ -73,7 +73,7 @@ public class ClassGroupDao implements InterfaceDao<ClassGroup> {
     @Override
     public ClassGroup findOne(String id) {
         ClassGroup model = new ClassGroup();
-        String sql = "Select * from class_group where _id = ?";
+        String sql = "Select * from class_group where _id = ? and status = true";
 
         try {
             conn = new DBConnectionDao().getConn();

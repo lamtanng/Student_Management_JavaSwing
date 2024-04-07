@@ -31,7 +31,7 @@ public class GradeDetailDao implements InterfaceDao<GradeDetail> {
     @Override
     public Object[][] findAll() {
         List<Object[]> listData = new ArrayList<Object[]>();
-        String sql = "Select * from grade_detail";
+        String sql = "Select * from grade_detail where status = true";
         Object result[][] = new Object[][]{};
 
         try {
@@ -52,7 +52,7 @@ public class GradeDetailDao implements InterfaceDao<GradeDetail> {
 
     public Object[][] findAllbyGroup(String id) {
         List<Object[]> listData = new ArrayList<Object[]>();
-        String sql = "Select * from grade_detail where group_id = ?";
+        String sql = "Select * from grade_detail where group_id = ? and status = true";
         Object result[][] = new Object[][]{};
 
         try {
@@ -74,7 +74,7 @@ public class GradeDetailDao implements InterfaceDao<GradeDetail> {
 
     public Object[][] findAll_ExceptGroup(String id) {
         List<Object[]> listData = new ArrayList<Object[]>();
-        String sql = "Select * from grade_detail where group_id <> ?";
+        String sql = "Select * from grade_detail where group_id <> ? and status = true";
         Object result[][] = new Object[][]{};
 
         try {
