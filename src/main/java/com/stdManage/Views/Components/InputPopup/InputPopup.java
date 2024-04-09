@@ -98,6 +98,7 @@ public class InputPopup extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 event.handleFinish();
+                dispose();
             }
         });
     }

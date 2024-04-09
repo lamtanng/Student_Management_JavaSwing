@@ -8,99 +8,73 @@ import com.stdManage.Dao.StudentDao;
 import com.stdManage.Models.Student;
 import com.stdManage.Utils.U_Common;
 import com.stdManage.Utils.U_ColumnTitles;
+import com.stdManage.Utils.U_Image;
 import com.stdManage.Views.Components.Combobox;
 import com.stdManage.Views.Components.InputPopup.I_PopupAction;
 import com.stdManage.Views.Components.InputPopup.InputPopup;
 import com.stdManage.Views.Components.TextField;
+import com.stdManage.Views.Components.UserProfile.I_UserProfile;
 import com.stdManage.Views.Swing.JTable.ITableActionEvent;
+import java.awt.HeadlessException;
+import java.io.IOException;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Properties;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
-import javax.swing.text.DateFormatter;
-import org.jdatepicker.impl.DateComponentFormatter;
-import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
 
 public class F_Student extends javax.swing.JPanel {
 
-    StudentDao stuDao = new StudentDao();
+// <editor-fold defaultstate="collapsed" desc=" VARIABLES ">
+    private StudentDao stuDao = new StudentDao();
 
-    Student currentStu = new Student();
+    private Student currentStu = new Student();
+    private int currentRow = 0;
     private static final U_ColumnTitles.STUDENT STUDENT_TABLE = new U_ColumnTitles.STUDENT();
-    String path = null;
-    String fileName = null;
+    private String fileName = null;
+// </editor-fold>
 
     public F_Student() {
         initComponents();
         loadStudentTable();
+        handleAvatarAction();
     }
 
-    private void loadStudentTable() {
-        tbl_Student.initTable(U_ColumnTitles.STUDENT.COLUMNS_TITLE, stuDao.findAll());
-        createActionColumn();
-        currentStu = getSelectedStudent(0);
-        showInfo();
-    }
-
-    public TextField createTextField(String lableText, String text) {
-        TextField txt = new TextField();
-        txt.setLabelText(lableText);
-        txt.setText(text);
-        return txt;
-    }
-
-    private void showPopup() {
+// <editor-fold defaultstate="collapsed" desc="FUNCTIONS">
+    private void processPopup() {
+        currentStu = getSelectedStudent(currentRow);
+        //create components
         TextField txt_NameUpd = createTextField(U_ColumnTitles.STUDENT.NAME, currentStu.getName());
         TextField txt_AddressUpd = createTextField(U_ColumnTitles.STUDENT.ADDRESS, currentStu.getAddress());
         TextField txt_PhoneUpd = createTextField(U_ColumnTitles.STUDENT.PHONE, currentStu.getPhone());
-        Combobox<String> cbb_Gender = new Combobox<String>();
-        cbb_Gender.setModel(new DefaultComboBoxModel(new String[]{"Nam", "Nữ"}));
+
+        Combobox<String> cbb_Gender = new Combobox<>();
+        cbb_Gender.init(U_Common.GENDER, 0, "Gender", 0);
         cbb_Gender.setSelectedItem(currentStu.getGender());
 
-        UtilDateModel model = new UtilDateModel();
-        model.setValue(Date.valueOf(currentStu.getBirth_date()));
-        model.setSelected(true);
-        JDatePanelImpl datePanel = new JDatePanelImpl(model, new Properties());
-        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new JFormattedTextField.AbstractFormatter() {
-            private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        JDatePickerImpl datePicker = U_Common.createDatePicker(Date.valueOf(currentStu.getBirth_date()));
 
-            @Override
-            public Object stringToValue(String text) throws ParseException {
-                return dateFormatter.parseObject(text);
-            }
-
-            @Override
-            public String valueToString(Object value) throws ParseException {
-                if (value != null) {
-                    return dateFormatter.format((Date) value);
-                }
-                return "";
-            }
-        });
-
-        I_PopupAction event = new I_PopupAction() {
-            @Override
-            public void handleFinish() {
-                currentStu.setName(txt_NameUpd.getText().toString().trim());
-                currentStu.setAddress(txt_AddressUpd.getText().toString().trim());
-                currentStu.setPhone(txt_PhoneUpd.getText().toString().trim());
+        //create event handler
+        I_PopupAction event = () -> {
+            try {
+                currentStu = getSelectedStudent(currentRow);
+                currentStu.setName(txt_NameUpd.getText().trim());
+                currentStu.setAddress(txt_AddressUpd.getText().trim());
+                currentStu.setPhone(txt_PhoneUpd.getText().trim());
                 currentStu.setGender(cbb_Gender.getSelectedItem().toString().trim());
-//                currentStu.setBirth_date(LocalDate.parse(model.getValue().toString()));
+                currentStu.setBirth_date(U_Common.toLocalDate(datePicker));
 
-                Date getDate = Date.valueOf(model.getValue().toString());
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String formattedDate = dateFormat.format(getDate);
-                System.out.println("~~~~~~>currenrStu" + getDate);
+                stuDao.update(currentStu);
+                loadStudentTable();
+                JOptionPane.showMessageDialog(tbl_Student, "Success !", "Update", JOptionPane.PLAIN_MESSAGE);
+
+                //focus student edited
+                currentStu = getSelectedStudent(currentRow);
+                showInfo();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(tbl_Student, e.getMessage(), "Error", JOptionPane.PLAIN_MESSAGE);
             }
+
         };
 
         InputPopup p = new InputPopup(event);
@@ -114,45 +88,16 @@ public class F_Student extends javax.swing.JPanel {
             //update
             @Override
             public void onFirstButton(int row, int col) {
-
-                currentStu = getSelectedStudent(row);
-                showPopup();
-//                path = profile_Stu.getPath();
-//                try {
-//                    currentStu = getSelectedStudent(row);
-//                    Student oldStu = stuDao.findOne(currentStu.getId());
-//
-//                    if (path != null) {
-//                        if (!oldStu.getImage().isBlank()) {
-//                            U_Image.deleteImage(oldStu.getImage(), U_Common.PROFILE_FOLDER);
-//                        }
-//                        fileName = U_Image.uploadImage(path, U_Common.PROFILE_FOLDER);
-//                        currentStu.setImage(fileName);
-//
-//                    } else if (path.isBlank()) { //clear avt
-//                        currentStu.setImage("");
-//
-//                    } else {//reset old avt
-//                        currentStu.setImage(oldStu.getImage());
-//                    }
-//
-//                    stuDao.update(currentStu);
-//                    JOptionPane.showMessageDialog(tbl_Student, "Success !", "Update", JOptionPane.PLAIN_MESSAGE);
-//                    loadStudentTable();
-//
-//                    //focus student edited
-//                    currentStu = getSelectedStudent(row);
-//                    showInfo();
-//                } catch (Exception e) {
-//                    JOptionPane.showMessageDialog(tbl_Student, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-//                }
+                currentRow = row;
+                processPopup();
             }
 
             //delete
             @Override
             public void onSecondButton(int row, int col) {
+                currentRow = row;
                 int confirmDelele = JOptionPane.showConfirmDialog(tbl_Student, "Are you sure ?", "Delete", JOptionPane.YES_NO_OPTION);
-                currentStu = getSelectedStudent(row);
+                currentStu = getSelectedStudent(currentRow);
 
                 try {
                     if (confirmDelele == JOptionPane.YES_OPTION) {
@@ -173,17 +118,37 @@ public class F_Student extends javax.swing.JPanel {
         tbl_Student.createActionColumn(e, U_Common.ActionTable.EDIT_DELETE);
     }
 
-    private void init() {
-        btn_Add.setText("");
-        btn_Add.setIcon(U_Common.createImageIcon("add-button.png", U_Common.IMAGE_FOLDER));
-    }
+    private void handleAvatarAction() {
 
-    private void showInfo() {
+        I_UserProfile event = new I_UserProfile() {
+            @Override
+            public void save(String path) {
+                currentStu = getSelectedStudent(currentRow);
+                Student oldStu = stuDao.findOne(currentStu.getId());
+                try {
+                    if (path != null) {
+                        if (!oldStu.getImage().isBlank()) { //delete old avatar
+                            U_Image.deleteImage(oldStu.getImage(), U_Common.PROFILE_FOLDER);
+                        }
+                        fileName = U_Image.uploadImage(path, U_Common.PROFILE_FOLDER);
+                        currentStu.setImage(fileName);
+                        stuDao.update_avatar(currentStu);
 
-        ImageIcon avt = new ImageIcon(U_Common.RESOURCE.concat(U_Common.PROFILE_FOLDER).concat(currentStu.getImage()));
-        profile_Stu.showInfo(currentStu.getId(), currentStu.getName(),
-                currentStu.getBirth_date().toString(), currentStu.getGender(),
-                currentStu.getPhone(), avt);
+                        //focus student edited
+                        loadStudentTable();
+                        currentStu = getSelectedStudent(currentRow);
+                        showInfo();
+
+                        JOptionPane.showMessageDialog(tbl_Student, "Success !", "Update", JOptionPane.PLAIN_MESSAGE);
+                    }
+
+                } catch (HeadlessException | IOException ex) {
+                    JOptionPane.showMessageDialog(tbl_Student, ex.getMessage(), "Error update avatar", JOptionPane.PLAIN_MESSAGE);
+                }
+            }
+
+        };
+        profile_Stu.handelButton(event);
     }
 
     private Student getSelectedStudent(int row) {
@@ -209,6 +174,34 @@ public class F_Student extends javax.swing.JPanel {
         return new Student("", "", LocalDate.now(), "", "", "", "", "", "");
     }
 
+    private void loadStudentTable() {
+        tbl_Student.initTable(U_ColumnTitles.STUDENT.COLUMNS_TITLE, stuDao.findAll());
+        createActionColumn();
+        currentStu = getSelectedStudent(0);
+        showInfo();
+    }
+
+    private void showInfo() {
+
+        ImageIcon avt = new ImageIcon(U_Common.RESOURCE.concat(U_Common.PROFILE_FOLDER).concat(currentStu.getImage()));
+        profile_Stu.showInfo(currentStu.getId(), currentStu.getName(),
+                currentStu.getBirth_date().toString(), currentStu.getGender(),
+                currentStu.getPhone(), avt);
+    }
+
+    public TextField createTextField(String lableText, String text) {
+        TextField txt = new TextField();
+        txt.setLabelText(lableText);
+        txt.setText(text);
+        return txt;
+    }
+
+    private void init() {
+        btn_Add.setText("");
+        btn_Add.setIcon(U_Common.createImageIcon("add-button.png", U_Common.IMAGE_FOLDER));
+    }
+// </editor-fold>
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -216,7 +209,7 @@ public class F_Student extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbl_Student = new com.stdManage.Views.Swing.Table.Table();
         btn_Add = new com.stdManage.Views.Swing.Button();
-        profile_Stu = new com.stdManage.Views.Components.UserProfile();
+        profile_Stu = new com.stdManage.Views.Components.UserProfile.UserProfile();
 
         setPreferredSize(new java.awt.Dimension(1058, 741));
 
@@ -283,8 +276,8 @@ public class F_Student extends javax.swing.JPanel {
 
     private void tbl_StudentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_StudentMouseClicked
         if (tbl_Student.getRowCount() >= 1) {
-            int row = tbl_Student.getSelectedRow();
-            currentStu = getSelectedStudent(row);
+            currentRow = tbl_Student.getSelectedRow();
+            currentStu = getSelectedStudent(currentRow);
             showInfo();
         }
     }//GEN-LAST:event_tbl_StudentMouseClicked
@@ -293,7 +286,7 @@ public class F_Student extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.stdManage.Views.Swing.Button btn_Add;
     private javax.swing.JScrollPane jScrollPane2;
-    private com.stdManage.Views.Components.UserProfile profile_Stu;
+    private com.stdManage.Views.Components.UserProfile.UserProfile profile_Stu;
     private com.stdManage.Views.Swing.Table.Table tbl_Student;
     // End of variables declaration//GEN-END:variables
 }
