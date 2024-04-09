@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.stdManage.Views.Components;
+package com.stdManage.Views.Components.UserProfile;
 
 import com.stdManage.Utils.U_Common;
+import com.stdManage.Utils.U_Styles;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,7 +31,8 @@ public class UserProfile<Student> extends javax.swing.JPanel {
 
     public UserProfile() {
         initComponents();
-        handelButton();
+        btn_Save.setBackground(U_Styles.COLOR_PRIMARY);
+        btn_Save.setForeground(U_Styles.COLOR_WHITE);
     }
 
     public void showInfo(String id, String name, String birthday, String gender, String phone, ImageIcon img) {
@@ -48,13 +50,12 @@ public class UserProfile<Student> extends javax.swing.JPanel {
         lbl_avt.setIcon(avtDefault);
     }
 
-    public void handelButton() {
+    public void handelButton(I_UserProfile event) {
         btn_ResetAvt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 path = null;//no update image
                 lbl_avt.setIcon(oldAvatar);//reset old avt
-
             }
         });
 
@@ -62,21 +63,31 @@ public class UserProfile<Student> extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser imgChooser = new JFileChooser();
+                imgChooser.setAcceptAllFileFilterUsed(true);
+
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg", "gif", "png", "jpeg");
+                imgChooser.setFileFilter(filter);
                 imgChooser.addChoosableFileFilter(filter);
                 imgChooser.showOpenDialog(null);
-                File file = imgChooser.getSelectedFile();
 
                 try {
-                    //get path img
-                    path = file.getAbsolutePath();
-                    
-                    BufferedImage buffImg = ImageIO.read(new File(path));
-                    Image img = buffImg.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                    ImageIcon imgIcon = new ImageIcon(img);
-                    lbl_avt.setIcon(imgIcon);
+                    File file = imgChooser.getSelectedFile();
+
+                    //check image file
+                    if (filter.accept(file)) {
+                        //get path img
+                        path = file.getAbsolutePath();
+
+                        BufferedImage buffImg = ImageIO.read(new File(path));
+                        Image img = buffImg.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                        ImageIcon imgIcon = new ImageIcon(img);
+                        lbl_avt.setIcon(imgIcon);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Please, choose image !", "Error upload image", JOptionPane.DEFAULT_OPTION);
+                    }
+
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error show image", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error upload image", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -88,10 +99,14 @@ public class UserProfile<Student> extends javax.swing.JPanel {
                 path = "";//update empty image 
             }
         });
-    }
 
-    public String getPath() {
-        return path;
+        btn_Save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.err.println("Path: " + path);
+                event.save(path);
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -113,6 +128,7 @@ public class UserProfile<Student> extends javax.swing.JPanel {
         lbl_avt = new javax.swing.JLabel();
         btn_ResetAvt = new javax.swing.JButton();
         btn_Clear = new javax.swing.JButton();
+        btn_Save = new com.stdManage.Views.Swing.Button();
 
         pnl_Info.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -156,6 +172,8 @@ public class UserProfile<Student> extends javax.swing.JPanel {
             }
         });
 
+        btn_Save.setText("Save");
+
         javax.swing.GroupLayout pnl_InfoLayout = new javax.swing.GroupLayout(pnl_Info);
         pnl_Info.setLayout(pnl_InfoLayout);
         pnl_InfoLayout.setHorizontalGroup(
@@ -187,7 +205,11 @@ public class UserProfile<Student> extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_ResetAvt, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btn_Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_InfoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btn_Save, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74)))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         pnl_InfoLayout.setVerticalGroup(
@@ -219,7 +241,9 @@ public class UserProfile<Student> extends javax.swing.JPanel {
                 .addGroup(pnl_InfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_GenderTitle)
                     .addComponent(lbl_Gender))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_Save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -248,6 +272,7 @@ public class UserProfile<Student> extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Clear;
     private javax.swing.JButton btn_ResetAvt;
+    private com.stdManage.Views.Swing.Button btn_Save;
     private com.stdManage.Views.Swing.Button btn_UploadAvt;
     private javax.swing.JLabel lbl_BirthDate;
     private javax.swing.JLabel lbl_BirthDateTitle;

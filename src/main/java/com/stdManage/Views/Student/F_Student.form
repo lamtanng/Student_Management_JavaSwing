@@ -85,7 +85,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_AddActionPerformed"/>
       </Events>
     </Component>
-    <Component class="com.stdManage.Views.Components.UserProfile" name="profile_Stu">
+    <Component class="com.stdManage.Views.Components.UserProfile.UserProfile" name="profile_Stu">
     </Component>
   </SubComponents>
 </Form>

@@ -5,6 +5,8 @@
 package com.stdManage.Models;
 
 import com.stdManage.Interface.I_PaintRowTable;
+import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -14,7 +16,7 @@ public class Student implements I_PaintRowTable {
 
     private String id;
     private String name;
-    private String birth_date;
+    private LocalDate birth_date;
     private String gender;
     private String address;
     private String phone;
@@ -30,7 +32,7 @@ public class Student implements I_PaintRowTable {
     public Student() {
     }
 
-    public Student(String id, String name, String birth_date, String gender, String address, String phone, String email, String username, String image) {
+    public Student(String id, String name, LocalDate birth_date, String gender, String address, String phone, String email, String username, String image) {
         this.id = id;
         this.name = name;
         this.birth_date = birth_date;
@@ -57,11 +59,11 @@ public class Student implements I_PaintRowTable {
         this.name = name;
     }
 
-    public String getBirth_date() {
+    public LocalDate getBirth_date() {
         return birth_date;
     }
 
-    public void setBirth_date(String birth_date) {
+    public void setBirth_date(LocalDate birth_date) {
         this.birth_date = birth_date;
     }
 
