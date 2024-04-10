@@ -44,9 +44,9 @@ public class F_Student extends javax.swing.JPanel {
     private void processPopup() {
         currentStu = getSelectedStudent(currentRow);
         //create components
-        TextField txt_NameUpd = createTextField(U_ColumnTitles.STUDENT.NAME, currentStu.getName());
-        TextField txt_AddressUpd = createTextField(U_ColumnTitles.STUDENT.ADDRESS, currentStu.getAddress());
-        TextField txt_PhoneUpd = createTextField(U_ColumnTitles.STUDENT.PHONE, currentStu.getPhone());
+        TextField txt_NameUpd = U_Common.createTextField(U_ColumnTitles.STUDENT.NAME, currentStu.getName());
+        TextField txt_AddressUpd = U_Common.createTextField(U_ColumnTitles.STUDENT.ADDRESS, currentStu.getAddress());
+        TextField txt_PhoneUpd = U_Common.createTextField(U_ColumnTitles.STUDENT.PHONE, currentStu.getPhone());
 
         Combobox<String> cbb_Gender = new Combobox<>();
         cbb_Gender.init(U_Common.GENDER, 0, "Gender", 0);
@@ -189,12 +189,6 @@ public class F_Student extends javax.swing.JPanel {
                 currentStu.getPhone(), avt);
     }
 
-    public TextField createTextField(String lableText, String text) {
-        TextField txt = new TextField();
-        txt.setLabelText(lableText);
-        txt.setText(text);
-        return txt;
-    }
 
     private void init() {
         btn_Add.setText("");

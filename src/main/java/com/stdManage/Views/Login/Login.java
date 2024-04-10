@@ -30,7 +30,7 @@ public class Login extends javax.swing.JFrame {
 
     }
 
-    private void login(){
+    private void login() {
         try {
             String userName = txt_UserName.getText();
             String password = txt_Password.getText();
@@ -67,7 +67,7 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Username or Password incorrect !\n" + e.getMessage(), "Failed", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void initOveride() {
         btn_login.setBackground(U_Styles.COLOR_PRIMARY);
         btn_login.setFont(U_Styles.TEXT_BOLD_MEDIUM);
@@ -193,7 +193,7 @@ public class Login extends javax.swing.JFrame {
     private void openDashBoard(String role) {
         Main mainScreen = new Main();
         mainScreen.setVisible(true);
-        JOptionPane.showMessageDialog(null, "Hello "+ role + ": " + CURRENT_USER, "Welcom", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Hello " + role + ": " + CURRENT_USER, "Welcom", JOptionPane.INFORMATION_MESSAGE);
         this.hide();
     }
 
@@ -204,10 +204,10 @@ public class Login extends javax.swing.JFrame {
 
     private void txt_UserNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_UserNameKeyPressed
         // TODO add your handling code here:
-        if (evt.getKeyCode()== KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             System.err.println("ENTER");
-                login();
-            }
+            login();
+        }
     }//GEN-LAST:event_txt_UserNameKeyPressed
 
     /**

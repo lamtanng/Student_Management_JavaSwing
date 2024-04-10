@@ -4,7 +4,7 @@
  */
 package com.stdManage.Dao;
 
-import com.stdManage.Models.ClassModels;
+import com.stdManage.Models.ClassModel;
 import com.stdManage.Utils.U_HelperDao;
 import java.sql.SQLException;
 import java.util.List;

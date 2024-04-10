@@ -78,13 +78,16 @@ public class Combobox<E> extends JComboBox<E> {
 
     public void init(E[] data, int idxSelected, String title, int idxShow) {
         setModel(new javax.swing.DefaultComboBoxModel(data));
-        setSelectedIndex(idxSelected);
-        
+        if (data.length > 0) {
+            setSelectedIndex(idxSelected);
+        }
+
         setLabeText(title);
         installUI(idxShow);
     }
+
     /**
-     * 
+     *
      * @param idxValue
      * @return Object[idxValue]
      */
@@ -103,8 +106,8 @@ public class Combobox<E> extends JComboBox<E> {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 Component com = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                setBorder(new EmptyBorder(5,5,5,5));
-                
+                setBorder(new EmptyBorder(5, 5, 5, 5));
+
                 if (isSelected) {
                     //set hover color
                     this.setBackground(U_Styles.COLOR_PRIMARY);
@@ -232,11 +235,10 @@ public class Combobox<E> extends JComboBox<E> {
                 protected JScrollPane createScroller() {
                     //height item
                     list.setFixedCellHeight(U_Styles.HEIGHT_ROW);
-                   // list.setPreferredSize(new Dimension(200,200));
-                    
+                    // list.setPreferredSize(new Dimension(200,200));
+
 //                    JPanel panel = new JPanel();
 //                    panel.add(list);
-                    
                     JScrollPane scroll = new JScrollPane(list);
                     scroll.setBackground(Color.BLUE);
 //                    scroll.setSize(new Dimension(200,200));
@@ -254,7 +256,7 @@ public class Combobox<E> extends JComboBox<E> {
                 }
             };
             pop.setBorder(new LineBorder(U_Styles.COLOR_GRAY2, 1));
-           // pop.setBackground(Color.BLUE);
+            // pop.setBackground(Color.BLUE);
             //pop.setPreferredSize(new Dimension(200,200));
             return pop;
         }
@@ -294,9 +296,8 @@ public class Combobox<E> extends JComboBox<E> {
             if (animateHinText) {
                 if (show) {
                     size = 18 * (1 - location);
-                } 
-                else {
-                    size = 18+ 2;
+                } else {
+                    size = 18 + 2;
                 }
             } else {
                 size = 18 + 2;
@@ -321,7 +322,7 @@ public class Combobox<E> extends JComboBox<E> {
         }
 
         private void showing(boolean action) {
-            
+
             if (animator.isRunning()) {
                 animator.stop();
             } else {
@@ -329,7 +330,7 @@ public class Combobox<E> extends JComboBox<E> {
             }
             animator.setStartFraction(1f - location);
             show = action;
-            location = 1f - location ;
+            location = 1f - location;
             animator.start();
         }
 

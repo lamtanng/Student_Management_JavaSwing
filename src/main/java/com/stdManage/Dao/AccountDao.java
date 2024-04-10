@@ -5,8 +5,6 @@
 package com.stdManage.Dao;
 
 import com.stdManage.Models.Account;
-import com.stdManage.Models.ClassGroup;
-import com.stdManage.Models.ClassModels;
 import com.stdManage.Utils.U_HelperDao;
 import com.stdManage.Utils.U_ModelFields;
 import java.sql.Connection;
@@ -14,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -32,12 +29,12 @@ public class AccountDao implements InterfaceDao<Account> {
     @Override
     public Object[][] findAll() {
 
-        List<Object[]> listData = new ArrayList<Object[]>();
+        List<Object[]> listData = new ArrayList<>();
         String sql = "Select * from account";
         Object result[][] = new Object[][]{};
 
         try {
-            conn = new DBConnectionDao().getConn();
+            conn = DBConnectionDao.getConn();
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -45,8 +42,8 @@ public class AccountDao implements InterfaceDao<Account> {
             }
             conn.close();
             result = heplerDao.covertToDataTable(listData);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         return result;
     }
@@ -56,7 +53,7 @@ public class AccountDao implements InterfaceDao<Account> {
         String sql = "Select * from account where username = ? and password = ?";
 
         try {
-            conn = new DBConnectionDao().getConn();
+            conn = DBConnectionDao.getConn();
             ps = conn.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, pass);
@@ -66,8 +63,8 @@ public class AccountDao implements InterfaceDao<Account> {
                 getModel(model);
             }
             conn.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Username or Password incorrect !", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Username or Password incorrect !\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         return model;
@@ -96,12 +93,13 @@ public class AccountDao implements InterfaceDao<Account> {
         list.add(obj);
     }
 
+    @Override
     public void getModel(Account dataModel) {
         try {
             dataModel.setUsername(rs.getString(U_ModelFields.ACCOUNT.USERNAME));
             dataModel.setPassword(rs.getString(U_ModelFields.ACCOUNT.PASSWORD));
             dataModel.setRole(rs.getString(U_ModelFields.ACCOUNT.ROLE));
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Get model is failure !", JOptionPane.ERROR_MESSAGE);
         }
 

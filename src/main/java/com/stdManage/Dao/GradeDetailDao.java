@@ -4,7 +4,7 @@
  */
 package com.stdManage.Dao;
 
-import com.stdManage.Models.ClassModels;
+import com.stdManage.Models.ClassModel;
 import com.stdManage.Models.GradeDetail;
 import com.stdManage.Utils.U_HelperDao;
 import com.stdManage.Utils.U_ModelFields;
