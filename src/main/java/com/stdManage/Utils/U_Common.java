@@ -4,6 +4,7 @@
  */
 package com.stdManage.Utils;
 
+import com.stdManage.Views.Components.TextField;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -47,6 +48,14 @@ public class U_Common {
 
     }
 
+    public static final TextField createTextField(String lableText, String text) {
+        TextField txt = new TextField();
+        txt.setLabelText(lableText);
+        txt.setText(text);
+        return txt;
+    }
+    
+    
     //class
     public class ActionTable {
 

@@ -10,7 +10,7 @@ import com.stdManage.Interface.I_PaintRowTable;
  *
  * @author ADMIN
  */
-public class ClassModels implements I_PaintRowTable{
+public class ClassModel implements I_PaintRowTable{
     private String id;
     private String name;
     private String course_id;
@@ -18,10 +18,10 @@ public class ClassModels implements I_PaintRowTable{
     private double fee;
     private boolean status = true;
 
-    public ClassModels() {
+    public ClassModel() {
     }
 
-    public ClassModels(String id, String name, String course_id, int period_total, double fee) {
+    public ClassModel(String id, String name, String course_id, int period_total, double fee) {
         this.id = id;
         this.name = name;
         this.course_id = course_id;
@@ -71,7 +71,7 @@ public class ClassModels implements I_PaintRowTable{
         this.fee = fee;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
         return status;
     }
 
