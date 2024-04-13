@@ -72,13 +72,14 @@ public class Table extends JTable {
     }
 
     /**
-     * @param arrIdx int[]
-     * @see hide all index column
+     * @param arrTitles String[]
+     * @see hide all column contain this title
      */
-    public void hideColumnAt(int[] arrIdx) {
-        for (int idx : arrIdx) {
-            getColumnModel().getColumn(idx).setMinWidth(0);
-            getColumnModel().getColumn(idx).setMaxWidth(0);
+    public void hideColumnOf(String[] arrTitles) {
+        for (String title : arrTitles) {
+            int col = getColumnByName(title);
+            getColumnModel().getColumn(col).setMaxWidth(0);
+            getColumnModel().getColumn(col).setMinWidth(0);
         }
     }
 

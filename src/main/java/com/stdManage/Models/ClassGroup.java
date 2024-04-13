@@ -5,6 +5,7 @@
 package com.stdManage.Models;
 
 import com.stdManage.Interface.I_PaintRowTable;
+import java.time.LocalDate;
 
 /**
  *
@@ -18,8 +19,8 @@ public class ClassGroup implements I_PaintRowTable{
     private String shift_id;
     private int students_min;
     private int students_max;
-    private String start_date;
-    private String end_date;
+    private LocalDate start_date;
+    private int period_checked;
     private boolean register_status = false;
     private String day_of_week;
     private boolean is_open = false;
@@ -29,7 +30,7 @@ public class ClassGroup implements I_PaintRowTable{
     public ClassGroup() {
     }
 
-    public ClassGroup(String id, String class_id, String teacher_id, String classroom_id, String shift_id, int students_min, int students_max, String start_date, String end_date, boolean register_status, String day_of_week, boolean is_open) {
+    public ClassGroup(String id, String class_id, String teacher_id, String classroom_id, String shift_id, int students_min, int students_max, LocalDate start_date, int period_checked, boolean register_status, String day_of_week, boolean is_open) {
         this.id = id;
         this.class_id = class_id;
         this.teacher_id = teacher_id;
@@ -38,7 +39,7 @@ public class ClassGroup implements I_PaintRowTable{
         this.students_min = students_min;
         this.students_max = students_max;
         this.start_date = start_date;
-        this.end_date = end_date;
+        this.period_checked = period_checked;
         this.register_status = register_status;
         this.day_of_week = day_of_week;
         this.is_open = is_open;
@@ -48,7 +49,7 @@ public class ClassGroup implements I_PaintRowTable{
     public Object[] toModelTable() {
         return new Object[]{id, class_id, teacher_id, classroom_id, 
                             shift_id, students_min, students_max, start_date, 
-                            end_date, register_status, day_of_week, is_open};
+                            period_checked, register_status, day_of_week, is_open};
     }
 
     public String getId() {
@@ -107,20 +108,20 @@ public class ClassGroup implements I_PaintRowTable{
         this.students_max = students_max;
     }
 
-    public String getStart_date() {
+    public LocalDate getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(String start_date) {
+    public void setStart_date(LocalDate start_date) {
         this.start_date = start_date;
     }
 
-    public String getEnd_date() {
-        return end_date;
+    public int getPeriod_Checked() {
+        return period_checked;
     }
 
-    public void setEnd_date(String end_date) {
-        this.end_date = end_date;
+    public void setPeriod_Checked(int period_checked) {
+        this.period_checked = period_checked;
     }
 
     public boolean isRegister_status() {

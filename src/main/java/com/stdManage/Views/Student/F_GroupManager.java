@@ -49,7 +49,7 @@ public class F_GroupManager extends javax.swing.JPanel {
 
     private void loadStudentOfGroupTable() {
         tbl_StudentGroup.initTable(U_ColumnTitles.GRADE_DETAIL.COLUMNS_TITLE, gradeDao.findAllbyGroup(currentGroup));
-        tbl_StudentGroup.hideColumnAt(new int[]{6, 7});
+//        tbl_StudentGroup.hideColumnOf(new int[]{6, 7});
         handleStudentOfGroupTable();
     }
 
@@ -60,9 +60,9 @@ public class F_GroupManager extends javax.swing.JPanel {
         txt_Shift.setText(String.valueOf(gr.getShift_id()));
         txt_StuMin.setText(String.valueOf(gr.getStudents_min()));
         txt_StuMax.setText(String.valueOf(gr.getStudents_max()));
-        txt_StartDate.setText(gr.getStart_date());
-        txt_EndDate.setText(gr.getEnd_date());
+        txt_StartDate.setText(gr.getStart_date().toString());
         txt_DayOfWeek.setText(gr.getDay_of_week());
+        txt_PeriodChecked.setText(String.valueOf(gr.getPeriod_Checked()));
     }
 
     private void initGroupCbb() {
@@ -113,8 +113,6 @@ public class F_GroupManager extends javax.swing.JPanel {
         tbl_StudentOther.createActionColumn(event, U_Common.ActionTable.ADD);
     }
 
-    
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -131,7 +129,7 @@ public class F_GroupManager extends javax.swing.JPanel {
         txt_StuMax = new com.stdManage.Views.Components.TextField();
         txt_StuMin = new com.stdManage.Views.Components.TextField();
         txt_StartDate = new com.stdManage.Views.Components.TextField();
-        txt_EndDate = new com.stdManage.Views.Components.TextField();
+        txt_PeriodChecked = new com.stdManage.Views.Components.TextField();
         txt_DayOfWeek = new com.stdManage.Views.Components.TextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbl_StudentOther = new com.stdManage.Views.Swing.Table.Table();
@@ -183,7 +181,7 @@ public class F_GroupManager extends javax.swing.JPanel {
 
         txt_StartDate.setLabelText("Start");
 
-        txt_EndDate.setLabelText("End");
+        txt_PeriodChecked.setLabelText("Checked");
 
         txt_DayOfWeek.setLabelText("Day Of Week");
 
@@ -203,7 +201,7 @@ public class F_GroupManager extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(cbb_class, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txt_Room, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txt_EndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_PeriodChecked, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(54, 54, 54)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -234,7 +232,7 @@ public class F_GroupManager extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_StuMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_StartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_EndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_PeriodChecked, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_DayOfWeek, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
@@ -275,6 +273,8 @@ public class F_GroupManager extends javax.swing.JPanel {
 
     private void cbb_courseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbb_courseActionPerformed
         currentCourse = (String) cbb_course.getObjectValueAt(0);
+        System.err.println("course id: " + currentCourse);
+
         initClassCbb();
     }//GEN-LAST:event_cbb_courseActionPerformed
 
@@ -301,7 +301,7 @@ public class F_GroupManager extends javax.swing.JPanel {
     private com.stdManage.Views.Swing.Table.Table tbl_StudentGroup;
     private com.stdManage.Views.Swing.Table.Table tbl_StudentOther;
     private com.stdManage.Views.Components.TextField txt_DayOfWeek;
-    private com.stdManage.Views.Components.TextField txt_EndDate;
+    private com.stdManage.Views.Components.TextField txt_PeriodChecked;
     private com.stdManage.Views.Components.TextField txt_Room;
     private com.stdManage.Views.Components.TextField txt_Shift;
     private com.stdManage.Views.Components.TextField txt_StartDate;

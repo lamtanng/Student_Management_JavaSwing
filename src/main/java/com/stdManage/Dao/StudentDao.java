@@ -152,7 +152,7 @@ public class StudentDao implements InterfaceDao<Student> {
                 stu.setId(rs.getString(table.ID));
                 stu.setName(rs.getString(table.NAME));
 
-                Object[] obj = helperDao.convertToArrObj(stu.getId(), stu.getName());
+                Object[] obj = helperDao.toModelTable(stu.getId(), stu.getName());
                 listData.add(obj);
             }
             conn.close();

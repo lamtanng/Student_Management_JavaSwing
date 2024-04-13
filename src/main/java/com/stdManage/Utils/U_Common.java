@@ -26,6 +26,10 @@ public class U_Common {
     public static final String IMAGE_FOLDER = "images/";
     public static final String PROFILE_FOLDER = "ProfileImage/";
     public static final String[] GENDER = {"Nam", "Nữ"};
+    //button types:
+    public static final int ADD_BUTTON = 1;
+    public static final int UPDATE_BUTTON = 2;
+    public static final int DELETE_BUTTON = 3;
 
     //functions
     public static final ImageIcon createImageIcon(String imgName, String folder) {
@@ -33,7 +37,7 @@ public class U_Common {
         return icon;
     }
 
-    public static final LocalDate toLocalDate(JDatePickerImpl datePicker) {
+    public static final LocalDate getLocalDate(JDatePickerImpl datePicker) {
         java.util.Date getDate = (java.util.Date) datePicker.getModel().getValue();
         String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(getDate);
         return LocalDate.parse(dateFormat);
@@ -54,14 +58,13 @@ public class U_Common {
         txt.setText(text);
         return txt;
     }
-    
-    
+
     //class
     public class ActionTable {
 
-        public static final int EDIT_DELETE = 1;
-        public static final int ADD = 2;
-        public static final int DELETE = 3;
+        public static final int UPDATE_DELETE = UPDATE_BUTTON + DELETE_BUTTON;
+        public static final int ADD = ADD_BUTTON;
+        public static final int DELETE = DELETE_BUTTON;
     }
 
     public class ROLE {

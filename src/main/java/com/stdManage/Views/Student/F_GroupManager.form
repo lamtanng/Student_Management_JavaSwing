@@ -116,7 +116,7 @@
                           <Component id="cbb_class" max="32767" attributes="0"/>
                           <Component id="txt_Room" min="-2" pref="214" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="txt_EndDate" min="-2" pref="214" max="-2" attributes="0"/>
+                      <Component id="txt_PeriodChecked" min="-2" pref="214" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -155,7 +155,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="txt_StuMin" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txt_StartDate" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_EndDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_PeriodChecked" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txt_DayOfWeek" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="42" max="32767" attributes="0"/>
@@ -209,9 +209,9 @@
             <Property name="labelText" type="java.lang.String" value="Start"/>
           </Properties>
         </Component>
-        <Component class="com.stdManage.Views.Components.TextField" name="txt_EndDate">
+        <Component class="com.stdManage.Views.Components.TextField" name="txt_PeriodChecked">
           <Properties>
-            <Property name="labelText" type="java.lang.String" value="End"/>
+            <Property name="labelText" type="java.lang.String" value="Checked"/>
           </Properties>
         </Component>
         <Component class="com.stdManage.Views.Components.TextField" name="txt_DayOfWeek">

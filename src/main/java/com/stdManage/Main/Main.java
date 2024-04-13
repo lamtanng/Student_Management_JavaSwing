@@ -1,6 +1,5 @@
 package com.stdManage.Main;
 
-import com.stdManage.Utils.U_Styles;
 import com.stdManage.Views.Components.Header;
 import com.stdManage.Views.Components.Menu;
 import com.stdManage.Views.Components.Event.EventMenuSelected;
@@ -9,6 +8,7 @@ import com.stdManage.Views.Components.Form.Form1;
 import com.stdManage.Views.Components.Form.Form_Home;
 import com.stdManage.Views.Components.Form.MainForm;
 import com.stdManage.Views.General.F_Class;
+import com.stdManage.Views.General.F_ClassGroup;
 import com.stdManage.Views.Student.F_GroupManager;
 import com.stdManage.Views.Student.F_Student;
 import com.stdManage.Views.Swing.MenuItem;
@@ -17,30 +17,32 @@ import com.stdManage.Views.Swing.Icons.GoogleMaterialDesignIcons;
 import com.stdManage.Views.Swing.Icons.IconFontSwing;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.UIManager;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
 public class Main extends javax.swing.JFrame {
-    
+
     private MigLayout layout;
     private Menu menu;
     private Header header;
     private MainForm main;
     private Animator animator;
-    
+
     public Main() {
         initComponents();
         init();
         setFocusable();
-           }
-    
+    }
+
     private void init() {
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
@@ -55,10 +57,9 @@ public class Main extends javax.swing.JFrame {
                     if (subMenuIndex == 0) {
                         main.showForm(new F_Class());
                     } else if (subMenuIndex == 1) {
-                        main.showForm(new Form1());
+                        main.showForm(new F_ClassGroup());
                     }
-                }
-                else if (menuIndex == 1) {
+                } else if (menuIndex == 1) {
                     if (subMenuIndex == 0) {
                         main.showForm(new F_Student());
                     } else if (subMenuIndex == 1) {
@@ -94,13 +95,13 @@ public class Main extends javax.swing.JFrame {
                 layout.setComponentConstraints(menu, "w " + width + "!, spany2");
                 menu.revalidate();
             }
-            
+
             @Override
             public void end() {
                 menu.setShowMenu(!menu.isShowMenu());
                 menu.setEnableMenu(true);
             }
-            
+
         };
         animator = new Animator(500, target);
         animator.setResolution(0);
@@ -123,7 +124,7 @@ public class Main extends javax.swing.JFrame {
         //  Start with this form
         main.showForm(new F_GroupManager());
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -188,7 +189,7 @@ public class Main extends javax.swing.JFrame {
         }
         return compList;
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

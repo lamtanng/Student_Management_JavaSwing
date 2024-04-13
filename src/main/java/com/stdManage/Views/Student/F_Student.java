@@ -62,7 +62,7 @@ public class F_Student extends javax.swing.JPanel {
                 currentStu.setAddress(txt_AddressUpd.getText().trim());
                 currentStu.setPhone(txt_PhoneUpd.getText().trim());
                 currentStu.setGender(cbb_Gender.getSelectedItem().toString().trim());
-                currentStu.setBirth_date(U_Common.toLocalDate(datePicker));
+                currentStu.setBirth_date(U_Common.getLocalDate(datePicker));
 
                 stuDao.update(currentStu);
                 loadStudentTable();
@@ -77,7 +77,8 @@ public class F_Student extends javax.swing.JPanel {
 
         };
 
-        InputPopup p = new InputPopup(event);
+        InputPopup p = new InputPopup();
+        p.handleEvent(event);
         p.createComponents(txt_NameUpd, txt_AddressUpd, txt_PhoneUpd, cbb_Gender, datePicker);
         p.setVisible(true);
     }
@@ -115,7 +116,7 @@ public class F_Student extends javax.swing.JPanel {
             }
         };
 
-        tbl_Student.createActionColumn(e, U_Common.ActionTable.EDIT_DELETE);
+        tbl_Student.createActionColumn(e, U_Common.ActionTable.UPDATE_DELETE);
     }
 
     private void handleAvatarAction() {

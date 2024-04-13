@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 public class DBConnectionDao {
     public static Connection getConn(){
         try {
-            String url = "jdbc:mysql://localhost:3306/schedule_management";
+            String url = "jdbc:mysql://localhost:3306/schedule_management1";
             String user = "root";
             String pass = "nguyentanlam001230";
             Class.forName("com.mysql.cj.jdbc.Driver");

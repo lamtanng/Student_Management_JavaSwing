@@ -4,15 +4,10 @@
  */
 package com.stdManage.Utils;
 
-import com.stdManage.Views.Student.F_Student;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.AbstractList;
+import com.stdManage.Models.ClassGroup;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -24,7 +19,7 @@ public class U_HelperDao {
         return "uf_AutoGenerateID('" + tableName + "')";
     }
 
-    public Object[] convertToArrObj(Object... values) {
+    public Object[] toModelTable(Object... values) {
         return values;
     }
 
@@ -42,5 +37,34 @@ public class U_HelperDao {
             list1D.add(row);
         }
         return list1D;
+    }
+
+    public static List<String> schedule(List<ClassGroup> list, String shift, int... days) {
+
+        List<ClassGroup> listBusy = new ArrayList<>();
+        List<ClassGroup> listFree = new ArrayList<>();
+
+        for (ClassGroup gr : list) {
+            if (gr.getShift_id().equals(shift)) {
+                for (int day : days) {
+                    if (gr.getDay_of_week().contains(String.valueOf(day))) {
+                        listBusy.add(gr);
+                    } else {
+                        listFree.add(gr);
+                    }
+                }
+            } else {
+                listFree.add(gr);
+            }
+        }
+        
+        return getUniqueStudentNames(listFree);
+    }
+
+    public static List<String> getUniqueStudentNames(List<ClassGroup> freeList) {
+        return freeList.stream()
+                .map(ClassGroup::getTeacher_id)
+                .distinct()
+                .collect(Collectors.toList());
     }
 }

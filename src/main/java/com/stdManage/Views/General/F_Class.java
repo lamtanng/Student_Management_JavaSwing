@@ -22,9 +22,6 @@ import javax.swing.JOptionPane;
  */
 public class F_Class extends javax.swing.JPanel {
 
-    private static final int ADD_BUTTON = 1;
-    private static final int UPDATE_BUTTON = 2;
-
     private static final U_ColumnTitles.CLASS TABLE = null;
 
     CourseDao courseDao = new CourseDao();
@@ -67,9 +64,9 @@ public class F_Class extends javax.swing.JPanel {
                 currentClass.setPeriod_total(Integer.parseInt(txt_PeriodUpd.getText().trim()));
                 currentClass.setFee(Double.parseDouble(txt_Fee.getText().trim()));
 
-                if (TYPE_BUTTON == UPDATE_BUTTON) {
+                if (TYPE_BUTTON == U_Common.UPDATE_BUTTON) {
                     classDao.update(currentClass);
-                } else if (TYPE_BUTTON == ADD_BUTTON) {
+                } else if (TYPE_BUTTON == U_Common.ADD_BUTTON) {
                     currentClass.setId(txt_IdUpd.getText().trim());
                     currentClass.setCourse_id(cbb_Course.getObjectValueAt(0).toString());
                     classDao.add(currentClass);
@@ -84,11 +81,12 @@ public class F_Class extends javax.swing.JPanel {
             }
 
         };
-        InputPopup p = new InputPopup(event);
+        InputPopup p = new InputPopup();
+        p.handleEvent(event);
         p.setVisible(true);
 
         switch (TYPE_BUTTON) {
-            case UPDATE_BUTTON:
+            case U_Common.UPDATE_BUTTON:
                 initPopupComponents(currentClass.getId(),
                         currentClass.getName(),
                         String.valueOf(currentClass.getPeriod_total()),
@@ -97,7 +95,7 @@ public class F_Class extends javax.swing.JPanel {
                 p.createComponents(txt_NameUpd, txt_PeriodUpd, txt_Fee);
                 break;
 
-            case ADD_BUTTON:
+            case U_Common.ADD_BUTTON:
                 initPopupComponents("", "", "", "");
                 cbb_Course.init(courseDao.findAll(), 0, "Course", 1);
 
@@ -115,7 +113,7 @@ public class F_Class extends javax.swing.JPanel {
             @Override
             public void onFirstButton(int row, int col) {
                 currentRow = row;
-                processPopup(UPDATE_BUTTON);
+                processPopup(U_Common.UPDATE_BUTTON);
             }
 
             @Override
@@ -139,7 +137,7 @@ public class F_Class extends javax.swing.JPanel {
             }
 
         };
-        tbl_Class.createActionColumn(event, U_Common.ActionTable.EDIT_DELETE);
+        tbl_Class.createActionColumn(event, U_Common.ActionTable.UPDATE_DELETE);
     }
 
     private void initComp() {
@@ -210,7 +208,7 @@ public class F_Class extends javax.swing.JPanel {
     }//GEN-LAST:event_tbl_ClassMouseClicked
 
     private void btn_AddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_AddMouseClicked
-        processPopup(ADD_BUTTON);
+        processPopup(U_Common.ADD_BUTTON);
     }//GEN-LAST:event_btn_AddMouseClicked
 
 

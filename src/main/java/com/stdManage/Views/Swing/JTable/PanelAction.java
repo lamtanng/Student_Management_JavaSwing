@@ -30,7 +30,7 @@ public class PanelAction extends javax.swing.JPanel {
     }
 
     public void initEvent(ITableActionEvent event, int row, int col) {
-        if (typeAction == U_Common.ActionTable.EDIT_DELETE) {
+        if (typeAction == U_Common.ActionTable.UPDATE_DELETE) {
             //handle second buton
             btn_Second.addActionListener(new ActionListener() {
                 @Override
@@ -72,7 +72,7 @@ public class PanelAction extends javax.swing.JPanel {
 
     private void setImageButton() {
         //2 action buttons
-        if (typeAction == U_Common.ActionTable.EDIT_DELETE) {
+        if (typeAction == U_Common.ActionTable.UPDATE_DELETE) {
             btn_First.setIcon(U_Common.createImageIcon("edit.png", U_Common.IMAGE_FOLDER));
             btn_Second.setIcon(U_Common.createImageIcon("trash-xmark.png", U_Common.IMAGE_FOLDER));
 

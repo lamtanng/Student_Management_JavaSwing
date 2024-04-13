@@ -1,5 +1,5 @@
 create database schedule_management;
-use schedule_management;
+use schedule_management1;
 
 CREATE TABLE account(
     username VARCHAR(20) PRIMARY KEY,
@@ -87,7 +87,6 @@ CREATE TABLE grade_detail (
     _id VARCHAR(20) PRIMARY KEY,
     group_id VARCHAR(20),
     student_id VARCHAR(20),
-    class_group_id VARCHAR(20),
     theory_mark REAL,
     practice_mark REAL,
     pay_status BIT NOT NULL DEFAULT 0,
@@ -145,6 +144,19 @@ ALTER TABLE class_group
 ADD CONSTRAINT fk_classgroup_class FOREIGN KEY (class_id) REFERENCES class(_id) ON UPDATE CASCADE;
 
 ALTER TABLE grade_detail
-DROP CONSTRAINT fk_gradedetail_classgroup
+DROP CONSTRAINT fk_gradedetail_classgroup;	
 
+ALTER TABLE notification
+ADD CONSTRAINT fk_classgroup_class FOREIGN KEY (class_id) REFERENCES class(_id) ON UPDATE CASCADE;
 
+--
+ALTER TABLE class_group
+RENAME COLUMN end_date TO period_checked;
+ALTER TABLE class_group
+MODIFY COLUMN period_checked int default 0 ;
+ALTER TABLE class_group
+MODIFY COLUMN students_min int default 0 ;
+ALTER TABLE class_group
+MODIFY COLUMN students_max int default 0 ;
+ALTER TABLE class_group
+ADD CONSTRAINT chk_students_classgroup CHECK (students_min >= 0 and students_min <= students_max);

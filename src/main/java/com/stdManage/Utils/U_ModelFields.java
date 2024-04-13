@@ -59,7 +59,7 @@ public class U_ModelFields {
         public static final String STUDENT_MIN = "students_min";
         public static final String STUDENT_MAX = "students_max";
         public static final String START_DATE = "start_date";
-        public static final String END_DATE = "end_date";
+        public static final String PERIOD_CHECKED = "period_checked";
         public static final String REGISTER_STATUS = "register_status";
         public static final String DAY_OF_WEEK = "day_of_week";                                                                                         
     }

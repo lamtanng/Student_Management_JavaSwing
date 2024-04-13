@@ -83,17 +83,19 @@ public class U_ColumnTitles {
         public static final String STUDENT_MIN = "Student min";
         public static final String STUDENT_MAX = "Student max";
         public static final String START_DATE = "Start";
-        public static final String END_DATE = "Finish";
+        public static final String PERIOD_CHECKED = "Checked";
         public static final String REGISTER_STATUS = "Register";
         public static final String DAY_OF_WEEK = "Day of week";
+        public static final String IS_OPEN = "OPENING";
+
         public static final String[] COLUMNS_TITLE = {CLASS_GROUP.ID, CLASS_GROUP.CLASS, CLASS_GROUP.TEACHER,
-                                                    CLASS_GROUP.CLASSROOM, CLASS_GROUP.SHIFT,
-                                                    CLASS_GROUP.STUDENT_MIN, CLASS_GROUP.STUDENT_MAX,
-                                                    CLASS_GROUP.START_DATE, CLASS_GROUP.END_DATE,
-                                                    CLASS_GROUP.REGISTER_STATUS, CLASS_GROUP.DAY_OF_WEEK};
+            CLASS_GROUP.CLASSROOM, CLASS_GROUP.SHIFT,
+            CLASS_GROUP.STUDENT_MIN, CLASS_GROUP.STUDENT_MAX,
+            CLASS_GROUP.START_DATE, CLASS_GROUP.PERIOD_CHECKED,
+            CLASS_GROUP.REGISTER_STATUS, CLASS_GROUP.DAY_OF_WEEK, CLASS_GROUP.IS_OPEN};
 
     }
-    
+
     public static class STUDENT {
 
         public static final String ID = "ID";
@@ -108,16 +110,17 @@ public class U_ColumnTitles {
             STUDENT.GENDER, STUDENT.ADDRESS, STUDENT.PHONE, STUDENT.USERNAME, STUDENT.IMAGE};
 
     }
-    
+
     public static class NOTIFICATION {
+
         public static final String ID = "ID";
         public static final String TEACHER = "Teacher";
         public static final String TITLE = "Title";
         public static final String DESCRIPTION = "Description";
-        public static final String CLASS_GROUP = "Group";    
+        public static final String CLASS_GROUP = "Group";
         public static final String[] COLUMNS_TITLE = {
-                                    NOTIFICATION.ID, NOTIFICATION.TEACHER, NOTIFICATION.TITLE,
-                                    NOTIFICATION.DESCRIPTION, NOTIFICATION.CLASS_GROUP};
+            NOTIFICATION.ID, NOTIFICATION.TEACHER, NOTIFICATION.TITLE,
+            NOTIFICATION.DESCRIPTION, NOTIFICATION.CLASS_GROUP};
     }
 
     public class GRADE_DETAIL {
@@ -135,13 +138,14 @@ public class U_ColumnTitles {
     }
 
     public static class ATTENDANCE_RECORD {
+
         public static final String ID = "ID";
         public static final String CHECK_DATE = "Date";
         public static final String CLASS_GROUP = "Group";
         public static final String STUDENT = "Student";
         public static final String IS_PRESENT = "Present";
         public static final String[] COLUMNS_TITLE = {
-                ATTENDANCE_RECORD.ID, ATTENDANCE_RECORD.CHECK_DATE, ATTENDANCE_RECORD.CLASS_GROUP,
-                ATTENDANCE_RECORD.STUDENT, ATTENDANCE_RECORD.IS_PRESENT};
+            ATTENDANCE_RECORD.ID, ATTENDANCE_RECORD.CHECK_DATE, ATTENDANCE_RECORD.CLASS_GROUP,
+            ATTENDANCE_RECORD.STUDENT, ATTENDANCE_RECORD.IS_PRESENT};
     }
 }

@@ -26,20 +26,14 @@ import javax.swing.ScrollPaneConstants;
  * @author ADMIN
  */
 public class InputPopup extends javax.swing.JFrame {
-
-    private I_PopupAction event;
-
     JPanel panel = new JPanel();
     GroupLayout panelLayout = new GroupLayout(panel);
     SequentialGroup verticalGroup = panelLayout.createSequentialGroup();
     ParallelGroup parallelGroup = panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING);
 
-    public InputPopup(I_PopupAction event) {
+    public InputPopup() {
         initComponents();
         initLayout();
-        
-        this.event = event;
-        handleEvent();
     }
 
     public void addComponentVertical(JComponent... components) {
@@ -48,6 +42,7 @@ public class InputPopup extends javax.swing.JFrame {
                     .addGap(18, 18, 18)
                     .addComponent(c, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE);
         }
+        verticalGroup.addGap(100);
 
     }
 
@@ -65,6 +60,8 @@ public class InputPopup extends javax.swing.JFrame {
         addComponentHorizontal(components);
         addComponentVertical(components);
 
+        verticalGroup.addContainerGap(40, 40);
+        
         JScrollPane scrollContainer = new JScrollPane(panel);
         scrollContainer.setMinimumSize(new Dimension(this.getWidth(), this.getHeight()));
         scrollContainer.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -81,7 +78,7 @@ public class InputPopup extends javax.swing.JFrame {
         );
     }
 
-    public void handleEvent() {
+    public void handleEvent(I_PopupAction event) {
         btn_Cancle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,16 +90,20 @@ public class InputPopup extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 event.handleFinish();
-                dispose();
             }
         });
     }
 
+    public void setEnableFinishBtn(Boolean isEnable){
+        btn_Finish.setEnabled(isEnable);
+    }
+    
     private void initLayout(){
         btn_Cancle.setBackground(U_Styles.COLOR_GRAY2);
         btn_Finish.setBackground(U_Styles.COLOR_PRIMARY);
         btn_Finish.setForeground(U_Styles.COLOR_WHITE);
         panel.setBackground(U_Styles.COLOR_WHITE);
+        
         
         panel.setLayout(panelLayout);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
