@@ -14,6 +14,13 @@ import org.jdatepicker.impl.DateComponentFormatter;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+import com.stdManage.Views.Swing.Button;
+import java.awt.Component;
+import java.awt.Container;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 /**
  *
@@ -57,6 +64,33 @@ public class U_Common {
     
     
     //class
+    private static boolean isButton(Component component) {
+        if (component instanceof JButton || component instanceof Button) {
+            return true;
+        }
+        return false;
+    }
+
+    public static void setFocusable(Container c) {
+        for (Component component : getAllComponents(c)) {
+            if (isButton(component)) {
+                ((JButton) component).setFocusable(false);
+            }
+        }
+    }
+
+    private static List<Component> getAllComponents(final Container c) {
+        Component[] comps = c.getComponents();
+        List<Component> compList = new ArrayList<>();
+        for (Component comp : comps) {
+            compList.add(comp);
+            if (comp instanceof Container) {
+                compList.addAll(getAllComponents((Container) comp));
+            }
+        }
+        return compList;
+    }
+
     public class ActionTable {
 
         public static final int EDIT_DELETE = 1;
