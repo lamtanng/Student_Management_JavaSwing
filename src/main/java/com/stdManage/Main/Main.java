@@ -11,6 +11,7 @@ import com.stdManage.Views.Components.Form.MainForm;
 import com.stdManage.Views.General.F_Class;
 import com.stdManage.Views.Student.F_GroupManager;
 import com.stdManage.Views.Student.F_Student;
+import com.stdManage.Views.Swing.Button;
 import com.stdManage.Views.Swing.MenuItem;
 import com.stdManage.Views.Swing.PopupMenu;
 import com.stdManage.Views.Swing.Icons.GoogleMaterialDesignIcons;
@@ -28,19 +29,19 @@ import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
 public class Main extends javax.swing.JFrame {
-    
+
     private MigLayout layout;
     private Menu menu;
     private Header header;
     private MainForm main;
     private Animator animator;
-    
+
     public Main() {
         initComponents();
         init();
         setFocusable();
-           }
-    
+    }
+
     private void init() {
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
@@ -57,8 +58,7 @@ public class Main extends javax.swing.JFrame {
                     } else if (subMenuIndex == 1) {
                         main.showForm(new Form1());
                     }
-                }
-                else if (menuIndex == 1) {
+                } else if (menuIndex == 1) {
                     if (subMenuIndex == 0) {
                         main.showForm(new F_Student());
                     } else if (subMenuIndex == 1) {
@@ -94,13 +94,13 @@ public class Main extends javax.swing.JFrame {
                 layout.setComponentConstraints(menu, "w " + width + "!, spany2");
                 menu.revalidate();
             }
-            
+
             @Override
             public void end() {
                 menu.setShowMenu(!menu.isShowMenu());
                 menu.setEnableMenu(true);
             }
-            
+
         };
         animator = new Animator(500, target);
         animator.setResolution(0);
@@ -123,7 +123,7 @@ public class Main extends javax.swing.JFrame {
         //  Start with this form
         main.showForm(new F_GroupManager());
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -163,7 +163,7 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public boolean isButton(Component component) {
-        if (component instanceof JButton) {
+        if (component instanceof JButton || component instanceof Button) {
             return true;
         }
         return false;
@@ -188,7 +188,7 @@ public class Main extends javax.swing.JFrame {
         }
         return compList;
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
