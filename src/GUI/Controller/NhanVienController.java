@@ -349,19 +349,28 @@ public class NhanVienController {
     }
 
     private List<NhanVienModel> find() {
-        String kw = txfFind.getText();
+        String kw = txfFind.getText().trim();
         if (kw.equals("")) {
             return nhanVienDao.getAll();
         }
         List<NhanVienModel> list = new ArrayList<NhanVienModel>();
         System.out.print(cbFilter.getSelectedIndex());
         if (cbFilter.getSelectedIndex() == 0) {
-            NhanVienModel nhanvien = nhanVienDao.getById(Integer.parseInt(kw));
+            NhanVienModel nhanvien;
+            try {
+                nhanvien = nhanVienDao.getById(Integer.parseInt(kw));
+            } catch (NumberFormatException err) {
+                MyUtils.showErrorMessage("Error", "ID must be number!");
+                return nhanVienDao.getAll();
+            }
             if (nhanvien != null) {
                 list.add(nhanvien);
             }
         } else if (cbFilter.getSelectedIndex() == 1) {
             list = nhanVienDao.getByName(kw);
+        }
+        if (list.size() == 0) {
+            MyUtils.showInfoMessage("Info", "0 result found!");
         }
         return list;
     }
@@ -384,12 +393,11 @@ public class NhanVienController {
         if (!MyUtils.isValid(txfPhone.getText(), Constant.PHONE_TYPE)) {
             MyUtils.showErrorMessage("Error", "Phone is invalid");
             return false;
-        } 
+        }
         if (nhanVienDao.isEmployee(txfPhone.getText().trim())) {
             MyUtils.showErrorMessage("Error", "Employee is already exist");
             return false;
         }
-        
 
         //pass
         if (txfPasswd.getText().trim() == null || txfPasswd.getText().trim().isBlank()) {
@@ -402,11 +410,11 @@ public class NhanVienController {
             MyUtils.showErrorMessage("Error", "Empty address !");
             return false;
         }
-        
+
         //age
-        if (txdate.getDate() ==null || MyUtils.calculateAge(txdate.getDate()) < 15) {
+        if (txdate.getDate() == null || MyUtils.calculateAge(txdate.getDate()) < 15) {
             MyUtils.showErrorMessage("Error", "Age must be greater than 15");
-            return false; 
+            return false;
         }
         return true;
     }
