@@ -21,7 +21,10 @@ public class MyUtils {
      */
     public static boolean isValid(String value, String type) {
 
-        if (value == null || type == null || type.isEmpty()) {
+        value = value.trim();
+        type = type.trim();
+        
+        if (value == null || value.isBlank() || type == null || type.isBlank()) {
             return false; // Handle null or empty values
         }
 
@@ -29,9 +32,12 @@ public class MyUtils {
             case Constant.PHONE_TYPE:
                 // Simple phone number validation (US format)
                 return value.matches(Regex.PHONE);
-            case "email":
+            case Constant.EMAIL_TYPE:
                 // Improved email validation with stricter checks
                 return value.matches(Regex.EMAIL);
+            case Constant.TEXT_TYPE:    
+                // Improved text validation with stricter checks
+                return value.matches(Regex.TEXT);
             default:
                 return false;
 //                throw new IllegalArgumentException("Invalid type: " + type);
