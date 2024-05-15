@@ -48,8 +48,8 @@ public class formQuanLy extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 //        pnlButton.setPreferredSize(new Dimension(200, getHeight()));
         add(pnlButton, BorderLayout.WEST);
-        switchPanel(fEmpl);
-        fEmpl.getController().loadData();
+//        switchPanel(fEmpl);
+//        fEmpl.getController().loadData();
     }
     
     private void switchPanel(JPanel panel){
@@ -86,7 +86,6 @@ public class formQuanLy extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnEmp.setSelected(true);
         btnEmp.setText("Employee");
         btnEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
