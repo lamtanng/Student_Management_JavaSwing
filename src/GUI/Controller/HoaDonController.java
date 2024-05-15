@@ -164,10 +164,9 @@ public class HoaDonController {
         ;
         };
 		
-		try {
-
+        try {
             for (HoaDonChiTietModel hdct : list) {
-                Object[] row = {hdct.getIdHD(), hdct.getIdSP(), String.format("%.0f", hdct.getPrice()), hdct.getQuantity()};
+                Object[] row = {hdct.getIdHD(), hdct.getIdSP(),hdct.getTenSP(), String.format("%.0f", hdct.getPrice()), hdct.getQuantity()};
                 tableModel.addRow(row);
             }
             this.tableDetail.setModel(tableModel);
