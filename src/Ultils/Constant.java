@@ -12,4 +12,5 @@ public final class Constant {
 
     public static final String PHONE_TYPE = "PHONE";
     public static final String EMAIL_TYPE = "EMAIL";
+    public static final String TEXT_TYPE = "TEXT";
 }
