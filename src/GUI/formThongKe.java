@@ -95,7 +95,7 @@ public class formThongKe extends javax.swing.JPanel {
         btnCreate.setText("Create");
         jPanel1.add(btnCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 20, -1, -1));
 
-        btnPrint.setText("Print");
+        btnPrint.setText("Export");
         jPanel1.add(btnPrint, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, -1, -1));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 630, 200));

@@ -60,13 +60,14 @@ public class NhanVienController {
     private JButton btnFind;
     private JComboBox cbStatus;
     private NhanVienDao nhanVienDao;
+    private JButton btnExport;
     private int mode;
     private byte[] avtImg = null;
 
     public NhanVienController(JTextField txfID, JTextField txfName, JTextField txfPhone, JTextField txfAddress,
             JTextField txfEmail, JTextField txfPasswd, JTextField txfFind, JDateChooser txdate, JTable table,
             JComboBox cbRole, JComboBox cbGender, JLabel lblAvt, JButton btnUpload, JButton btnAdd, JButton btnEdit,
-            JButton btnCancel, JButton btnSave, JComboBox cbFilter, JButton btnFind, JComboBox cbStatus) {
+            JButton btnCancel, JButton btnSave, JComboBox cbFilter, JButton btnFind, JComboBox cbStatus,JButton btnExport) {
         this.txfID = txfID;
         this.txfName = txfName;
         this.txfPhone = txfPhone;
@@ -87,6 +88,7 @@ public class NhanVienController {
         this.cbFilter = cbFilter;
         this.btnFind = btnFind;
         this.cbStatus = cbStatus;
+        this.btnExport = btnExport;
         nhanVienDao = new NhanVienDaoImpl();
         setEvent();
         buttonChangeStats(1);
@@ -240,6 +242,27 @@ public class NhanVienController {
                     }
                 }
             }
+        });
+        btnExport.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(table.getRowCount() == 0) {
+                MyUtils.showInfoMessage("Info", "No data to export!");
+            }
+            else {
+                String[] colNames = {"ID", "Name", "Gender", "Birthday", "Phone", "Address", "Email", "Role", "Password", "Status"};
+                Object[][] data = convertTableData(table);
+                DefaultTableModel model = new DefaultTableModel();
+                for(String colName : colNames) {
+                    model.addColumn(colName);
+                }
+                for (Object[] row : data) {
+                    model.addRow(row);
+                }
+                MyUtils.exportToExcel(model);
+            }
+
+        }
         });
     }
 
@@ -418,4 +441,16 @@ public class NhanVienController {
         }
         return true;
     }
+    private Object[][] convertTableData(JTable table) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            int rowCount = model.getRowCount();
+            int colCount = model.getColumnCount();
+            Object[][] data = new Object[rowCount][colCount];
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < colCount - 1; j++) {
+                    data[i][j] = model.getValueAt(i, j); 
+                }
+            }
+            return data;
+        }
 }

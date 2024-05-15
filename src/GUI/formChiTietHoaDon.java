@@ -31,7 +31,7 @@ public class formChiTietHoaDon extends javax.swing.JPanel {
 	));
         scrollHistory.setViewportView(tableHistory);
         
-        controller = new HoaDonController(userId, txfEmp, txfCus, txfPhone, txfIdBill, txdate, txfTotal, tableHistory, txfFind, tableDetail, txfIdEmp, cbFilter, btnFind);
+        controller = new HoaDonController(userId, txfEmp, txfCus, txfPhone, txfIdBill, txdate, txfTotal, tableHistory, txfFind, tableDetail, txfIdEmp, cbFilter, btnFind, btnExport);
     }
     public HoaDonController getController() {
         return controller;
@@ -70,6 +70,7 @@ public class formChiTietHoaDon extends javax.swing.JPanel {
         cbFilter = new javax.swing.JComboBox<>();
         txfFind = new javax.swing.JTextField();
         btnFind = new javax.swing.JButton();
+        btnExport = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -147,15 +148,19 @@ public class formChiTietHoaDon extends javax.swing.JPanel {
         add(scrollHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 630, 200));
 
         cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID Bill", "ID Employee" }));
-        add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, -1, -1));
-        add(txfFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 330, 170, -1));
+        add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, -1, -1));
+        add(txfFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 330, 170, -1));
 
         btnFind.setText("Find");
-        add(btnFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 330, -1, -1));
+        add(btnFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, -1, -1));
+
+        btnExport.setText("Export");
+        add(btnExport, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 330, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExport;
     private javax.swing.JButton btnFind;
     private javax.swing.JComboBox<String> cbFilter;
     private javax.swing.JLabel jLabel1;

@@ -69,7 +69,23 @@ public class ThongKeController {
 		btnPrint.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				writeReport(cbReportType.getSelectedIndex(), cbYear.getYear());
+                            if(table.getRowCount() == 0) {
+                                MyUtils.showInfoMessage("Info", "No data to export!");
+                            }
+                            else {
+                                String firstCol = (String)cbReportType.getSelectedItem();
+                                String[] colNames = {firstCol, "Price"};
+                                Object[][] data = convertTableData(table);
+                                DefaultTableModel model = new DefaultTableModel();
+                                for(String colName : colNames) {
+                                    model.addColumn(colName);
+                                }
+                                for (Object[] row : data) {
+                                    model.addRow(row);
+                                }
+                                MyUtils.exportToExcel(model);
+                            }
+                            
 			}
 		});
 		
@@ -182,14 +198,14 @@ public class ThongKeController {
         int returnVal = chooser.showSaveDialog(null);
         
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-        	String path = chooser.getSelectedFile().getAbsolutePath() + ".txt";
-        	try {
-        		Files.write(Paths.get(path), msg.getBytes());
-        		MyUtils.showInfoMessage("Information", "Saved report to " + path);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-				MyUtils.showErrorMessage("Error", "Can't not save report to " + path);
-			}
+            String path = chooser.getSelectedFile().getAbsolutePath() + ".txt";
+            try {
+                Files.write(Paths.get(path), msg.getBytes());
+                MyUtils.showInfoMessage("Information", "Saved report to " + path);
+                } catch (IOException e1) {
+                        e1.printStackTrace();
+                        MyUtils.showErrorMessage("Error", "Can't not save report to " + path);
+            }
         }
 	}
 	
@@ -201,17 +217,29 @@ public class ThongKeController {
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Text File", "txt");
 		chooser.setFileFilter(filter);
 		
-        int returnVal = chooser.showSaveDialog(null);
-        
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-        	String path = chooser.getSelectedFile().getAbsolutePath() + ".txt";
-        	try {
-        		Files.write(Paths.get(path), msg.getBytes());
-        		MyUtils.showInfoMessage("Information", "Saved report to " + path);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-				MyUtils.showErrorMessage("Error", "Can't not save report to " + path);
-			}
+            int returnVal = chooser.showSaveDialog(null);
+
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
+                    String path = chooser.getSelectedFile().getAbsolutePath() + ".txt";
+                    try {
+                            Files.write(Paths.get(path), msg.getBytes());
+                            MyUtils.showInfoMessage("Information", "Saved report to " + path);
+                            } catch (IOException e1) {
+                                    e1.printStackTrace();
+                                    MyUtils.showErrorMessage("Error", "Can't not save report to " + path);
+                            }
+            }
         }
-	}
+        private Object[][] convertTableData(JTable table) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            int rowCount = model.getRowCount();
+            int colCount = model.getColumnCount();
+            Object[][] data = new Object[rowCount][colCount];
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < colCount; j++) {
+                    data[i][j] = model.getValueAt(i, j); 
+                }
+            }
+            return data;
+        }
 }

@@ -24,155 +24,181 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KhachHangController {
-
-    private JTextField txfName;
-    private JTextField txfPhone;
-    private JTextField txfAddress;
-    private JTextField txfFind;
-    private JDateChooser txdate;
-    private JTextField txfId;
-    private JComboBox cbGender;
-    private JButton btnAdd;
-    private JButton btnEdit;
-    private JButton btnCancel;
-    private JButton btnSave;
-    private JComboBox cbFilter;
-    private JButton btnFind;
-    private JTable table;
+	private JTextField txfName;
+	private JTextField txfPhone;
+	private JTextField txfAddress;
+	private JTextField txfFind;
+	private JDateChooser txdate;
+	private JTextField txfId;
+	private JComboBox cbGender;
+	private JButton btnAdd;
+	private JButton btnEdit;
+	private JButton btnCancel;
+	private JButton btnSave;
+	private JComboBox cbFilter;
+	private JButton btnFind;
+	private JTable table;
+        private JButton btnExport;
     private KhachHangDao dao;
     private int mode;
 
-    public KhachHangController(JTextField txfName, JTextField txfPhone, JTextField txfAddress, JTextField txfFind,
-            JDateChooser txdate, JTextField txfId, JComboBox cbGender, JButton btnAdd, JButton btnEdit,
-            JButton btnCancel, JButton btnSave, JComboBox cbFilter, JButton btnFind, JTable table) {
-        this.txfName = txfName;
-        this.txfPhone = txfPhone;
-        this.txfAddress = txfAddress;
-        this.txfFind = txfFind;
-        this.txdate = txdate;
-        this.txfId = txfId;
-        this.cbGender = cbGender;
-        this.btnAdd = btnAdd;
-        this.btnEdit = btnEdit;
-        this.btnCancel = btnCancel;
-        this.btnSave = btnSave;
-        this.cbFilter = cbFilter;
-        this.btnFind = btnFind;
-        this.table = table;
-        dao = new KhachHangDaoImpl();
-        setEvent();
-        buttonChangeStats(1);
-        txfId.setEditable(false);
-    }
+	public KhachHangController(JTextField txfName, JTextField txfPhone, JTextField txfAddress, JTextField txfFind,
+			JDateChooser txdate, JTextField txfId, JComboBox cbGender, JButton btnAdd, JButton btnEdit,
+			JButton btnCancel, JButton btnSave, JComboBox cbFilter, JButton btnFind, JTable table, JButton btnExport) {
+		this.txfName = txfName;
+		this.txfPhone = txfPhone;
+		this.txfAddress = txfAddress;
+		this.txfFind = txfFind;
+		this.txdate = txdate;
+		this.txfId = txfId;
+		this.cbGender = cbGender;
+		this.btnAdd = btnAdd;
+		this.btnEdit = btnEdit;
+		this.btnCancel = btnCancel;
+		this.btnSave = btnSave;
+		this.cbFilter = cbFilter;
+		this.btnFind = btnFind;
+		this.table = table;
+                this.btnExport = btnExport;
+		dao = new KhachHangDaoImpl();
+		setEvent();
+		buttonChangeStats(1);
+		txfId.setEditable(false);
+	}
 
-    public void loadData() {
-        loadTable(dao.getAll());
+	public void loadData() {
+		loadTable(dao.getAll());
+		
+		txfId.setText("");
+		txfName.setText("");
+		txfPhone.setText("");
+		txfAddress.setText("");
+		txdate.setDate(null);
+		
+		loadRow();
+	}
 
-        txfId.setText("");
-        txfName.setText("");
-        txfPhone.setText("");
-        txfAddress.setText("");
-        txdate.setDate(null);
+	private void setEvent() {	
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				loadRow();
+			}
+		});
+		
+		btnAdd.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mode = 1;
+				buttonChangeStats(2);
+				
+				txfName.setText("");
+				txfPhone.setText("");
+				txfAddress.setText("");
+				txfId.setText("");
+			}
+		});
+		
+		btnEdit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (table.getSelectedRow() == -1) {
+					MyUtils.showErrorMessage("Error", "Please select a customer to edit first!");
+					return;
+				}
+				
+				mode = 2;
+				buttonChangeStats(2);
+			}
+		});
+		
+		btnCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buttonChangeStats(1);
+				loadRow();
+			}
+		});
+		
+		btnFind.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadTable(find());
+			}
+		});
+		
+		btnSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (txfName.getText().equals("") || txfPhone.getText().equals("") || txfAddress.getText().equals("")) {
+					MyUtils.showErrorMessage("Error" , "Please fill the customer information properly!");
+					return;
+				}
+				
+				if (mode == 1) {
+					int input = JOptionPane.showConfirmDialog(null, "Do you want to create new customer?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					if (input == 0) {
+						if (!dao.insert(new KhachHangModel(
+								txfName.getText(),
+								cbGender.getSelectedIndex() == 0? "Male": "Female",
+								txdate.getDate() == null ? null : new Date(txdate.getDate().getTime()),
+								txfPhone.getText(),
+								txfAddress.getText()
+								))) {
+							MyUtils.showErrorMessage("Error" , "Something Wrong! Please try again!");
+						}
+						else {
+							loadTable(dao.getAll());
+							buttonChangeStats(1);
+							MyUtils.showInfoMessage("Info", "Create customer success!");
+						}
+					}
 
-        loadRow();
-    }
-
-    private void setEvent() {
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                loadRow();
-            }
-        });
-
-        btnAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mode = 1;
-                buttonChangeStats(2);
-
-                txfName.setText("");
-                txfPhone.setText("");
-                txfAddress.setText("");
-                txfId.setText("");
-            }
-        });
-
-        btnEdit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (table.getSelectedRow() == -1) {
-                    MyUtils.showErrorMessage("Error", "Please select a customer to edit first!");
-                    return;
-                }
-
-                mode = 2;
-                buttonChangeStats(2);
-            }
-        });
-
-        btnCancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buttonChangeStats(1);
-                loadRow();
-            }
-        });
-
-        btnFind.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadTable(find());
-            }
-        });
-
-        btnSave.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (txfName.getText().equals("") || txfPhone.getText().equals("") || txfAddress.getText().equals("")) {
-                    MyUtils.showErrorMessage("Error", "Please fill the customer information properly!");
-                    return;
-                }
-
-                if (mode == 1) {
-                    int input = JOptionPane.showConfirmDialog(null, "Do you want to create new customer?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-                    if (input == 0) {
-                        if (!dao.insert(new KhachHangModel(
-                                txfName.getText(),
-                                cbGender.getSelectedIndex() == 0 ? "Male" : "Female",
-                                txdate.getDate() == null ? null : new Date(txdate.getDate().getTime()),
-                                txfPhone.getText(),
-                                txfAddress.getText()
-                        ))) {
-                            MyUtils.showErrorMessage("Error", "Something Wrong! Please try again!");
-                        } else {
-                            loadTable(dao.getAll());
-                            buttonChangeStats(1);
-                            MyUtils.showInfoMessage("Info", "Create customer success!");
-                        }
+				}else if (mode == 2) {
+					int input = JOptionPane.showConfirmDialog(null, "Do you want to update this customer infomation?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					if (input == 0) {
+						if (!dao.update(new KhachHangModel(Integer.parseInt(txfId.getText()),
+								txfName.getText(),
+								cbGender.getSelectedIndex() == 0? "Male": "Female",
+								txdate.getDate() == null ? null : new Date(txdate.getDate().getTime()),
+								txfPhone.getText(),
+								txfAddress.getText()
+								))) {
+							MyUtils.showErrorMessage("Error" , "Something Wrong! Please try again!");
+						}
+						else {
+							loadTable(dao.getAll());
+							buttonChangeStats(1);
+							MyUtils.showInfoMessage("Info", "Update customer success!");
+						}
+					}
+				}	
+			}
+		});
+                 btnExport.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                       if(table.getRowCount() == 0) {
+                            MyUtils.showInfoMessage("Info", "No data to export!");
+                       }
+                       else {
+                            String[] colNames = {"ID", "Name", "Gender", "Birthday", "Phone", "Address"};
+                            Object[][] data = convertTableData(table);
+                            DefaultTableModel model = new DefaultTableModel();
+                            for(String colName : colNames) {
+                                model.addColumn(colName);
+                            }
+                            for (Object[] row : data) {
+                                model.addRow(row);
+                            }
+                            MyUtils.exportToExcel(model);
+                       }
+                        
                     }
-
-                } else if (mode == 2) {
-                    int input = JOptionPane.showConfirmDialog(null, "Do you want to update this customer infomation?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-                    if (input == 0) {
-                        if (!dao.update(new KhachHangModel(Integer.parseInt(txfId.getText()),
-                                txfName.getText(),
-                                cbGender.getSelectedIndex() == 0 ? "Male" : "Female",
-                                txdate.getDate() == null ? null : new Date(txdate.getDate().getTime()),
-                                txfPhone.getText(),
-                                txfAddress.getText()
-                        ))) {
-                            MyUtils.showErrorMessage("Error", "Something Wrong! Please try again!");
-                        } else {
-                            loadTable(dao.getAll());
-                            buttonChangeStats(1);
-                            MyUtils.showInfoMessage("Info", "Update customer success!");
-                        }
-                    }
-                }
-            }
-        });
+		});
     }
+
+ 
 
     private void loadTable(List<KhachHangModel> list) {
         String[] labels = {"ID", "Customer name", "Gener", "Birthday", "Phone", "Address"};
@@ -278,4 +304,16 @@ public class KhachHangController {
         
         return list;
     }
+     private Object[][] convertTableData(JTable table) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            int rowCount = model.getRowCount();
+            int colCount = model.getColumnCount();
+            Object[][] data = new Object[rowCount][colCount];
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < colCount; j++) {
+                    data[i][j] = model.getValueAt(i, j); 
+                }
+            }
+            return data;
+        }
 }

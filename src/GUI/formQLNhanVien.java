@@ -27,7 +27,7 @@ public class formQLNhanVien extends javax.swing.JPanel {
 		));
         scrollPane.setViewportView(table);
         lblAvt.setSize(80, 90);
-        controller = new NhanVienController(txfID, txfName, txfPhone, txfAddress, txfEmail, txfPasswd, txfFind, txdate, table, cbRole, cbGender, lblAvt, btnUpload, btnAdd, btnEdit, btnCancel, btnSave, cbFilter, btnFind, cbStatus);
+        controller = new NhanVienController(txfID, txfName, txfPhone, txfAddress, txfEmail, txfPasswd, txfFind, txdate, table, cbRole, cbGender, lblAvt, btnUpload, btnAdd, btnEdit, btnCancel, btnSave, cbFilter, btnFind, cbStatus, btnExport);
     }
     
     public NhanVienController getController() {
@@ -81,6 +81,7 @@ public class formQLNhanVien extends javax.swing.JPanel {
         btnFind = new javax.swing.JButton();
         scrollPane = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        btnExport = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -163,11 +164,11 @@ public class formQLNhanVien extends javax.swing.JPanel {
         add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 289, -1, -1));
 
         cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Name" }));
-        add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 290, -1, -1));
-        add(txfFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(324, 289, 200, -1));
+        add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, -1, -1));
+        add(txfFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 290, 200, -1));
 
         btnFind.setText("Find");
-        add(btnFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(536, 289, 80, -1));
+        add(btnFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 290, 80, -1));
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -183,6 +184,9 @@ public class formQLNhanVien extends javax.swing.JPanel {
         scrollPane.setViewportView(table);
 
         add(scrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 320, 630, 220));
+
+        btnExport.setText("Export");
+        add(btnExport, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 290, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -190,6 +194,7 @@ public class formQLNhanVien extends javax.swing.JPanel {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnExport;
     private javax.swing.JButton btnFind;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpload;
