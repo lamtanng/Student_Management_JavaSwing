@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Ultils.MyUtils;
+import java.awt.image.BufferedImage;
 
 public class NhanVienController {
 	private JTextField txfID;
@@ -187,59 +188,59 @@ public class NhanVienController {
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (txfName.getText().equals("") || txfPhone.getText().equals("") || txfEmail.getText().equals("") || txfPasswd.getText().equals("")) {
-					MyUtils.showErrorMessage("Error" , "Please fill the employee information properly!");
-					return;
-				}
-				
-				if (mode == 1) {
-					int input = JOptionPane.showConfirmDialog(null, "Do you want to create new employee?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-					if (input == 0) {
-						if (!dao.insert(new NhanVienModel(
-								txfName.getText(),
-								cbGender.getSelectedIndex() == 0? "Male": "Female",
-								txdate.getDate() == null ? null : new Date(txdate.getDate().getTime()),
-								txfPhone.getText(),
-								txfAddress.getText(),
-								txfEmail.getText(),
-								txfPasswd.getText(),
-								avtImg == null ? new byte[0] : avtImg,
-								cbRole.getSelectedIndex()+1,
-								cbStatus.getSelectedIndex() == 0? 1: 0
-								))){
-							MyUtils.showErrorMessage("Error" , "Something Wrong! Please try again!");
-						}
-						else {
-							MyUtils.showInfoMessage("Info", "Create employee success!");
-							loadTable(dao.getAll());
-							buttonChangeStats(1);
-						}
-					}
+                        if (txfName.getText().equals("") || txfPhone.getText().equals("") || txfEmail.getText().equals("") || txfPasswd.getText().equals("")) {
+                                MyUtils.showErrorMessage("Error" , "Please fill the employee information properly!");
+                                return;
+                        }
 
-				}else if (mode == 2) {
-					int input = JOptionPane.showConfirmDialog(null, "Do you want to update this employee's information?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-					if (input == 0) {
-						if (!dao.update(new NhanVienModel(Integer.parseInt(txfID.getText()),
-								txfName.getText(),
-								cbGender.getSelectedIndex() == 0? "Male": "Female",
-								txdate.getDate() == null ? null : new Date(txdate.getDate().getTime()),
-								txfPhone.getText(),
-								txfAddress.getText(),
-								txfEmail.getText(),
-								txfPasswd.getText(),
-								avtImg == null ? new byte[0] : avtImg,
-								cbRole.getSelectedIndex()+1,
-								cbStatus.getSelectedIndex() == 0? 1: 0
-								))) {
-							MyUtils.showErrorMessage("Error" , "Something Wrong! Please try again!");
-						}
-						else {
-							MyUtils.showInfoMessage("Info", "Update employee success!");
-							loadTable(dao.getAll());
-							buttonChangeStats(1);
-						}
-					}
-				}	
+                        if (mode == 1) {
+                                int input = JOptionPane.showConfirmDialog(null, "Do you want to create new employee?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                                if (input == 0) {
+                                        if (!dao.insert(new NhanVienModel(
+                                            txfName.getText(),
+                                            cbGender.getSelectedIndex() == 0? "Male": "Female",
+                                            txdate.getDate() == null ? null : new Date(txdate.getDate().getTime()),
+                                            txfPhone.getText(),
+                                            txfAddress.getText(),
+                                            txfEmail.getText(),
+                                            txfPasswd.getText(),
+                                            avtImg == null ? new byte[0] : avtImg,
+                                            cbRole.getSelectedIndex()+1,
+                                            cbStatus.getSelectedIndex() == 0? 1: 0
+                                            ))){
+                                            MyUtils.showErrorMessage("Error" , "Something Wrong! Please try again!");
+                                        }
+                                        else {
+                                            MyUtils.showInfoMessage("Info", "Create employee success!");
+                                            loadTable(dao.getAll());
+                                            buttonChangeStats(1);
+                                        }
+                                }
+
+                        }else if (mode == 2) {
+                                int input = JOptionPane.showConfirmDialog(null, "Do you want to update this employee's information?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                                if (input == 0) {
+                                    if (!dao.update(new NhanVienModel(Integer.parseInt(txfID.getText()),
+                                        txfName.getText(),
+                                        cbGender.getSelectedIndex() == 0? "Male": "Female",
+                                        txdate.getDate() == null ? null : new Date(txdate.getDate().getTime()),
+                                        txfPhone.getText(),
+                                        txfAddress.getText(),
+                                        txfEmail.getText(),
+                                        txfPasswd.getText(),
+                                        avtImg == null ? new byte[0] : avtImg,
+                                        cbRole.getSelectedIndex()+1,
+                                        cbStatus.getSelectedIndex() == 0? 1: 0
+                                        ))) {
+                                        MyUtils.showErrorMessage("Error" , "Something Wrong! Please try again!");
+                                    }
+                                    else {
+                                            MyUtils.showInfoMessage("Info", "Update employee success!");
+                                            loadTable(dao.getAll());
+                                            buttonChangeStats(1);
+                                    }
+                                }
+                            }	
 			}
 		});
     }
@@ -295,12 +296,10 @@ public class NhanVienController {
 		avtImg = null;
 		if (((byte[])table.getModel().getValueAt(row, 10)).length > 0) {
                     try {
-                        lblAvt.setIcon(
-                            new ImageIcon(
-                                ImageIO.read(
-                                new ByteArrayInputStream((byte[])table.getModel().getValueAt(row, 10))).getScaledInstance(lblAvt.getWidth(), lblAvt.getHeight(), Image.SCALE_SMOOTH)
-                            )
-                        );
+                        BufferedImage avaImg = ImageIO.read(new ByteArrayInputStream((byte[])table.getModel().getValueAt(row, 10)));
+                        Image scaleImage = avaImg.getScaledInstance(lblAvt.getWidth(), lblAvt.getHeight(), Image.SCALE_SMOOTH);
+                        lblAvt.setIcon(new ImageIcon(scaleImage));
+                        
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
