@@ -30,13 +30,6 @@ public class formDangNhap extends javax.swing.JFrame {
     
     private void login() {
         LoginController controll = new LoginController(this, txfUsername, passwordField, rdbtnEmployee, rdbtnManage, btnLogIn);	
-       
-//        JLabel bg = new JLabel();
-//        bg.setBounds(356, 344, 384, 361);
-//        mainPanel.add(bg);
-//        ImageIcon bgload = new ImageIcon(new ImageIcon(this.getClass().getResource("/background.jpg")).getImage()
-//                        .getScaledInstance(bg.getWidth(), bg.getHeight(), Image.SCALE_SMOOTH));
-//        bg.setIcon(bgload);
     }
 
     /**

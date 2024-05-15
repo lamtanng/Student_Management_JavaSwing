@@ -26,6 +26,7 @@ public class formQLNhanVien extends javax.swing.JPanel {
 			}
 		));
         scrollPane.setViewportView(table);
+        lblAvt.setSize(80, 90);
         controller = new NhanVienController(txfID, txfName, txfPhone, txfAddress, txfEmail, txfPasswd, txfFind, txdate, table, cbRole, cbGender, lblAvt, btnUpload, btnAdd, btnEdit, btnCancel, btnSave, cbFilter, btnFind, cbStatus);
     }
     
