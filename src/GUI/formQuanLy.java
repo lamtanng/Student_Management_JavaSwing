@@ -26,6 +26,7 @@ public class formQuanLy extends javax.swing.JFrame {
     private formChiTietHoaDon fDetail;
     private formThongKe fStatis;
     private formCaNhan fProfile;
+    private formDangNhap fLogin;
     public formQuanLy(Integer userId) {
         initComponents();
         fCus = new formKhachHang();
@@ -35,7 +36,8 @@ public class formQuanLy extends javax.swing.JFrame {
         fDetail = new formChiTietHoaDon(-1, true);
         fStatis = new formThongKe();
         fProfile = new formCaNhan(userId);
-        
+        fLogin = new formDangNhap();
+                
         btnGroup.add(btnCus);
         btnGroup.add(btnBill);
         btnGroup.add(btnHistory);
@@ -48,8 +50,8 @@ public class formQuanLy extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 //        pnlButton.setPreferredSize(new Dimension(200, getHeight()));
         add(pnlButton, BorderLayout.WEST);
-//        switchPanel(fEmpl);
-//        fEmpl.getController().loadData();
+        switchPanel(fEmpl);
+        fEmpl.getController().loadData();
     }
     
     private void switchPanel(JPanel panel){
@@ -86,6 +88,7 @@ public class formQuanLy extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        btnEmp.setSelected(true);
         btnEmp.setText("Employee");
         btnEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,6 +139,11 @@ public class formQuanLy extends javax.swing.JFrame {
         });
 
         btnLogOut.setText("Log out");
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlButtonLayout = new javax.swing.GroupLayout(pnlButton);
         pnlButton.setLayout(pnlButtonLayout);
@@ -201,6 +209,7 @@ public class formQuanLy extends javax.swing.JFrame {
 
     private void btnBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBillActionPerformed
         // TODO add your handling code here:
+        fBill.getController().loadData();
         switchPanel(fBill);
         
     }//GEN-LAST:event_btnBillActionPerformed
@@ -239,6 +248,12 @@ public class formQuanLy extends javax.swing.JFrame {
         // TODO add your handling code here:
         switchPanel(fProfile);
     }//GEN-LAST:event_btnProfileActionPerformed
+
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        fLogin.setVisible(true);
+    }//GEN-LAST:event_btnLogOutActionPerformed
 
     /**
      * @param args the command line arguments

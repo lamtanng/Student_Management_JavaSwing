@@ -88,7 +88,7 @@ public class formThongKe extends javax.swing.JPanel {
         jLabel2.setText("Statistic for revenue by");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        cbReportType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbReportType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Month", "Quarter", "Year" }));
         jPanel1.add(cbReportType, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 90, -1));
         jPanel1.add(cbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, 100, -1));
 

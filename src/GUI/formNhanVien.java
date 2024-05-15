@@ -24,6 +24,7 @@ public class formNhanVien extends javax.swing.JFrame {
     private formHoaDon fBill;
     private formChiTietHoaDon fDetail;
     private formCaNhan fProfile;
+    private formDangNhap fLogin;
     public formNhanVien(Integer userId) {
         initComponents();
         fCus = new formKhachHang();
@@ -31,6 +32,7 @@ public class formNhanVien extends javax.swing.JFrame {
         fBill = new formHoaDon(userId);
         fDetail = new formChiTietHoaDon(userId, false);
         fProfile = new formCaNhan(userId);
+        fLogin = new formDangNhap();
         btnGroup.add(btnCus);
         btnGroup.add(btnBill);
         btnGroup.add(btnHistory);
@@ -113,6 +115,11 @@ public class formNhanVien extends javax.swing.JFrame {
         });
 
         btnLogOut.setText("Log out");
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlButtonLayout = new javax.swing.GroupLayout(pnlButton);
         pnlButton.setLayout(pnlButtonLayout);
@@ -194,6 +201,12 @@ public class formNhanVien extends javax.swing.JFrame {
         // TODO add your handling code here:
         switchPanel(fProfile);
     }//GEN-LAST:event_btnProfileActionPerformed
+
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        fLogin.setVisible(true);
+    }//GEN-LAST:event_btnLogOutActionPerformed
 
     /**
      * @param args the command line arguments

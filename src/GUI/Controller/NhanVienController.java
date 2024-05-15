@@ -296,13 +296,6 @@ public class NhanVienController {
 		avtImg = null;
 		if (((byte[])table.getModel().getValueAt(row, 10)).length > 0) {
                     try {
-                        
-//                        lblAvt.setIcon(
-//                            new ImageIcon(
-//                                ImageIO.read(
-//                                new ByteArrayInputStream((byte[])table.getModel().getValueAt(row, 10))).getScaledInstance(lblAvt.getWidth(), lblAvt.getHeight(), Image.SCALE_SMOOTH)
-//                            )
-//                        );
                         BufferedImage avaImg = ImageIO.read(new ByteArrayInputStream((byte[])table.getModel().getValueAt(row, 10)));
                         Image scaleImage = avaImg.getScaledInstance(lblAvt.getWidth(), lblAvt.getHeight(), Image.SCALE_SMOOTH);
                         lblAvt.setIcon(new ImageIcon(scaleImage));

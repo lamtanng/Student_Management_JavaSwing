@@ -147,7 +147,7 @@ public class formChiTietHoaDon extends javax.swing.JPanel {
         add(scrollHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 630, 200));
 
         cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID Bill", "ID Employee" }));
-        add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 330, -1, -1));
+        add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, -1, -1));
         add(txfFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 330, 170, -1));
 
         btnFind.setText("Find");
