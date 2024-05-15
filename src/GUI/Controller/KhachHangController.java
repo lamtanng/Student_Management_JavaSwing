@@ -38,12 +38,13 @@ public class KhachHangController {
 	private JComboBox cbFilter;
 	private JButton btnFind;
 	private JTable table;
+        private JButton btnExport;
     private KhachHangDao dao;
     private int mode;
 
 	public KhachHangController(JTextField txfName, JTextField txfPhone, JTextField txfAddress, JTextField txfFind,
 			JDateChooser txdate, JTextField txfId, JComboBox cbGender, JButton btnAdd, JButton btnEdit,
-			JButton btnCancel, JButton btnSave, JComboBox cbFilter, JButton btnFind, JTable table) {
+			JButton btnCancel, JButton btnSave, JComboBox cbFilter, JButton btnFind, JTable table, JButton btnExport) {
 		this.txfName = txfName;
 		this.txfPhone = txfPhone;
 		this.txfAddress = txfAddress;
@@ -58,6 +59,7 @@ public class KhachHangController {
 		this.cbFilter = cbFilter;
 		this.btnFind = btnFind;
 		this.table = table;
+                this.btnExport = btnExport;
 		dao = new KhachHangDaoImpl();
 		setEvent();
 		buttonChangeStats(1);
@@ -173,6 +175,27 @@ public class KhachHangController {
 				}	
 			}
 		});
+                 btnExport.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                       if(table.getRowCount() == 0) {
+                            MyUtils.showInfoMessage("Info", "No data to export!");
+                       }
+                       else {
+                            String[] colNames = {"ID", "Name", "Gender", "Birthday", "Phone", "Address"};
+                            Object[][] data = convertTableData(table);
+                            DefaultTableModel model = new DefaultTableModel();
+                            for(String colName : colNames) {
+                                model.addColumn(colName);
+                            }
+                            for (Object[] row : data) {
+                                model.addRow(row);
+                            }
+                            MyUtils.exportToExcel(model);
+                       }
+                        
+                    }
+		});
     }
 
 	private void loadTable(List<KhachHangModel> list) {
@@ -267,4 +290,16 @@ public class KhachHangController {
 		}
 		return list;
 	}
+        private Object[][] convertTableData(JTable table) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            int rowCount = model.getRowCount();
+            int colCount = model.getColumnCount();
+            Object[][] data = new Object[rowCount][colCount];
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < colCount; j++) {
+                    data[i][j] = model.getValueAt(i, j); 
+                }
+            }
+            return data;
+        }
 }

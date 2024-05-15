@@ -48,15 +48,16 @@ public class HoaDonController {
 	private JTextField txfIdEmp;
 	private JComboBox cbFilter;
 	private JButton btnFind;
-    private KhachHangDao cDao;
-    private NhanVienDao eDao;
-    private HoaDonDao bDao;
-    private SanPhamDao pDao;
-    private HoaDonChiTietDao bdDao;
+        private JButton btnExport;
+        private KhachHangDao cDao;
+        private NhanVienDao eDao;
+        private HoaDonDao bDao;
+        private SanPhamDao pDao;
+        private HoaDonChiTietDao bdDao;
 
 	public HoaDonController(Integer userId, JTextField txfEmp, JTextField txfCus, JTextField txfPhone, JTextField txfIdBill,
 			JDateChooser txdate, JTextField txfTotal, JTable tableHistory, JTextField txfFind, JTable tableDetail,
-			JTextField txfIdEmp, JComboBox cbFilter, JButton btnFind) {
+			JTextField txfIdEmp, JComboBox cbFilter, JButton btnFind, JButton btnExport) {
 		this.userId = userId;
 		this.txfEmp = txfEmp;
 		this.txfCus = txfCus;
@@ -70,6 +71,7 @@ public class HoaDonController {
 		this.txfIdEmp = txfIdEmp;
 		this.cbFilter = cbFilter;
 		this.btnFind = btnFind;
+                this.btnExport = btnExport;
 		
 		bDao = new HoaDonDaoImpl();
 		cDao = new KhachHangDaoImpl();
@@ -107,6 +109,27 @@ public class HoaDonController {
 				loadTable(find());
 			}
 		});
+                 btnExport.addActionListener(new ActionListener() {
+                   @Override
+                   public void actionPerformed(ActionEvent e) {
+                       if(tableHistory.getRowCount() == 0) {
+                            MyUtils.showInfoMessage("Info", "No data to export!");
+                       }
+                       else {
+                            String[] colNames = {"ID", "ID Employee", "ID Customer", "Create Date", "Total"};
+                            Object[][] data = convertTableData(tableHistory);
+                            DefaultTableModel model = new DefaultTableModel();
+                            for(String colName : colNames) {
+                                model.addColumn(colName);
+                            }
+                            for (Object[] row : data) {
+                                model.addRow(row);
+                            }
+                            MyUtils.exportToExcel(model);
+                       }
+                      
+                   }
+               });
     }
 
 	private void loadTable(List<HoaDonModel> list) {
@@ -188,4 +211,16 @@ public class HoaDonController {
 		}
 		return list;
 	}
+        private Object[][] convertTableData(JTable table) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            int rowCount = model.getRowCount();
+            int colCount = model.getColumnCount();
+            Object[][] data = new Object[rowCount][colCount];
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < colCount; j++) {
+                    data[i][j] = model.getValueAt(i, j); 
+                }
+            }
+            return data;
+        }
 }

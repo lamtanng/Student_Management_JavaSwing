@@ -34,6 +34,7 @@ import java.util.List;
 
 import Ultils.MyUtils;
 import java.awt.image.BufferedImage;
+import javax.swing.table.TableModel;
 
 public class NhanVienController {
 	private JTextField txfID;
@@ -56,6 +57,7 @@ public class NhanVienController {
 	private JComboBox cbFilter;
 	private JButton btnFind;
 	private JComboBox cbStatus;
+        private JButton btnExport;
     private NhanVienDao dao;
     private int mode;
     private byte[] avtImg = null;
@@ -63,7 +65,7 @@ public class NhanVienController {
     public NhanVienController(JTextField txfID, JTextField txfName, JTextField txfPhone, JTextField txfAddress,
 			JTextField txfEmail, JTextField txfPasswd, JTextField txfFind, JDateChooser txdate, JTable table,
 			JComboBox cbRole, JComboBox cbGender, JLabel lblAvt, JButton btnUpload, JButton btnAdd, JButton btnEdit,
-			JButton btnCancel, JButton btnSave, JComboBox cbFilter, JButton btnFind, JComboBox cbStatus) {
+			JButton btnCancel, JButton btnSave, JComboBox cbFilter, JButton btnFind, JComboBox cbStatus, JButton btnExport) {
 		this.txfID = txfID;
 		this.txfName = txfName;
 		this.txfPhone = txfPhone;
@@ -84,6 +86,7 @@ public class NhanVienController {
 		this.cbFilter = cbFilter;
 		this.btnFind = btnFind;
 		this.cbStatus = cbStatus;
+                this.btnExport = btnExport;
 		dao = new NhanVienDaoImpl();
 		setEvent();
 		buttonChangeStats(1);
@@ -243,6 +246,28 @@ public class NhanVienController {
                             }	
 			}
 		});
+                btnExport.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if(table.getRowCount() == 0) {
+                            MyUtils.showInfoMessage("Info", "No data to export!");
+                        }
+                        else {
+                            String[] colNames = {"ID", "Name", "Gender", "Birthday", "Phone", "Address", "Email", "Role", "Password", "Status"};
+                            Object[][] data = convertTableData(table);
+                            DefaultTableModel model = new DefaultTableModel();
+                            for(String colName : colNames) {
+                                model.addColumn(colName);
+                            }
+                            for (Object[] row : data) {
+                                model.addRow(row);
+                            }
+                            MyUtils.exportToExcel(model);
+                        }
+                        
+                    }
+		});
+                
     }
 
 	private void loadTable(List<NhanVienModel> list) {
@@ -308,6 +333,7 @@ public class NhanVienController {
 			lblAvt.setIcon(null);
 		}
 	}
+
 	
 	private void buttonChangeStats(int stat) {
 		if (stat == 1) {
@@ -365,4 +391,16 @@ public class NhanVienController {
 		}
 		return list;
 	}
+        private Object[][] convertTableData(JTable table) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            int rowCount = model.getRowCount();
+            int colCount = model.getColumnCount();
+            Object[][] data = new Object[rowCount][colCount];
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < colCount - 1; j++) {
+                    data[i][j] = model.getValueAt(i, j); 
+                }
+            }
+            return data;
+        }
 }

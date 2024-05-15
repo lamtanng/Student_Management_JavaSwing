@@ -26,7 +26,7 @@ public class formHoaDon extends javax.swing.JPanel {
             }
         });
         scrollPane.setViewportView(table);
-        controller = new HoaDonChiTietController(userId, txfPrice, txfPrice, txfQuantity, txfPrice, txfPhone, txfAddress, txfTotal, table, cbCus, cbPro, btnAdd, btnCancel, btnPay, btnDel);
+        controller = new HoaDonChiTietController(userId, txfPrice, txfPrice, txfQuantity, txfPrice, txfPhone, txfAddress, txfTotal, table, cbCus, cbPro, btnAdd, btnCancel, btnPay, btnDel, btnExport);
     }
     
     public HoaDonChiTietController getController() {
@@ -69,6 +69,7 @@ public class formHoaDon extends javax.swing.JPanel {
         btnCancel = new javax.swing.JButton();
         btnPay = new javax.swing.JButton();
         btnDel = new javax.swing.JButton();
+        btnExport = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -141,7 +142,7 @@ public class formHoaDon extends javax.swing.JPanel {
 
         jLabel2.setText("Total");
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, -1, -1));
-        add(txfTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 520, 263, -1));
+        add(txfTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 520, 180, -1));
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -156,6 +157,9 @@ public class formHoaDon extends javax.swing.JPanel {
 
         btnDel.setText("Delete");
         add(btnDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 520, 80, -1));
+
+        btnExport.setText("Export");
+        add(btnExport, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 520, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -177,6 +181,7 @@ public class formHoaDon extends javax.swing.JPanel {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDel;
+    private javax.swing.JButton btnExport;
     private javax.swing.JButton btnPay;
     private javax.swing.JComboBox<String> cbCus;
     private javax.swing.JComboBox<String> cbPro;
