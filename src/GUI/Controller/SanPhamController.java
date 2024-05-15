@@ -285,12 +285,22 @@ public class SanPhamController {
         List<SanPhamModel> list = new ArrayList<SanPhamModel>();
 
         if (cbFilter.getSelectedIndex() == 0) {
-            SanPhamModel sanpham = dao.getById(Integer.parseInt(kw));
+            SanPhamModel sanpham;
+            try {
+                sanpham = dao.getById(Integer.parseInt(kw));
+            } catch (NumberFormatException err) {
+                MyUtils.showErrorMessage("Error", "ID must be number!");
+                return dao.getAll();
+            }
             if (sanpham != null) {
                 list.add(sanpham);
             }
         } else if (cbFilter.getSelectedIndex() == 1) {
             list = dao.getByName(kw);
+        }
+
+        if (list.size() == 0) {
+            MyUtils.showInfoMessage("Info", "0 result found!");
         }
         return list;
     }
