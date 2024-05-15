@@ -128,13 +128,13 @@ public class NhanVienController {
                             try {
                     avtImg = Files.readAllBytes(Paths.get(chooser.getSelectedFile().getAbsolutePath()));
                     lblAvt.setIcon(
-                        new ImageIcon(
+                            new ImageIcon(
                             ImageIO.read(
-                                            new ByteArrayInputStream(avtImg)).getScaledInstance(lblAvt.getWidth(), lblAvt.getHeight(), Image.SCALE_SMOOTH)
+                                new ByteArrayInputStream(avtImg)).getScaledInstance(lblAvt.getWidth(), lblAvt.getHeight(), Image.SCALE_SMOOTH)
                             )
                         );
                     } catch (IOException e1) {
-                            e1.printStackTrace();
+                        e1.printStackTrace();
                     }
                     }
                     }

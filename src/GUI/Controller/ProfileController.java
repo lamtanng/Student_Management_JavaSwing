@@ -236,19 +236,12 @@ public class ProfileController {
 		avtImg = null;
 		if (nhanvien.getAvatar().length > 0) {
                 try {
-                    int width = lblAvt.getWidth();
-                    int height = lblAvt.getHeight();
-
-                    if (width > 0 && height > 0) {
-                    
-                        BufferedImage avatarImage = ImageIO.read(new ByteArrayInputStream(avtImg));
-                        Image scaledImage = avatarImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-                        lblAvt.setIcon(new ImageIcon(scaledImage));
-                    
-                    }
-		} catch (IOException e) {
-                    e.printStackTrace();
-		}
+                    BufferedImage avaImage = ImageIO.read(new ByteArrayInputStream(nhanvien.getAvatar()));
+                    Image scaledImage = avaImage.getScaledInstance(lblAvt.getWidth(), lblAvt.getHeight(), Image.SCALE_SMOOTH);
+                    lblAvt.setIcon(new ImageIcon(scaledImage));
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
             }
 		else {
 			lblAvt.setIcon(null);
