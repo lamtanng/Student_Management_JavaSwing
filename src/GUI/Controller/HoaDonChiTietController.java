@@ -98,29 +98,20 @@ public class HoaDonChiTietController {
 	private void setEvent() {
 		cbCus.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-                            if (isLoading)
-                                    return;
-                            loadCustomerInfo();
+				if (isLoading)
+					return;
+				loadCustomerInfo();
 			}
 		});
 		
-//		cbPro.addItemListener(new ItemListener() {
-//			public void itemStateChanged(ItemEvent arg0) {
-//				if (isLoading)
-//					return;
-//				loadProductInfo();
-//			}
-//		});
+		cbPro.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				if (isLoading)
+					return;
+				loadProductInfo();
+			}
+		});
 		
-                cbPro.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        System.err.println("isLoading " + isLoading);
-                        if (isLoading)
-                             return;
-                        loadProductInfo();
-                    }
-                });
-                
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -194,8 +185,7 @@ public class HoaDonChiTietController {
 		txfAddress.setText(khachhang.getAddress());
 	}
 	
-	public void loadProductInfo() {
-                System.err.println("===========>Load Product");
+	private void loadProductInfo() {
 		SanPhamModel sanpham = (SanPhamModel)cbPro.getSelectedItem();
 		txfPrice.setText(String.format("%.0f", sanpham.getPrice()));
 	}

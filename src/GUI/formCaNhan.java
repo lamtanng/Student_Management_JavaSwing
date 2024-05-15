@@ -17,6 +17,7 @@ public class formCaNhan extends javax.swing.JPanel {
      */
     public formCaNhan(Integer userId) {
         initComponents();
+        lblAvt.setSize(80, 90);
         controller = new ProfileController(userId, txfID, txfName, txfPhone, txfAddress, txfEmail, txdate, cbRole, cbGender, btnUpload, btnEdit, btnCancel, btnSave, cbStatus, psfConfirmPw, psfNewPw, psfOldPw, lblAvt, btnChangePw, btnCancelPw, btnSavePw, null);
     }
 

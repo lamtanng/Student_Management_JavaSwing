@@ -162,7 +162,7 @@ public class formQLNhanVien extends javax.swing.JPanel {
         add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 289, -1, -1));
 
         cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Name" }));
-        add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, 289, -1, -1));
+        add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 290, -1, -1));
         add(txfFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(324, 289, 200, -1));
 
         btnFind.setText("Find");
