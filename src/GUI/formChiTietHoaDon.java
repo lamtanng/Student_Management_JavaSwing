@@ -77,8 +77,9 @@ public class formChiTietHoaDon extends javax.swing.JPanel {
         jLabel13.setText(" BILL HISTORY");
         add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("BILL DETAIL");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, -1, -1));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, -1, -1));
 
         jPanel1.setBackground(new java.awt.Color(204, 215, 250));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -145,7 +146,7 @@ public class formChiTietHoaDon extends javax.swing.JPanel {
 
         add(scrollHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 630, 200));
 
-        cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID Bill", "ID Employee" }));
         add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 330, -1, -1));
         add(txfFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 330, 170, -1));
 
