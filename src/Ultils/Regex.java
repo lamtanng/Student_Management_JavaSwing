@@ -9,6 +9,7 @@ package Ultils;
  * @author Trường Giang
  */
 public final class Regex {
-    public static final String PHONE = "^(?:\\+?84|0)(?:[\\.|\\s](-)?\\d{3}){3}$";
+    public static final String PHONE = "^[0-9]\\d{9,10}$";
     public static final String EMAIL = "^[\\w!#$%&'*+/=?^`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^`{|}~-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
+    public static final String TEXT = "^[\\p{L}\\s]{2,50}$";
 }

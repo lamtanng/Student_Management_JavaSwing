@@ -198,99 +198,113 @@ public class KhachHangController {
 		});
     }
 
-	private void loadTable(List<KhachHangModel> list) {
-		String[] labels= {"ID", "Customer name", "Gener", "Birthday", "Phone", "Address"};
-		DefaultTableModel tableModel = new DefaultTableModel(labels, 0) {
-			@Override
-			public boolean isCellEditable(int row, int column) { 
-				return false;
-			};
-		};
+ 
+
+    private void loadTable(List<KhachHangModel> list) {
+        String[] labels = {"ID", "Customer name", "Gener", "Birthday", "Phone", "Address"};
+        DefaultTableModel tableModel = new DefaultTableModel(labels, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        ;
+        };
 		
 		try {
-			for (KhachHangModel khachhang : list) {
-				Object[] row = {khachhang.getId(), khachhang.getName(), khachhang.getGender(), khachhang.getDob(), 
-						khachhang.getPhone(), khachhang.getAddress()};
-				tableModel.addRow(row);
-			}
-			this.table.setModel(tableModel);
-		}catch(Exception ex) {
-			ex.printStackTrace();
-			MyUtils.showErrorMessage("Error", ex.getMessage());
-		}
-	}
-	
-	private void loadRow() {
-		if (btnSave.isEnabled())
-			return;
-		
-		int row = table.getSelectedRow();
+            for (KhachHangModel khachhang : list) {
+                Object[] row = {khachhang.getId(), khachhang.getName(), khachhang.getGender(), khachhang.getDob(),
+                    khachhang.getPhone(), khachhang.getAddress()};
+                tableModel.addRow(row);
+            }
+            this.table.setModel(tableModel);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            MyUtils.showErrorMessage("Error", ex.getMessage());
+        }
+    }
 
-		if (row == -1) {
-			if (table.getRowCount() > 0) {
-				table.setRowSelectionInterval(0, 0);
-				row = table.getSelectedRow();
-			}
-		}
-		
-		txfId.setText(table.getValueAt(row, 0).toString());
-		txfName.setText(table.getValueAt(row, 1).toString());
-		cbGender.setSelectedIndex(table.getValueAt(row, 2).equals("Male") ? 0 : 1);
-                cbGender.setForeground(Color.black);
-		txdate.setDate((java.util.Date) table.getValueAt(row, 3));
-		txfPhone.setText(table.getValueAt(row, 4).toString());
-		txfAddress.setText(table.getValueAt(row, 5).toString());
-	}
-	
-	private void buttonChangeStats(int stat) {
-		if (stat == 1) {
-			btnAdd.setEnabled(true);
-			btnEdit.setEnabled(true);
-			btnSave.setEnabled(false);
-			btnCancel.setEnabled(false);
+    private void loadRow() {
+        if (btnSave.isEnabled()) {
+            return;
+        }
 
-			txfName.setEditable(false);
-			txfPhone.setEditable(false);
-			txfAddress.setEditable(false);
-			
-			cbGender.setEnabled(false);
-			txdate.setEnabled(false);
-		}
-		else {
-			btnAdd.setEnabled(false);
-			btnEdit.setEnabled(false);
-			btnSave.setEnabled(true);
-			btnCancel.setEnabled(true);
-			
-			txfName.setEditable(true);
-			txfPhone.setEditable(true);
-			txfAddress.setEditable(true);
-			
-			cbGender.setEnabled(true);
-			txdate.setEnabled(true);
-		}
-	}
-	
-	private List<KhachHangModel> find() {
-		String kw = txfFind.getText();
-		if (kw.equals("")) {
-			return dao.getAll();
-		}
-		
-		List<KhachHangModel> list = new ArrayList<KhachHangModel>();
-		
-		if (cbFilter.getSelectedIndex() == 0) {
-			KhachHangModel khachhang = dao.getById(Integer.parseInt(kw));
-			if ( khachhang != null) {
-				list.add(khachhang);
-			}
-		}
-		else if (cbFilter.getSelectedIndex() == 1) {
-			list = dao.getByName(kw);
-		}
-		return list;
-	}
-        private Object[][] convertTableData(JTable table) {
+        int row = table.getSelectedRow();
+
+        if (row == -1) {
+            if (table.getRowCount() > 0) {
+                table.setRowSelectionInterval(0, 0);
+                row = table.getSelectedRow();
+            }
+        }
+
+        txfId.setText(table.getValueAt(row, 0).toString());
+        txfName.setText(table.getValueAt(row, 1).toString());
+        cbGender.setSelectedIndex(table.getValueAt(row, 2).equals("Male") ? 0 : 1);
+        cbGender.setForeground(Color.black);
+        txdate.setDate((java.util.Date) table.getValueAt(row, 3));
+        txfPhone.setText(table.getValueAt(row, 4).toString());
+        txfAddress.setText(table.getValueAt(row, 5).toString());
+    }
+
+    private void buttonChangeStats(int stat) {
+        if (stat == 1) {
+            btnAdd.setEnabled(true);
+            btnEdit.setEnabled(true);
+            btnSave.setEnabled(false);
+            btnCancel.setEnabled(false);
+
+            txfName.setEditable(false);
+            txfPhone.setEditable(false);
+            txfAddress.setEditable(false);
+
+            cbGender.setEnabled(false);
+            txdate.setEnabled(false);
+        } else {
+            btnAdd.setEnabled(false);
+            btnEdit.setEnabled(false);
+            btnSave.setEnabled(true);
+            btnCancel.setEnabled(true);
+
+            txfName.setEditable(true);
+            txfPhone.setEditable(true);
+            txfAddress.setEditable(true);
+
+            cbGender.setEnabled(true);
+            txdate.setEnabled(true);
+        }
+    }
+
+    private List<KhachHangModel> find() {
+        String kw = txfFind.getText().trim();
+        if (kw.equals("")) {
+            return dao.getAll();
+        }
+
+        List<KhachHangModel> list = new ArrayList<KhachHangModel>();
+
+        if (cbFilter.getSelectedIndex() == 0) {
+            KhachHangModel khachhang;
+            try {
+                khachhang = dao.getById(Integer.parseInt(kw));
+            } catch (NumberFormatException err) {
+                MyUtils.showErrorMessage("Error", "ID must be number!");
+                return dao.getAll();
+            }
+            if (khachhang != null) {
+                list.add(khachhang);
+            }
+        } else if (cbFilter.getSelectedIndex()
+                == 1) {
+            list = dao.getByName(kw);
+        }
+        
+        if (list.size() == 0) {
+            MyUtils.showInfoMessage("Info", "0 result found!");
+        }
+        
+        return list;
+    }
+     private Object[][] convertTableData(JTable table) {
             DefaultTableModel model = (DefaultTableModel) table.getModel();
             int rowCount = model.getRowCount();
             int colCount = model.getColumnCount();
