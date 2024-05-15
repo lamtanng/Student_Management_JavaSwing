@@ -6,17 +6,17 @@ public class HoaDonChiTietModel {
 	
 	private double price;
 	private int quantity;
-
+        private String tenSP;
 	public HoaDonChiTietModel() {}
 
-	public HoaDonChiTietModel(int idHD, int idSP, double price, int quantity) {
+	public HoaDonChiTietModel(int idHD, int idSP,double price, int quantity) {
 		super();
 		this.idHD = idHD;
 		this.idSP = idSP;
 		this.price = price;
 		this.quantity = quantity;
 	}
-
+        
 	public int getIdHD() {
 		return idHD;
 	}
@@ -48,5 +48,12 @@ public class HoaDonChiTietModel {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
+
+        public String getTenSP() {
+            return tenSP;
+        }
+
+        public void setTenSP(String tenSP) {
+            this.tenSP = tenSP;
+        }
 }

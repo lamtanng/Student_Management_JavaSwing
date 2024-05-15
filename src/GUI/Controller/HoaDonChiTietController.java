@@ -282,7 +282,7 @@ public class HoaDonChiTietController {
                         int idSp = Integer.parseInt(tableModel.getValueAt(i, 0).toString());
                         double price = Double.parseDouble(tableModel.getValueAt(i, 2).toString());
                         int quantity = Integer.parseInt(tableModel.getValueAt(i, 3).toString());
-                        bdDao.insert(new HoaDonChiTietModel(id,idSp, price, quantity));
+                        bdDao.insert(new HoaDonChiTietModel(id, idSp, price, quantity));
                         pDao.changeQuantity(idSp, quantity);
                 }
                 loadCmbProduct();

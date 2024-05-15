@@ -59,7 +59,7 @@ public class HoaDonChiTietDaoImpl implements HoaDonChiTietDao{
 
 	@Override
 	public List<HoaDonChiTietModel> getByIdBill(int idBill) {
-		String sql = "Select * from hoadonchitiet where idHD = ?";
+		String sql = "Select hoadonchitiet.idHD, sanpham.idSP, sanpham.tenSP, hoadonchitiet.soLuong, hoadonchitiet.donGia from hoadonchitiet inner join sanpham on sanpham.idSP = hoadonchitiet.idSP where hoadonchitiet.idHD = ?";
 		List<HoaDonChiTietModel> list = new ArrayList<HoaDonChiTietModel>();
 		try {
 			PreparedStatement ps = cnn.prepareStatement(sql);
@@ -69,6 +69,7 @@ public class HoaDonChiTietDaoImpl implements HoaDonChiTietDao{
 				HoaDonChiTietModel hdct = new HoaDonChiTietModel();
 				hdct.setIdHD(rs.getInt("idHD"));
 				hdct.setIdSP(rs.getInt("idSP"));
+                                hdct.setTenSP(rs.getString("tenSP"));
 				hdct.setPrice(rs.getDouble("donGia"));
 				hdct.setQuantity(rs.getInt("soLuong"));
 				list.add(hdct);

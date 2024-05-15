@@ -131,7 +131,7 @@ public class HoaDonController {
 	}
 	
 	private void loadChildTable(List<HoaDonChiTietModel> list) {
-		String[] labels= {"ID Bill", "ID Product", "Price", "Quantity"};
+		String[] labels= {"ID Bill", "ID Product", "Product Name" ,"Price", "Quantity"};
 		DefaultTableModel tableModel = new DefaultTableModel(labels, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) { 
@@ -140,12 +140,11 @@ public class HoaDonController {
 		};
 		
 		try {
-			
-			for (HoaDonChiTietModel hdct : list) {
-				Object[] row = {hdct.getIdHD(), hdct.getIdSP(), String.format("%.0f", hdct.getPrice()), hdct.getQuantity()};
-				tableModel.addRow(row);
-			}
-			this.tableDetail.setModel(tableModel);
+                    for (HoaDonChiTietModel hdct : list) {
+                            Object[] row = {hdct.getIdHD(), hdct.getIdSP(), hdct.getTenSP(), String.format("%.0f", hdct.getPrice()), hdct.getQuantity()};
+                            tableModel.addRow(row);
+                    }
+                    this.tableDetail.setModel(tableModel);
 		}catch(Exception ex) {
 			ex.printStackTrace();
 			MyUtils.showErrorMessage("Error", ex.getMessage());
