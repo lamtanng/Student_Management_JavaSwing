@@ -109,35 +109,35 @@ public class NhanVienController {
     
 	private void setEvent() {	
 		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				loadRow();
-			}
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                            loadRow();
+                    }
 		});
 		
 		btnUpload.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter(
-		                "Images", "jpg", "gif", "png");
-				chooser.setFileFilter(filter);
-		        int returnVal = chooser.showOpenDialog(null);
-		        
-		        if(returnVal == JFileChooser.APPROVE_OPTION) {
-		        	try {
-						avtImg = Files.readAllBytes(Paths.get(chooser.getSelectedFile().getAbsolutePath()));
-						lblAvt.setIcon(
-								new ImageIcon(
-										ImageIO.read(
-												new ByteArrayInputStream(avtImg)).getScaledInstance(lblAvt.getWidth(), lblAvt.getHeight(), Image.SCALE_SMOOTH)
-										)
-								);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-		        }
-			}
+                    public void actionPerformed(ActionEvent e) {
+                            JFileChooser chooser = new JFileChooser();
+                            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                            "Images", "jpg", "gif", "png");
+                            chooser.setFileFilter(filter);
+                    int returnVal = chooser.showOpenDialog(null);
+
+                    if(returnVal == JFileChooser.APPROVE_OPTION) {
+                            try {
+                    avtImg = Files.readAllBytes(Paths.get(chooser.getSelectedFile().getAbsolutePath()));
+                    lblAvt.setIcon(
+                        new ImageIcon(
+                            ImageIO.read(
+                                            new ByteArrayInputStream(avtImg)).getScaledInstance(lblAvt.getWidth(), lblAvt.getHeight(), Image.SCALE_SMOOTH)
+                            )
+                        );
+                    } catch (IOException e1) {
+                            e1.printStackTrace();
+                    }
+                    }
+                    }
 		});
 		
 		btnAdd.addActionListener(new ActionListener() {

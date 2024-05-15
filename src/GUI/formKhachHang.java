@@ -73,6 +73,7 @@ public class formKhachHang extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(658, 518));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("CUSTOMER");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(279, 6, -1, -1));
 
@@ -90,7 +91,7 @@ public class formKhachHang extends javax.swing.JPanel {
         jPanel1.add(txfID, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 350, -1));
         jPanel1.add(txfName, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 350, -1));
 
-        cbGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
         jPanel1.add(cbGender, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, -1, -1));
 
         jLabel7.setText("DOB");
@@ -123,7 +124,7 @@ public class formKhachHang extends javax.swing.JPanel {
         jLabel13.setText("CUSTOMER LIST");
         add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 289, -1, -1));
 
-        cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Name" }));
         add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, 289, -1, -1));
         add(txfFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(324, 289, 200, -1));
 

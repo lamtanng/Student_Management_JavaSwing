@@ -76,6 +76,7 @@ public class formHoaDon extends javax.swing.JPanel {
         jLabel13.setText(" BILL DETAIL");
         add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 270, -1, -1));
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("BILL");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, -1, -1));
 
@@ -100,7 +101,11 @@ public class formHoaDon extends javax.swing.JPanel {
         jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, -1, -1));
         jPanel1.add(txfQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, 300, -1));
 
-        cbPro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbProActionPerformed(evt);
+            }
+        });
         jPanel1.add(cbPro, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 390, -1));
         jPanel1.add(txfAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 190, -1));
 
@@ -110,7 +115,11 @@ public class formHoaDon extends javax.swing.JPanel {
         jLabel6.setText("Address");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, -1, -1));
 
-        cbCus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCusActionPerformed(evt);
+            }
+        });
         jPanel1.add(cbCus, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, 390, -1));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 630, 230));
@@ -151,7 +160,17 @@ public class formHoaDon extends javax.swing.JPanel {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void cbCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCusActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cbCusActionPerformed
+
+    private void cbProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbProActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

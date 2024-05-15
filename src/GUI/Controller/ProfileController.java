@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Ultils.MyUtils;
+import java.awt.image.BufferedImage;
 
 public class ProfileController {
 	private int userId;
@@ -112,14 +113,12 @@ public class ProfileController {
 		        	try {
                                     avtImg = Files.readAllBytes(Paths.get(chooser.getSelectedFile().getAbsolutePath()));
                                     lblAvt.setIcon(
-                                        new ImageIcon(
-										ImageIO.read(
-												new ByteArrayInputStream(avtImg)).getScaledInstance(lblAvt.getWidth(), lblAvt.getHeight(), Image.SCALE_SMOOTH)
-										)
-								);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+                                    new ImageIcon(
+                                        ImageIO.read(new ByteArrayInputStream(avtImg)).getScaledInstance(lblAvt.getWidth(), lblAvt.getHeight(), Image.SCALE_SMOOTH))
+                                    );
+                                } catch (IOException e1) {
+                                    e1.printStackTrace();
+                                }
 		        }
 			}
 		});
@@ -170,22 +169,22 @@ public class ProfileController {
 				if (input == 0) {
 					NhanVienModel nhanvien = dao.getById(userId);
 					if(!dao.update(new NhanVienModel(Integer.parseInt(txfID.getText()),
-							txfName.getText(),
-							cbGender.getSelectedIndex() == 0? "Male": "Female",
-							new Date(txdate.getDate().getTime()),// dob
-							txfPhone.getText(),
-							txfAddress.getText(),
-							txfEmail.getText(),
-							nhanvien.getPassword(),
-							avtImg == null ? nhanvien.getAvatar() : avtImg,
-							cbRole.getSelectedIndex()+1,
-							cbStatus.getSelectedIndex() == 0? 1: 0
-							))) {
-						MyUtils.showErrorMessage("Error" , "Something Wrong! Please try again!");
+                                        txfName.getText(),
+                                        cbGender.getSelectedIndex() == 0? "Male": "Female",
+                                        new Date(txdate.getDate().getTime()),// dob
+                                        txfPhone.getText(),
+                                        txfAddress.getText(),
+                                        txfEmail.getText(),
+                                        nhanvien.getPassword(),
+                                        avtImg == null ? nhanvien.getAvatar() : avtImg,
+                                        cbRole.getSelectedIndex()+1,
+                                        cbStatus.getSelectedIndex() == 0? 1: 0
+                                        ))) {
+                                            MyUtils.showErrorMessage("Error" , "Something Wrong! Please try again!");
 					}
 					else {
-						MyUtils.showInfoMessage("Info", "Update profile success!");
-						buttonChangeStats(1);
+                                            MyUtils.showInfoMessage("Info", "Update profile success!");
+                                            buttonChangeStats(1);
 					}
 				}
 			}	
@@ -195,23 +194,23 @@ public class ProfileController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (psfNewPw.getText().equals("")) {
-					MyUtils.showErrorMessage("Error", "Please enter new password!");
-					return;
+                                    MyUtils.showErrorMessage("Error", "Please enter new password!");
+                                    return;
 				}
 				
 				if (psfNewPw.getText().equals(psfConfirmPw.getText())){
 					NhanVienModel nhanvien = dao.getById(userId);
 					if(nhanvien.getPassword().equals(psfOldPw.getText())) {
-						nhanvien.setPassword(psfNewPw.getText());
-						dao.update(nhanvien);
-						MyUtils.showInfoMessage("Info", "Change password success!");
-						psfOldPw.setText("");
-						psfNewPw.setText("");
-						psfConfirmPw.setText("");
-						enableChangePw(0);
+                                        nhanvien.setPassword(psfNewPw.getText());
+                                        dao.update(nhanvien);
+                                        MyUtils.showInfoMessage("Info", "Change password success!");
+                                        psfOldPw.setText("");
+                                        psfNewPw.setText("");
+                                        psfConfirmPw.setText("");
+                                        enableChangePw(0);
 					}
 					else {
-						MyUtils.showErrorMessage("Error" , "Wrong Password!");
+                                            MyUtils.showErrorMessage("Error" , "Wrong Password!");
 					}
 				}
 				else {
@@ -237,14 +236,16 @@ public class ProfileController {
 		avtImg = null;
 		if (nhanvien.getAvatar().length > 0) {
                 try {
-                    if(lblAvt.getWidth() > 0 && lblAvt.getHeight() > 0) {
-                        lblAvt.setIcon(
-                        new ImageIcon(
-                        ImageIO.read(
-                        new ByteArrayInputStream((byte[])nhanvien.getAvatar())).getScaledInstance(lblAvt.getWidth(), lblAvt.getHeight(), Image.SCALE_SMOOTH)					)
-                    );
+                    int width = lblAvt.getWidth();
+                    int height = lblAvt.getHeight();
+
+                    if (width > 0 && height > 0) {
+                    
+                        BufferedImage avatarImage = ImageIO.read(new ByteArrayInputStream(avtImg));
+                        Image scaledImage = avatarImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                        lblAvt.setIcon(new ImageIcon(scaledImage));
+                    
                     }
-                   
 		} catch (IOException e) {
                     e.printStackTrace();
 		}

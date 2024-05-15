@@ -24,18 +24,19 @@ public class formDangNhap extends javax.swing.JFrame {
         group = new ButtonGroup();
         group.add(rdbtnManage);
         group.add(rdbtnEmployee);
+        this.setSize(400, 400);
         login();
     }
     
     private void login() {
         LoginController controll = new LoginController(this, txfUsername, passwordField, rdbtnEmployee, rdbtnManage, btnLogIn);	
-        // set background
-        JLabel bg = new JLabel();
-        bg.setBounds(356, 344, 384, 361);
-        mainPanel.add(bg);
-        ImageIcon bgload = new ImageIcon(new ImageIcon(this.getClass().getResource("/background.jpg")).getImage()
-                        .getScaledInstance(bg.getWidth(), bg.getHeight(), Image.SCALE_SMOOTH));
-        bg.setIcon(bgload);
+       
+//        JLabel bg = new JLabel();
+//        bg.setBounds(356, 344, 384, 361);
+//        mainPanel.add(bg);
+//        ImageIcon bgload = new ImageIcon(new ImageIcon(this.getClass().getResource("/background.jpg")).getImage()
+//                        .getScaledInstance(bg.getWidth(), bg.getHeight(), Image.SCALE_SMOOTH));
+//        bg.setIcon(bgload);
     }
 
     /**
@@ -59,88 +60,56 @@ public class formDangNhap extends javax.swing.JFrame {
         passwordField = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        mainPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         rdbtnManage.setForeground(new java.awt.Color(25, 25, 112));
+        rdbtnManage.setSelected(true);
         rdbtnManage.setText("Manager");
         rdbtnManage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rdbtnManageActionPerformed(evt);
             }
         });
+        mainPanel.add(rdbtnManage, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 84, 98, -1));
 
         rdbtnEmployee.setForeground(new java.awt.Color(25, 25, 112));
         rdbtnEmployee.setText("Employee");
+        mainPanel.add(rdbtnEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(227, 84, 98, -1));
 
         lbPhone.setText("Phone");
+        mainPanel.add(lbPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 126, 37, -1));
 
         lblPw.setText("Password");
+        mainPanel.add(lblPw, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 174, 60, -1));
+        mainPanel.add(txfUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(111, 123, 260, -1));
 
         btnLogIn.setText("Đăng nhập");
+        mainPanel.add(btnLogIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, -1, -1));
 
         lblBrand.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblBrand.setText("MOBLE SHOP");
+        mainPanel.add(lblBrand, new org.netbeans.lib.awtextra.AbsoluteConstraints(133, 31, -1, -1));
 
         passwordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordFieldActionPerformed(evt);
             }
         });
+        mainPanel.add(passwordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(111, 171, 260, -1));
 
-        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
-        mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(btnLogIn))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(138, 138, 138)
-                        .addComponent(lblBrand)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPw, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(rdbtnManage, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(rdbtnEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txfUsername)
-                            .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))))
-                .addGap(31, 31, 31))
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(lblBrand)
-                .addGap(27, 27, 27)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdbtnManage)
-                    .addComponent(rdbtnEmployee))
-                .addGap(18, 18, 18)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbPhone)
-                    .addComponent(txfUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPw)
-                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addComponent(btnLogIn)
-                .addContainerGap(45, Short.MAX_VALUE))
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        getContentPane().add(mainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 20, 390, -1));
 
         pack();
         setLocationRelativeTo(null);
