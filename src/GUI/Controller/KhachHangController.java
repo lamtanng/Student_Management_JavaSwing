@@ -13,6 +13,7 @@ import DAO.KhachHangDao;
 import DAO.impl.KhachHangDaoImpl;
 import Model.KhachHangModel;
 import Ultils.MyUtils;
+import java.awt.Color;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -211,7 +212,8 @@ public class KhachHangController {
 		
 		txfId.setText(table.getValueAt(row, 0).toString());
 		txfName.setText(table.getValueAt(row, 1).toString());
-		cbGender.setSelectedIndex(table.getValueAt(row, 2).equals("Male") ? 0: 1);
+		cbGender.setSelectedIndex(table.getValueAt(row, 2).equals("Male") ? 0 : 1);
+                cbGender.setForeground(Color.black);
 		txdate.setDate((java.util.Date) table.getValueAt(row, 3));
 		txfPhone.setText(table.getValueAt(row, 4).toString());
 		txfAddress.setText(table.getValueAt(row, 5).toString());

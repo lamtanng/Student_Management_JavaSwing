@@ -17,6 +17,7 @@ public class formCaNhan extends javax.swing.JPanel {
      */
     public formCaNhan(Integer userId) {
         initComponents();
+        lblAvt.setSize(80, 90);
         controller = new ProfileController(userId, txfID, txfName, txfPhone, txfAddress, txfEmail, txdate, cbRole, cbGender, btnUpload, btnEdit, btnCancel, btnSave, cbStatus, psfConfirmPw, psfNewPw, psfOldPw, lblAvt, btnChangePw, btnCancelPw, btnSavePw, null);
     }
 
@@ -68,8 +69,9 @@ public class formCaNhan extends javax.swing.JPanel {
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("PROFILE");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(279, 6, -1, -1));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, -1, -1));
 
         jPanel1.setBackground(new java.awt.Color(204, 215, 250));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -93,11 +95,12 @@ public class formCaNhan extends javax.swing.JPanel {
         jLabel6.setText("Role");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, -1, -1));
 
-        cbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Employee" }));
+        cbRole.setToolTipText("");
         jPanel1.add(cbRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(402, 10, 100, -1));
         jPanel1.add(txfName, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 46, 340, -1));
 
-        cbGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
         jPanel1.add(cbGender, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, -1, -1));
 
         jLabel7.setText("DOB");
@@ -124,7 +127,7 @@ public class formCaNhan extends javax.swing.JPanel {
         jLabel11.setText("Status");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, -1, -1));
 
-        cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enable", "Disable" }));
         jPanel1.add(cbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 130, -1));
 
         jLabel12.setText("Address");
@@ -133,8 +136,9 @@ public class formCaNhan extends javax.swing.JPanel {
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 28, 630, 255));
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel2.setText("CHANGE PASSWORD");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 290, -1, -1));
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 290, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(204, 215, 250));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

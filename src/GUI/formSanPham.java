@@ -69,6 +69,7 @@ public class formSanPham extends javax.swing.JPanel {
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("PRODUCT");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(279, 6, -1, -1));
 
@@ -109,7 +110,7 @@ public class formSanPham extends javax.swing.JPanel {
         jLabel13.setText("CUSTOMER LIST");
         add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 289, -1, -1));
 
-        cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Name" }));
         add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, 289, -1, -1));
         add(txfFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(324, 289, 200, -1));
 

@@ -12,4 +12,5 @@ public interface NhanVienDao{
 	public boolean insert(NhanVienModel nhanvien);
 	public boolean update(NhanVienModel nhanvien);
 	public boolean delete(int id);
+        public boolean isEmployee(String phone);
 }

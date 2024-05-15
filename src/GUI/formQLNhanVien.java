@@ -26,6 +26,7 @@ public class formQLNhanVien extends javax.swing.JPanel {
 			}
 		));
         scrollPane.setViewportView(table);
+        lblAvt.setSize(80, 90);
         controller = new NhanVienController(txfID, txfName, txfPhone, txfAddress, txfEmail, txfPasswd, txfFind, txdate, table, cbRole, cbGender, lblAvt, btnUpload, btnAdd, btnEdit, btnCancel, btnSave, cbFilter, btnFind, cbStatus);
     }
     
@@ -83,13 +84,15 @@ public class formQLNhanVien extends javax.swing.JPanel {
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("EMPLOYEE");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(279, 6, -1, -1));
 
         jPanel1.setBackground(new java.awt.Color(204, 215, 250));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblAvt.setText("Avatar");
+        lblAvt.setBackground(new java.awt.Color(137, 164, 249));
+        lblAvt.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.add(lblAvt, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 79, 93));
 
         btnUpload.setText("Upload");
@@ -108,11 +111,11 @@ public class formQLNhanVien extends javax.swing.JPanel {
         jLabel6.setText("Role");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, -1, -1));
 
-        cbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Employee" }));
         jPanel1.add(cbRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(402, 10, 100, -1));
         jPanel1.add(txfName, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 46, 340, -1));
 
-        cbGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
         jPanel1.add(cbGender, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, -1, -1));
 
         jLabel7.setText("DOB");
@@ -146,7 +149,7 @@ public class formQLNhanVien extends javax.swing.JPanel {
         jLabel11.setText("Status");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
 
-        cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enable", "Disable" }));
         jPanel1.add(cbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 218, 160, -1));
 
         jLabel12.setText("Address");
@@ -159,8 +162,8 @@ public class formQLNhanVien extends javax.swing.JPanel {
         jLabel13.setText("EMPLOYEE LIST");
         add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 289, -1, -1));
 
-        cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, 289, -1, -1));
+        cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Name" }));
+        add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 290, -1, -1));
         add(txfFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(324, 289, 200, -1));
 
         btnFind.setText("Find");

@@ -62,6 +62,7 @@ public class formThongKe extends javax.swing.JPanel {
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("STATISTIC");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, -1, -1));
 
@@ -83,10 +84,11 @@ public class formThongKe extends javax.swing.JPanel {
 
         jPanel1.add(scrollStatis, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 600, 120));
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         jLabel2.setText("Statistic for revenue by");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        cbReportType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbReportType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Month", "Quarter", "Year" }));
         jPanel1.add(cbReportType, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 90, -1));
         jPanel1.add(cbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, 100, -1));
 
@@ -101,11 +103,13 @@ public class formThongKe extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(204, 215, 250));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         jLabel3.setText("Revenue statistic from");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 15, -1, -1));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
         jPanel2.add(beginDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 160, -1));
         jPanel2.add(endDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 10, 150, -1));
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         jLabel4.setText("to");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, -1, -1));
 
