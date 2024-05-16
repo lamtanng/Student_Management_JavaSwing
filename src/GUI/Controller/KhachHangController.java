@@ -12,6 +12,7 @@ import com.toedter.calendar.JDateChooser;
 import DAO.KhachHangDao;
 import DAO.impl.KhachHangDaoImpl;
 import Model.KhachHangModel;
+import Ultils.Constant;
 import Ultils.MyUtils;
 import java.awt.Color;
 
@@ -41,30 +42,32 @@ public class KhachHangController {
         private JButton btnExport;
     private KhachHangDao dao;
     private int mode;
+    String focusItem = "";
 
-	public KhachHangController(JTextField txfName, JTextField txfPhone, JTextField txfAddress, JTextField txfFind,
-			JDateChooser txdate, JTextField txfId, JComboBox cbGender, JButton btnAdd, JButton btnEdit,
-			JButton btnCancel, JButton btnSave, JComboBox cbFilter, JButton btnFind, JTable table, JButton btnExport) {
-		this.txfName = txfName;
-		this.txfPhone = txfPhone;
-		this.txfAddress = txfAddress;
-		this.txfFind = txfFind;
-		this.txdate = txdate;
-		this.txfId = txfId;
-		this.cbGender = cbGender;
-		this.btnAdd = btnAdd;
-		this.btnEdit = btnEdit;
-		this.btnCancel = btnCancel;
-		this.btnSave = btnSave;
-		this.cbFilter = cbFilter;
-		this.btnFind = btnFind;
-		this.table = table;
-                this.btnExport = btnExport;
-		dao = new KhachHangDaoImpl();
-		setEvent();
-		buttonChangeStats(1);
-		txfId.setEditable(false);
-	}
+    public KhachHangController(JTextField txfName, JTextField txfPhone, JTextField txfAddress, JTextField txfFind,
+            JDateChooser txdate, JTextField txfId, JComboBox cbGender, JButton btnAdd, JButton btnEdit,
+            JButton btnCancel, JButton btnSave, JComboBox cbFilter, JButton btnFind, JTable table, JButton btnExport) {
+        this.txfName = txfName;
+        this.txfPhone = txfPhone;
+        this.txfAddress = txfAddress;
+        this.txfFind = txfFind;
+        this.txdate = txdate;
+        this.txfId = txfId;
+        this.cbGender = cbGender;
+        this.btnAdd = btnAdd;
+        this.btnEdit = btnEdit;
+        this.btnCancel = btnCancel;
+        this.btnSave = btnSave;
+        this.cbFilter = cbFilter;
+        this.btnFind = btnFind;
+        this.table = table;
+        this.btnExport = btnExport;
+        dao = new KhachHangDaoImpl();
+        setEvent();
+        buttonChangeStats(1);
+        txfId.setEditable(false);
+        focusInput();
+    }
 
 	public void loadData() {
 		loadTable(dao.getAll());
@@ -78,81 +81,122 @@ public class KhachHangController {
 		loadRow();
 	}
 
-	private void setEvent() {	
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				loadRow();
-			}
-		});
-		
-		btnAdd.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mode = 1;
-				buttonChangeStats(2);
-				
-				txfName.setText("");
-				txfPhone.setText("");
-				txfAddress.setText("");
-				txfId.setText("");
-			}
-		});
-		
-		btnEdit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (table.getSelectedRow() == -1) {
-					MyUtils.showErrorMessage("Error", "Please select a customer to edit first!");
-					return;
-				}
-				
-				mode = 2;
-				buttonChangeStats(2);
-			}
-		});
-		
-		btnCancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				buttonChangeStats(1);
-				loadRow();
-			}
-		});
-		
-		btnFind.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				loadTable(find());
-			}
-		});
-		
-		btnSave.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (txfName.getText().equals("") || txfPhone.getText().equals("") || txfAddress.getText().equals("")) {
-					MyUtils.showErrorMessage("Error" , "Please fill the customer information properly!");
-					return;
-				}
-				
-				if (mode == 1) {
-					int input = JOptionPane.showConfirmDialog(null, "Do you want to create new customer?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-					if (input == 0) {
-						if (!dao.insert(new KhachHangModel(
-								txfName.getText(),
-								cbGender.getSelectedIndex() == 0? "Male": "Female",
-								txdate.getDate() == null ? null : new Date(txdate.getDate().getTime()),
-								txfPhone.getText(),
-								txfAddress.getText()
-								))) {
-							MyUtils.showErrorMessage("Error" , "Something Wrong! Please try again!");
-						}
-						else {
-							loadTable(dao.getAll());
-							buttonChangeStats(1);
-							MyUtils.showInfoMessage("Info", "Create customer success!");
-						}
-					}
+    private void setEvent() {
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                loadRow();
+            }
+        });
+
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mode = 1;
+                resetInputColor();
+                buttonChangeStats(2);
+
+                txfName.setText("");
+                txfPhone.setText("");
+                txfAddress.setText("");
+                txfId.setText("");
+            }
+        });
+
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (table.getSelectedRow() == -1) {
+                    MyUtils.showErrorMessage("Error", "Please select a customer to edit first!");
+                    return;
+                }
+
+                mode = 2;
+                buttonChangeStats(2);
+            }
+        });
+
+        btnCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetInputColor();
+                buttonChangeStats(1);
+                loadRow();
+            }
+        });
+
+        btnFind.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadTable(find());
+            }
+        });
+
+        btnSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                resetInputColor();
+                
+//                if (txfName.getText().equals("") || txfPhone.getText().equals("") || txfAddress.getText().equals("")) {
+//                    MyUtils.showErrorMessage("Error", "Please fill the customer information properly!");
+//                    return;
+//                }
+
+                String name;
+                String phone;
+                String address;
+                
+                 if (checkName().isBlank()) {
+                    name = txfName.getText().trim();
+                } else {
+                    MyUtils.addErrorMessage(checkName());
+
+                    focusItem = focusItem.isBlank() ? "txfName" : focusItem;
+                    txfName.setBackground(Color.pink);
+                }
+
+                if (checkPhone().isBlank()) {
+                    phone = txfPhone.getText().trim();
+                } else {
+                    MyUtils.addErrorMessage(checkPhone());
+
+                    focusItem = focusItem.isBlank() ? "txfPhone" : focusItem;
+                    txfPhone.setBackground(Color.pink);
+                }
+
+                if (checkAddress().isBlank()) {
+                    name = txfAddress.getText().trim();
+                } else {
+                    MyUtils.addErrorMessage(checkAddress());
+                    focusItem = focusItem.isBlank() ? "txfAddress" : focusItem;
+                    txfAddress.setBackground(Color.pink);
+                }
+
+                if (!MyUtils.isErrorListEmpty()) {
+                    MyUtils.showErrorList();
+                    focusInput();
+                    focusItem = "";
+                    return;
+                }
+
+                if (mode == 1) {
+                    int input = JOptionPane.showConfirmDialog(null, "Do you want to create new customer?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                    if (input == 0) {
+                        if (!dao.insert(new KhachHangModel(
+                                txfName.getText(),
+                                cbGender.getSelectedIndex() == 0 ? "Male" : "Female",
+                                txdate.getDate() == null ? null : new Date(txdate.getDate().getTime()),
+                                txfPhone.getText(),
+                                txfAddress.getText()
+                        ))) {
+                            MyUtils.showErrorMessage("Error", "Something Wrong! Please try again!");
+                        } else {
+                            loadTable(dao.getAll());
+                            buttonChangeStats(1);
+                            MyUtils.showInfoMessage("Info", "Create customer success!");
+                        }
+                    }
 
 				}else if (mode == 2) {
 					int input = JOptionPane.showConfirmDialog(null, "Do you want to update this customer infomation?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -297,11 +341,11 @@ public class KhachHangController {
                 == 1) {
             list = dao.getByName(kw);
         }
-        
+
         if (list.size() == 0) {
             MyUtils.showInfoMessage("Info", "0 result found!");
         }
-        
+
         return list;
     }
      private Object[][] convertTableData(JTable table) {
@@ -316,4 +360,76 @@ public class KhachHangController {
             }
             return data;
         }
+
+    // return the error message
+    private String checkName() {
+        String data = txfName.getText().trim();
+        String errorStr = "";
+
+        if (data.equals("")) {
+            return "Name is required!";
+        }
+
+        if (!MyUtils.isValid(data, Constant.TEXT_TYPE)) {
+            return "Name cannot contain number!";
+        }
+
+        return errorStr;
+    }
+
+    // return the error message
+    private String checkPhone() {
+        String data = txfPhone.getText().trim();
+        String errorStr = "";
+
+        if (data.equals("")) {
+            return "Phone is required!";
+        }
+
+        if (!MyUtils.isValid(data, Constant.PHONE_TYPE)) {
+            return "Phone is invalid!";
+        }
+
+        if (dao.isExist(data)) {
+            return "Phone is already exist!";
+        }
+
+        return errorStr;
+    }
+
+    // return the error message
+    private String checkAddress() {
+        String data = txfAddress.getText().trim();
+        String errorStr = "";
+
+        if (data.equals("")) {
+            return "Address is required!";
+        }
+
+        return errorStr;
+    }
+
+    private void resetInputColor() {
+        txfName.setBackground(Color.white);
+        txfPhone.setBackground(Color.white);
+        txfAddress.setBackground(Color.white);
+    }
+
+    private void focusInput() {
+        switch (focusItem) {
+            case "":
+            case "txfName":
+                txfName.requestFocus();
+                break;
+            case "txfPhone":
+                txfPhone.requestFocus();
+                break;
+            case "txfAddress":
+                txfAddress.requestFocus();
+                break;
+            default:
+                txfName.requestFocus();
+        }
+    }
+
 }

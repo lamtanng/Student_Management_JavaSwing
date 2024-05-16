@@ -117,6 +117,7 @@ public class SanPhamController {
         btnCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                resetInputColor();
                 buttonChangeStats(1);
                 loadRow();
             }

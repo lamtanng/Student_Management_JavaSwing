@@ -11,4 +11,5 @@ public interface KhachHangDao{
 	public boolean insert(KhachHangModel khachhang);
 	public boolean update(KhachHangModel khachhang);
 	public boolean delete(int id);
+        public boolean isExist(String phone);
 }

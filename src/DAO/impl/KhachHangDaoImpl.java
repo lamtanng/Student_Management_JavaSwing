@@ -10,6 +10,7 @@ import java.util.List;
 import DAO.KhachHangDao;
 import DBConnection.DBConnect;
 import Model.KhachHangModel;
+import java.sql.SQLException;
 
 public class KhachHangDaoImpl implements KhachHangDao{
 	Connection cnn;
@@ -134,4 +135,20 @@ public class KhachHangDaoImpl implements KhachHangDao{
 		}
 		return list;
 	}
+        
+        @Override
+    public boolean isExist(String phone) {
+        String sql = "Select * from khachhang where SDT=?";
+        try {
+            PreparedStatement ps = cnn.prepareStatement(sql);
+            ps.setString(1, phone);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
 }
