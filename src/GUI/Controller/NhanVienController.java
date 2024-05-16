@@ -191,8 +191,8 @@ public class NhanVienController {
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isValidEmployee()) {
                     if (mode == 1) {
+                        if (!isValidEmployee(1)) return;
                         int input = JOptionPane.showConfirmDialog(null, "Do you want to create new employee?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                         if (input == 0) {
                             if (!nhanVienDao.insert(new NhanVienModel(
@@ -216,6 +216,7 @@ public class NhanVienController {
                         }
 
                     } else if (mode == 2) {
+                        if (!isValidEmployee(2)) return;
                         int input = JOptionPane.showConfirmDialog(null, "Do you want to update this employee's information?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                         if (input == 0) {
                             if (!nhanVienDao.update(new NhanVienModel(Integer.parseInt(txfID.getText()),
@@ -238,7 +239,6 @@ public class NhanVienController {
                             }
                         }
                     }
-                }
             }
         });
     }
@@ -375,7 +375,7 @@ public class NhanVienController {
         return list;
     }
 
-    private boolean isValidEmployee() {
+    private boolean isValidEmployee(int mode) {
 
         //name
         if (!MyUtils.isValid(txfName.getText(), Constant.TEXT_TYPE)) {
@@ -394,7 +394,8 @@ public class NhanVienController {
             MyUtils.showErrorMessage("Error", "Phone is invalid");
             return false;
         }
-        if (nhanVienDao.isEmployee(txfPhone.getText().trim())) {
+        
+        if (nhanVienDao.isEmployee(txfPhone.getText().trim() ) && mode ==1) {
             MyUtils.showErrorMessage("Error", "Employee is already exist");
             return false;
         }

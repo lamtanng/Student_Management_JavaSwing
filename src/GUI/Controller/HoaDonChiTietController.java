@@ -20,6 +20,7 @@ import Model.HoaDonModel;
 import Model.KhachHangModel;
 import Model.SanPhamModel;
 import Ultils.MyUtils;
+import java.awt.Color;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,6 +53,7 @@ public class HoaDonChiTietController {
 	private KhachHangDao cDao;
 	private HoaDonDao bDao;
 	private HoaDonChiTietDao bdDao;
+        private String focusItem= "";
     
 	private boolean isLoading = true;
     
@@ -85,6 +87,8 @@ public class HoaDonChiTietController {
 		txfPhone.setEditable(false);
 		txfAddress.setEditable(false);
 		txfTotal.setEditable(false);
+                resetInputColor();
+                focusInput();
 	}
 	
 	public void loadData() {
@@ -127,19 +131,40 @@ public class HoaDonChiTietController {
                             tableModel.removeRow(row);
                             table.setModel(tableModel);
                             showTotalPrice();
+                            
+                            isLoading = true;
+                            cbPro.removeAllItems();
+                            List<SanPhamModel> list = pDao.getAll();
+                            for (SanPhamModel sanpham : list) {
+                                boolean isExistAndMax = false;
+                                for (int i =0; i< tableModel.getRowCount(); i++) {
+                                    if(tableModel.getValueAt(i, 0).equals(sanpham.getId())){
+                                        if ((int) tableModel.getValueAt(i, 3) >= sanpham.getQuantity() || sanpham.getQuantity() <= 0){
+                                            isExistAndMax = true;
+                                        }
+                                    }
+                                }
+                                if(!isExistAndMax){
+                                    cbPro.addItem(sanpham);
+                                }
+                            }
+                            cbPro.setSelectedIndex(-1);
+                            loadProductInfo();
+                            isLoading = false;
                     }
 		});
 		
 		btnCancel.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                            clearTable();
+                            loadData();
                     }
 		});
 		
 		btnAdd.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                            resetInputColor();
                             addToTable();
                     }
 		});
@@ -188,7 +213,11 @@ public class HoaDonChiTietController {
 	
 	private void loadProductInfo() {
             SanPhamModel sanpham = (SanPhamModel)cbPro.getSelectedItem();
-            txfPrice.setText(String.format("%.0f", sanpham.getPrice()));
+            if(sanpham == null)   {
+                txfPrice.setText("");
+            } else{
+                txfPrice.setText(String.format("%.0f", sanpham.getPrice()));
+            }
 	}
 	
 	private void addToTable() {
@@ -202,35 +231,78 @@ public class HoaDonChiTietController {
             try {
                 SanPhamModel sanpham = ((SanPhamModel)cbPro.getSelectedItem());
                 String name = sanpham.getName();
+                int pID = sanpham.getId();
+                
                 int quantity = Integer.parseInt(txfQuantity.getText());
                 if (quantity < 1) {
+                        txfQuantity.setBackground(Color.pink);
+                        focusItem = "txfQuantity";
+                        focusInput();
                         MyUtils.showErrorMessage("Error", "Invalid quantity!");
                         return;
                 }
-                if (quantity > sanpham.getQuantity()) {
-                        MyUtils.showErrorMessage("Error", "Not enough quantity! Maximum quantity is " + String.valueOf(sanpham.getQuantity()));
-                        return;
-                }
+
                 boolean exist = false;
+                int currentInBill = 0 ;
                 for (int i =0; i< tableModel.getRowCount(); i++) {
-                    if(tableModel.getValueAt(i, 1).equals(name)) {
+                    if(tableModel.getValueAt(i, 0).equals(pID)) {
+                        int oldValue = (int) tableModel.getValueAt(i, 3);
+                        currentInBill = oldValue;
+                        
+                        if (quantity > sanpham.getQuantity() - oldValue) {
+                            txfQuantity.setBackground(Color.pink);
+                            focusItem = "txfQuantity";
+                            focusInput();
+                            MyUtils.showErrorMessage("Error", "Not enough quantity! Maximum quantity is " + String.valueOf(sanpham.getQuantity() - oldValue));
+                            return;
+                        }
+                          
                         int choose = JOptionPane.showConfirmDialog(null, "The product has been selected. Do you want to update its quantity?", "Information", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
                         if (choose == 0) {
-                                tableModel.setValueAt(quantity, i, 3);
+                                tableModel.setValueAt(oldValue + quantity, i, 3);
+                                currentInBill += quantity;
                         }
                         exist = true;
                     }
                 }
                 if(!exist) {
+                    if (quantity > sanpham.getQuantity()) {
+                        txfQuantity.setBackground(Color.pink);
+                        focusItem = "txfQuantity";
+                        focusInput();
+                        MyUtils.showErrorMessage("Error", "Not enough quantity! Maximum quantity is " + String.valueOf(sanpham.getQuantity()));
+                        return;
+                    }
+                    
                     Object[] row = {((SanPhamModel)cbPro.getSelectedItem()).getId(), name, txfPrice.getText(), quantity};
+                    currentInBill = quantity;
                     tableModel.addRow(row);
                 }
+                
+                // remove item that has quantity <= quantity current in bill
+                if(currentInBill >= sanpham.getQuantity()){
+                    isLoading = true;
+                    cbPro.removeAllItems();
+                    List<SanPhamModel> list = pDao.getAll();
+                    for (SanPhamModel item : list) {
+                        if (item.getQuantity() > 0 && sanpham.getId() != item.getId()) {
+                            cbPro.addItem(item);
+                        }
+                    }
+                    isLoading = false;
+                    cbPro.setSelectedItem(null);
+                    loadProductInfo();
+                }
+                
                 this.table.setModel(tableModel);
                 txfQuantity.setText("");
                 showTotalPrice();
             }
             catch (NumberFormatException numex) {
-                    MyUtils.showErrorMessage("Error", "Input quantity is invalid!");
+                 txfQuantity.setBackground(Color.pink);
+                 focusItem = "txfQuantity";
+                 focusInput();
+                 MyUtils.showErrorMessage("Error", "Input quantity is invalid!");
             }
             catch(Exception ex) {
                     ex.printStackTrace();
@@ -312,4 +384,44 @@ public class HoaDonChiTietController {
                 }
             });
 	}
+        
+        private void resetInputColor() {
+            txfQuantity.setBackground(Color.white);
+        }
+
+    private void focusInput() {
+        switch (focusItem) {
+            case "":
+            case "cbCus":
+                cbCus.requestFocus();
+                break;
+            case "txfQuantity":
+                txfQuantity.requestFocus();
+                break;
+            default:
+                cbCus.requestFocus();
+        }
+    }
+    
+    // return the error message
+    private String checkQuantity() {
+        Integer quantity = null;
+        String errorStr = "";
+
+        if (txfQuantity.getText().trim().equals("")) {
+            return "Quantity is required!";
+        }
+
+        try {
+            quantity = Integer.valueOf(txfQuantity.getText().trim());
+
+            if (quantity <= 0) {
+                return "Quantity must be greater than ";
+            }
+        } catch (NumberFormatException err) {
+            return "Quantity must be a float!";
+        }
+
+        return errorStr;
+    }
 }

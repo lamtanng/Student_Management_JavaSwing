@@ -12,6 +12,7 @@ import com.toedter.calendar.JDateChooser;
 import DAO.KhachHangDao;
 import DAO.impl.KhachHangDaoImpl;
 import Model.KhachHangModel;
+import Ultils.Constant;
 import Ultils.MyUtils;
 import java.awt.Color;
 
@@ -41,6 +42,7 @@ public class KhachHangController {
     private JTable table;
     private KhachHangDao dao;
     private int mode;
+    String focusItem = "";
 
     public KhachHangController(JTextField txfName, JTextField txfPhone, JTextField txfAddress, JTextField txfFind,
             JDateChooser txdate, JTextField txfId, JComboBox cbGender, JButton btnAdd, JButton btnEdit,
@@ -63,6 +65,7 @@ public class KhachHangController {
         setEvent();
         buttonChangeStats(1);
         txfId.setEditable(false);
+        focusInput();
     }
 
     public void loadData() {
@@ -89,6 +92,7 @@ public class KhachHangController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mode = 1;
+                resetInputColor();
                 buttonChangeStats(2);
 
                 txfName.setText("");
@@ -114,6 +118,7 @@ public class KhachHangController {
         btnCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                resetInputColor();
                 buttonChangeStats(1);
                 loadRow();
             }
@@ -129,8 +134,48 @@ public class KhachHangController {
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (txfName.getText().equals("") || txfPhone.getText().equals("") || txfAddress.getText().equals("")) {
-                    MyUtils.showErrorMessage("Error", "Please fill the customer information properly!");
+                
+                resetInputColor();
+                
+//                if (txfName.getText().equals("") || txfPhone.getText().equals("") || txfAddress.getText().equals("")) {
+//                    MyUtils.showErrorMessage("Error", "Please fill the customer information properly!");
+//                    return;
+//                }
+
+                String name;
+                String phone;
+                String address;
+                
+                 if (checkName().isBlank()) {
+                    name = txfName.getText().trim();
+                } else {
+                    MyUtils.addErrorMessage(checkName());
+
+                    focusItem = focusItem.isBlank() ? "txfName" : focusItem;
+                    txfName.setBackground(Color.pink);
+                }
+
+                if (checkPhone().isBlank()) {
+                    phone = txfPhone.getText().trim();
+                } else {
+                    MyUtils.addErrorMessage(checkPhone());
+
+                    focusItem = focusItem.isBlank() ? "txfPhone" : focusItem;
+                    txfPhone.setBackground(Color.pink);
+                }
+
+                if (checkAddress().isBlank()) {
+                    name = txfAddress.getText().trim();
+                } else {
+                    MyUtils.addErrorMessage(checkAddress());
+                    focusItem = focusItem.isBlank() ? "txfAddress" : focusItem;
+                    txfAddress.setBackground(Color.pink);
+                }
+
+                if (!MyUtils.isErrorListEmpty()) {
+                    MyUtils.showErrorList();
+                    focusInput();
+                    focusItem = "";
                     return;
                 }
 
@@ -271,11 +316,83 @@ public class KhachHangController {
                 == 1) {
             list = dao.getByName(kw);
         }
-        
+
         if (list.size() == 0) {
             MyUtils.showInfoMessage("Info", "0 result found!");
         }
-        
+
         return list;
     }
+
+    // return the error message
+    private String checkName() {
+        String data = txfName.getText().trim();
+        String errorStr = "";
+
+        if (data.equals("")) {
+            return "Name is required!";
+        }
+
+        if (!MyUtils.isValid(data, Constant.TEXT_TYPE)) {
+            return "Name cannot contain number!";
+        }
+
+        return errorStr;
+    }
+
+    // return the error message
+    private String checkPhone() {
+        String data = txfPhone.getText().trim();
+        String errorStr = "";
+
+        if (data.equals("")) {
+            return "Phone is required!";
+        }
+
+        if (!MyUtils.isValid(data, Constant.PHONE_TYPE)) {
+            return "Phone is invalid!";
+        }
+
+        if (dao.isExist(data)) {
+            return "Phone is already exist!";
+        }
+
+        return errorStr;
+    }
+
+    // return the error message
+    private String checkAddress() {
+        String data = txfAddress.getText().trim();
+        String errorStr = "";
+
+        if (data.equals("")) {
+            return "Address is required!";
+        }
+
+        return errorStr;
+    }
+
+    private void resetInputColor() {
+        txfName.setBackground(Color.white);
+        txfPhone.setBackground(Color.white);
+        txfAddress.setBackground(Color.white);
+    }
+
+    private void focusInput() {
+        switch (focusItem) {
+            case "":
+            case "txfName":
+                txfName.requestFocus();
+                break;
+            case "txfPhone":
+                txfPhone.requestFocus();
+                break;
+            case "txfAddress":
+                txfAddress.requestFocus();
+                break;
+            default:
+                txfName.requestFocus();
+        }
+    }
+
 }

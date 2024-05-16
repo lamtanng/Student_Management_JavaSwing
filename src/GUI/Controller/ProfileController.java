@@ -18,6 +18,7 @@ import com.toedter.calendar.JDateChooser;
 import DAO.NhanVienDao;
 import DAO.impl.NhanVienDaoImpl;
 import Model.NhanVienModel;
+import Ultils.Constant;
 
 import java.awt.Canvas;
 import java.awt.Image;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Ultils.MyUtils;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 public class ProfileController {
@@ -58,6 +60,7 @@ public class ProfileController {
 	private JButton btnChangePw;
 	private JButton btnCancelPw;
 	private JButton btnSavePw;
+        private String focusItem = "";
     private NhanVienDao dao;
     private byte[] avtImg = null;
 
@@ -97,6 +100,8 @@ public class ProfileController {
 		setEvent();
 		loadEmployee();
 		buttonChangeStats(1);
+                focusInput();
+                resetInputColor();
 	}
 
 	private void setEvent() {		
@@ -128,6 +133,7 @@ public class ProfileController {
 			public void actionPerformed(ActionEvent e) {
 				buttonChangeStats(2);
 				enableChangePw(0);
+                                resetInputColor();
 			}
 		});
 		
@@ -136,6 +142,7 @@ public class ProfileController {
 			public void actionPerformed(ActionEvent e) {
 				loadEmployee();
 				buttonChangeStats(1);
+                                resetInputColor();
 			}
 		});
 		
@@ -146,6 +153,7 @@ public class ProfileController {
 				psfNewPw.setText("");
 				psfConfirmPw.setText("");
 				enableChangePw(0);
+                                resetInputColor();
 			}
 		});
 		
@@ -154,16 +162,67 @@ public class ProfileController {
 			public void actionPerformed(ActionEvent e) {
 				enableChangePw(1);
 				buttonChangeStats(1);
+                                resetInputColor();
+                                focusItem = "psfOldPw";
+                                focusInput();
+                                focusItem = "";
 			}
 		});
 		
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (txfName.getText().equals("") || txfPhone.getText().equals("") || txfEmail.getText().equals("")) {
-					MyUtils.showErrorMessage("Error" , "Please fill the employee information properly!");
-					return;
-				}
+                                resetInputColor();
+//				if (txfName.getText().equals("") || txfPhone.getText().equals("") || txfEmail.getText().equals("")) {
+//					MyUtils.showErrorMessage("Error" , "Please fill the employee information properly!");
+//					return;
+//				}
+
+                                String name;
+                                String phone;
+                                String address;
+                                String email;
+
+                                 if (checkName().isBlank()) {
+                                    name = txfName.getText().trim();
+                                } else {
+                                    MyUtils.addErrorMessage(checkName());
+
+                                    focusItem = focusItem.isBlank() ? "txfName" : focusItem;
+                                    txfName.setBackground(Color.pink);
+                                }
+                                 
+                                if (checkEmail().isBlank()) {
+                                    email = txfEmail.getText().trim();
+                                } else {
+                                    MyUtils.addErrorMessage(checkEmail());
+                                    focusItem = focusItem.isBlank() ? "txfEmail" : focusItem;
+                                    txfEmail.setBackground(Color.pink);
+                                }
+                                 
+                                if (checkPhone().isBlank()) {
+                                    phone = txfPhone.getText().trim();
+                                } else {
+                                    MyUtils.addErrorMessage(checkPhone());
+
+                                    focusItem = focusItem.isBlank() ? "txfPhone" : focusItem;
+                                    txfPhone.setBackground(Color.pink);
+                                }
+
+                                if (checkAddress().isBlank()) {
+                                    name = txfAddress.getText().trim();
+                                } else {
+                                    MyUtils.addErrorMessage(checkAddress());
+                                    focusItem = focusItem.isBlank() ? "txfAddress" : focusItem;
+                                    txfAddress.setBackground(Color.pink);
+                                }
+                                
+                                if (!MyUtils.isErrorListEmpty()) {
+                                    MyUtils.showErrorList();
+                                    focusInput();
+                                    focusItem = "";
+                                    return;
+                                }
 				
 				int input = JOptionPane.showConfirmDialog(null, "Do you want to update your information?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (input == 0) {
@@ -193,11 +252,56 @@ public class ProfileController {
 		btnSavePw.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (psfNewPw.getText().equals("")) {
-                                    MyUtils.showErrorMessage("Error", "Please enter new password!");
+                                resetInputColor();
+                                
+                                String currentPW = "";
+                                String newPW = "";
+                                String confirmPW = "";
+//				if (psfNewPw.getText().equals("")) {
+//                                    MyUtils.showErrorMessage("Error", "Please enter new password!");
+//                                    return;
+//				}
+
+                                if (checkCurrentPassword().isBlank()) {
+                                    currentPW = psfOldPw.getText().trim();
+                                } else {
+                                    MyUtils.addErrorMessage(checkCurrentPassword());
+                                    focusItem = focusItem.isBlank() ? "psfOldPw" : focusItem;
+                                    psfOldPw.setBackground(Color.pink);
+                                }
+                                
+                                 if (checkNewPassword().isBlank()) {
+                                    newPW = psfNewPw.getText().trim();
+                                } else {
+                                    MyUtils.addErrorMessage(checkNewPassword());
+                                    focusItem = focusItem.isBlank() ? "psfNewPw" : focusItem;
+                                    psfNewPw.setBackground(Color.pink);
+                                }
+                                 
+                                if (checkConfirmPW().isBlank()) {
+                                    confirmPW = psfConfirmPw.getText().trim();
+                                } else {
+                                    MyUtils.addErrorMessage(checkConfirmPW());
+                                    focusItem = focusItem.isBlank() ? "psfConfirmPw" : focusItem;
+                                    psfConfirmPw.setBackground(Color.pink);
+                                }
+                                
+                                
+                                
+                                if (!newPW.isBlank() && !confirmPW.isBlank() && !checkMatchNewPW().isBlank()) {
+                                    MyUtils.addErrorMessage(checkMatchNewPW());
+                                    focusItem = focusItem.isBlank() ? "psfNewPw" : focusItem;
+                                    psfNewPw.setBackground(Color.pink);
+                                    psfConfirmPw.setBackground(Color.pink);
+                                }
+                                
+                                if (!MyUtils.isErrorListEmpty()) {
+                                    MyUtils.showErrorList();
+                                    focusInput();
+                                    focusItem = "";
                                     return;
-				}
-				
+                                }
+
 				if (psfNewPw.getText().equals(psfConfirmPw.getText())){
 					NhanVienModel nhanvien = dao.getById(userId);
 					if(nhanvien.getPassword().equals(psfOldPw.getText())) {
@@ -211,6 +315,9 @@ public class ProfileController {
 					}
 					else {
                                             MyUtils.showErrorMessage("Error" , "Wrong Password!");
+                                            focusItem = focusItem.isBlank() ? "psfOldPw" : focusItem;
+                                            focusInput();
+                                            focusItem = "";
 					}
 				}
 				else {
@@ -298,4 +405,162 @@ public class ProfileController {
 			btnChangePw.setEnabled(true);
 		}
 	}
+        
+    private void resetInputColor() {
+        txfName.setBackground(Color.white);
+        txfPhone.setBackground(Color.white);
+        txfAddress.setBackground(Color.white);
+        txfEmail.setBackground(Color.white);
+        txdate.setBackground(Color.white);
+        psfOldPw.setBackground(Color.white);
+        psfNewPw.setBackground(Color.white);
+        psfConfirmPw.setBackground(Color.white);
+    }
+
+    private void focusInput() {
+        switch (focusItem) {
+            case "":
+            case "txfName":
+                txfName.requestFocus();
+                break;
+            case "txfPhone":
+                txfPhone.requestFocus();
+                break;
+            case "txfAddress":
+                txfAddress.requestFocus();
+                break;
+            case "txfEmail":
+                txfEmail.requestFocus();
+                break;
+            case "txdate":
+                txdate.requestFocus();
+                break;
+            case "psfOldPw":
+                psfOldPw.requestFocus();
+                break;
+            case "psfNewPw":
+                psfNewPw.requestFocus();
+                break;
+            case "psfConfirmPw":
+                psfConfirmPw.requestFocus();
+                break;
+            default:
+                txfName.requestFocus();
+        }
+    }
+    
+        // return the error message
+    private String checkName() {
+        String data = txfName.getText().trim();
+        String errorStr = "";
+
+        if (data.equals("")) {
+            return "Name is required!";
+        }
+
+        if (!MyUtils.isValid(data, Constant.TEXT_TYPE)) {
+            return "Name cannot contain number!";
+        }
+
+        return errorStr;
+    }
+    
+        // return the error message
+    private String checkPhone() {
+        String data = txfPhone.getText().trim();
+        String errorStr = "";
+
+        if (data.equals("")) {
+            return "Phone is required!";
+        }
+
+        if (!MyUtils.isValid(data, Constant.PHONE_TYPE)) {
+            return "Phone is invalid!";
+        }
+
+        if (dao.isEmployee(data)) {
+            return "Phone is already exist!";
+        }
+
+        return errorStr;
+    }
+
+    // return the error message
+    private String checkAddress() {
+        String data = txfAddress.getText().trim();
+        String errorStr = "";
+
+        if (data.equals("")) {
+            return "Address is required!";
+        }
+
+        return errorStr;
+    }
+    
+    // return the error message
+    private String checkEmail() {
+        String data = txfEmail.getText().trim();
+        String errorStr = "";
+
+        if (data.equals("")) {
+            return "Email is required!";
+        }
+        
+        if(!MyUtils.isValid(txfEmail.getText(), Constant.EMAIL_TYPE)){
+            return "Email is invalid!";
+        }
+
+        return errorStr;
+    }
+    
+    // return the error message
+    private String checkCurrentPassword() {
+        String data = psfOldPw.getText().trim();
+        String errorStr = "";
+
+        if (data.equals("")) {
+            return "Current is required!";
+        }
+
+        return errorStr;
+    }
+    
+    // return the error message
+    private String checkNewPassword() {
+        String newPass = psfNewPw.getText().trim();
+        String confirmPass = psfConfirmPw.getText().trim();
+        String errorStr = "";
+
+        if (newPass.equals("")) {
+            return "New password is required!";
+        }
+
+        return errorStr;
+    }
+    
+    // return the error message
+    private String checkConfirmPW() {
+        String newPass = psfNewPw.getText().trim();
+        String confirmPass = psfConfirmPw.getText().trim();
+        String errorStr = "";
+
+        if (confirmPass.equals("")) {
+            return "Confirm password is required!";
+        }
+
+        return errorStr;
+    }
+    
+    // return the error message
+    private String checkMatchNewPW() {
+        String newPass = psfNewPw.getText().trim();
+        String confirmPass = psfConfirmPw.getText().trim();
+        String errorStr = "";
+
+        if (!newPass.equals(confirmPass)) {
+            return "New password and confirm password is not match!";
+        }
+
+        return errorStr;
+    }
 }
