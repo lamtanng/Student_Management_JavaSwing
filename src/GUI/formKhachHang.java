@@ -5,7 +5,19 @@
 package GUI;
 
 import GUI.Controller.KhachHangController;
+import Ultils.Constant;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -13,9 +25,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class formKhachHang extends javax.swing.JPanel {
 
-    /**
-     * Creates new form ControllerKhachHang
-     */
+    
+    
     private KhachHangController controller;
     public formKhachHang() {
         initComponents();
@@ -55,6 +66,7 @@ public class formKhachHang extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         txdate = new com.toedter.calendar.JDateChooser();
         btnAdd = new javax.swing.JButton();
+        btnImport = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
@@ -102,11 +114,19 @@ public class formKhachHang extends javax.swing.JPanel {
         btnAdd.setText("Add");
         jPanel1.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, 80, -1));
 
+        btnImport.setText("Import");
+        btnImport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImportActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnImport, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 50, 80, -1));
+
         btnEdit.setText("Edit");
-        jPanel1.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 60, 80, -1));
+        jPanel1.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 90, 80, -1));
 
         btnCancel.setText("Cancel");
-        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 80, -1));
+        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 150, 80, -1));
 
         btnSave.setText("Save");
         jPanel1.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 180, 80, -1));
@@ -151,6 +171,12 @@ public class formKhachHang extends javax.swing.JPanel {
         add(btnExport, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 290, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
+
+        formImportData fImp = new formImportData(Constant.CUSTOMER_COLUMNS, Constant.CUSTOMER_IMPORT );
+        fImp.setVisible(true);
+    }//GEN-LAST:event_btnImportActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -158,6 +184,7 @@ public class formKhachHang extends javax.swing.JPanel {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnExport;
     private javax.swing.JButton btnFind;
+    private javax.swing.JButton btnImport;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cbFilter;
     private javax.swing.JComboBox<String> cbGender;

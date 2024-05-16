@@ -11,8 +11,10 @@ import javax.swing.table.DefaultTableModel;
 import DAO.SanPhamDao;
 import DAO.impl.NhanVienDaoImpl;
 import DAO.impl.SanPhamDaoImpl;
+import GUI.formImportData;
 import Model.NhanVienModel;
 import Model.SanPhamModel;
+import Ultils.Constant;
 import Ultils.MyUtils;
 import java.awt.Color;
 
@@ -37,6 +39,7 @@ public class SanPhamController {
     private JButton btnCancel;
     private JButton btnEdit;
     private JButton btnAdd;
+    private JButton btnImport;
     private SanPhamDao dao;
     private NhanVienDao nvDao;
     private int mode;
@@ -45,7 +48,7 @@ public class SanPhamController {
 
     public SanPhamController(Integer userId, JTextField txfID, JTextField txfName, JTextField txfPrice, JTextField txfQuantity,
             JTextField txfFind, JTable table, JButton btnFind, JComboBox cbFilter, JButton btnSave,
-            JButton btnCancel, JButton btnEdit, JButton btnAdd, JButton btnExport) {
+            JButton btnCancel, JButton btnEdit, JButton btnAdd, JButton btnExport, JButton btnImport) {
         this.txfID = txfID;
         this.txfName = txfName;
         this.txfPrice = txfPrice;
@@ -59,6 +62,7 @@ public class SanPhamController {
         this.btnEdit = btnEdit;
         this.btnAdd = btnAdd;
         this.btnExport = btnExport;
+        this.btnImport = btnImport;
         dao = new SanPhamDaoImpl();
         nvDao = new NhanVienDaoImpl();
         NhanVienModel nhanvien = nvDao.getById(userId);
@@ -213,25 +217,33 @@ public class SanPhamController {
             }
         });
         btnExport.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if(table.getRowCount() == 0) {
-                            MyUtils.showInfoMessage("Info", "No data to export!");
-                        }
-                        else {
-                            String[] colNames = {"ID", "Name", "Price", "Quantity"};
-                            Object[][] data = convertTableData(table);
-                            DefaultTableModel model = new DefaultTableModel();
-                            for(String colName : colNames) {
-                                model.addColumn(colName);
-                            }
-                            for (Object[] row : data) {
-                                model.addRow(row);
-                            }
-                            MyUtils.exportToExcel(model);
-                        }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (table.getRowCount() == 0) {
+                    MyUtils.showInfoMessage("Info", "No data to export!");
+                } else {
+                    String[] colNames = {"ID", "Name", "Price", "Quantity"};
+                    Object[][] data = convertTableData(table);
+                    DefaultTableModel model = new DefaultTableModel();
+                    for (String colName : colNames) {
+                        model.addColumn(colName);
                     }
-	});
+                    for (Object[] row : data) {
+                        model.addRow(row);
+                    }
+                    MyUtils.exportToExcel(model);
+                }
+            }
+        });
+
+        btnImport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                formImportData fImp = new formImportData(Constant.PRODUCT_COLUMNS, Constant.PRODUCT_IMPORT);
+                fImp.setVisible(true);
+                loadTable(dao.getAll());
+            }
+        });
     }
 
     private void loadTable(List<SanPhamModel> list) {
@@ -406,16 +418,17 @@ public class SanPhamController {
                 txfName.requestFocus();
         }
     }
-     private Object[][] convertTableData(JTable table) {
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
-            int rowCount = model.getRowCount();
-            int colCount = model.getColumnCount();
-            Object[][] data = new Object[rowCount][colCount];
-            for (int i = 0; i < rowCount; i++) {
-                for (int j = 0; j < colCount; j++) {
-                    data[i][j] = model.getValueAt(i, j); 
-                }
+
+    private Object[][] convertTableData(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        int rowCount = model.getRowCount();
+        int colCount = model.getColumnCount();
+        Object[][] data = new Object[rowCount][colCount];
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < colCount; j++) {
+                data[i][j] = model.getValueAt(i, j);
             }
-            return data;
-     }
+        }
+        return data;
+    }
 }

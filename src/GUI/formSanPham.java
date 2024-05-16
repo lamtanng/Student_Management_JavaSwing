@@ -5,6 +5,7 @@
 package GUI;
 
 import GUI.Controller.SanPhamController;
+import Ultils.Constant;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,7 +27,7 @@ public class formSanPham extends javax.swing.JPanel {
         ));
 	scrollPane.setViewportView(table);
 		
-	controller = new SanPhamController(userId, txfID, txfName, txfPrice, txfQuantity, txfFind, table, btnFind, cbFilter, btnSave, btnCancel, btnEdit, btnAdd, btnExport);
+	controller = new SanPhamController(userId, txfID, txfName, txfPrice, txfQuantity, txfFind, table, btnFind, cbFilter, btnSave, btnCancel, btnEdit, btnAdd, btnExport, btnImport);
     }
 
     public SanPhamController getController() {
@@ -60,6 +61,7 @@ public class formSanPham extends javax.swing.JPanel {
         txfPrice = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         txfQuantity = new javax.swing.JTextField();
+        btnImport = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         cbFilter = new javax.swing.JComboBox<>();
         txfFind = new javax.swing.JTextField();
@@ -86,13 +88,18 @@ public class formSanPham extends javax.swing.JPanel {
         jPanel1.add(txfName, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 340, -1));
 
         btnAdd.setText("Add");
-        jPanel1.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, 80, -1));
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 30, 80, -1));
 
         btnEdit.setText("Edit");
-        jPanel1.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 60, 80, -1));
+        jPanel1.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 90, 80, -1));
 
         btnCancel.setText("Cancel");
-        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 80, -1));
+        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 150, 80, -1));
 
         btnSave.setText("Save");
         jPanel1.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 180, 80, -1));
@@ -104,6 +111,14 @@ public class formSanPham extends javax.swing.JPanel {
         jLabel12.setText("Quantity");
         jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, -1));
         jPanel1.add(txfQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, 340, -1));
+
+        btnImport.setText("Import");
+        btnImport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImportActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnImport, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 60, 80, -1));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 28, 630, 255));
 
@@ -137,6 +152,15 @@ public class formSanPham extends javax.swing.JPanel {
         add(btnExport, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 290, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
+
+        
+    }//GEN-LAST:event_btnImportActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -144,6 +168,7 @@ public class formSanPham extends javax.swing.JPanel {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnExport;
     private javax.swing.JButton btnFind;
+    private javax.swing.JButton btnImport;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cbFilter;
     private javax.swing.JLabel jLabel1;

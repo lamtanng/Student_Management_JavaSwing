@@ -144,13 +144,26 @@
             </Constraint>
           </Constraints>
         </Component>
+        <Component class="javax.swing.JButton" name="btnImport">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Import"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnImportActionPerformed"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="500" y="50" width="80" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
         <Component class="javax.swing.JButton" name="btnEdit">
           <Properties>
             <Property name="text" type="java.lang.String" value="Edit"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="500" y="60" width="80" height="-1"/>
+              <AbsoluteConstraints x="500" y="90" width="80" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -160,7 +173,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="500" y="120" width="80" height="-1"/>
+              <AbsoluteConstraints x="500" y="150" width="80" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
