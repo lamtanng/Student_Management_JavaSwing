@@ -46,7 +46,7 @@ public class KhachHangController {
 
     public KhachHangController(JTextField txfName, JTextField txfPhone, JTextField txfAddress, JTextField txfFind,
             JDateChooser txdate, JTextField txfId, JComboBox cbGender, JButton btnAdd, JButton btnEdit,
-            JButton btnCancel, JButton btnSave, JComboBox cbFilter, JButton btnFind, JTable table) {
+            JButton btnCancel, JButton btnSave, JComboBox cbFilter, JButton btnFind, JTable table, JButton btnExport) {
         this.txfName = txfName;
         this.txfPhone = txfPhone;
         this.txfAddress = txfAddress;
