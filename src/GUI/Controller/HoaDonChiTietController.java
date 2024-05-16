@@ -15,6 +15,7 @@ import DAO.impl.HoaDonChiTietDaoImpl;
 import DAO.impl.HoaDonDaoImpl;
 import DAO.impl.KhachHangDaoImpl;
 import DAO.impl.SanPhamDaoImpl;
+import GUI.formBillPrinter;
 import Model.HoaDonChiTietModel;
 import Model.HoaDonModel;
 import Model.KhachHangModel;
@@ -55,11 +56,12 @@ public class HoaDonChiTietController {
 	private HoaDonChiTietDao bdDao;
         private String focusItem= "";
     
+        private JButton btnExport;
 	private boolean isLoading = true;
     
 	public HoaDonChiTietController(Integer userId, JTextField txfPro, JTextField txfPrice, JTextField txfQuantity, JTextField txfCus,
 			JTextField txfPhone, JTextField txfAddress, JTextField txfTotal, JTable table, JComboBox cbCus,
-			JComboBox cbPro, JButton btnAdd, JButton btnCancel, JButton btnPay, JButton btnDel) {
+			JComboBox cbPro, JButton btnAdd, JButton btnCancel, JButton btnPay, JButton btnDel, JButton btnExport) {
 		this.userId = userId;
 		this.txfPro = txfPro;
 		this.txfPrice = txfPrice;
@@ -75,7 +77,7 @@ public class HoaDonChiTietController {
 		this.btnCancel = btnCancel;
 		this.btnPay = btnPay;
 		this.btnDel = btnDel;
-
+                this.btnExport = btnExport;
 		pDao = new SanPhamDaoImpl();
 		cDao = new KhachHangDaoImpl();
 		bDao = new HoaDonDaoImpl();
@@ -175,6 +177,27 @@ public class HoaDonChiTietController {
                             createBill();
                     }
 		});
+                btnExport.addActionListener(new ActionListener() {
+                   @Override
+                   public void actionPerformed(ActionEvent e) {
+                       if(table.getRowCount() == 0) {
+                                MyUtils.showInfoMessage("Info", "No data to export!");
+                       }
+                       else{
+                            String[] colNames = {"ID", "Name", "Price", "Quantity"};
+                            Object[][] data = convertTableData(table);
+                            DefaultTableModel model = new DefaultTableModel();
+                            for(String colName : colNames) {
+                                model.addColumn(colName);
+                            }
+                            for (Object[] row : data) {
+                                model.addRow(row);
+                            }
+                            MyUtils.exportToExcel(model);
+                       }
+                      
+                   }
+               });
     }
 
 	private void loadCmbCustomer() {
@@ -194,7 +217,6 @@ public class HoaDonChiTietController {
             isLoading = true;
             cbPro.removeAllItems();
             List<SanPhamModel> list = pDao.getAll();
-            System.out.println("======>list" + list);
             for (SanPhamModel sanpham : list) {
                 if (sanpham.getQuantity() > 0) {
                     cbPro.addItem(sanpham);
@@ -329,6 +351,7 @@ public class HoaDonChiTietController {
 	
 	private void createBill() {
             if (cbCus.getSelectedItem() == null) {
+                
                 MyUtils.showErrorMessage("Error", "Please choose customer first!");
                 return;
             }
@@ -336,6 +359,7 @@ public class HoaDonChiTietController {
             DefaultTableModel tableModel = (DefaultTableModel)table.getModel();
 
             if (tableModel.getRowCount() == 0) {
+                
                 MyUtils.showErrorMessage("Error", "At least one product is required to create bill!");
                 return;
             }
@@ -354,14 +378,17 @@ public class HoaDonChiTietController {
                         int idSp = Integer.parseInt(tableModel.getValueAt(i, 0).toString());
                         double price = Double.parseDouble(tableModel.getValueAt(i, 2).toString());
                         int quantity = Integer.parseInt(tableModel.getValueAt(i, 3).toString());
-                        bdDao.insert(new HoaDonChiTietModel(id,idSp, price, quantity));
+                        bdDao.insert(new HoaDonChiTietModel(id, idSp, price, quantity));
                         pDao.changeQuantity(idSp, quantity);
                 }
                 loadCmbProduct();
                 clearTable();
                 txfQuantity.setText("");
                 txfTotal.setText("0");
-                MyUtils.showInfoMessage("Information", "Create bill successfully!");
+                //MyUtils.showInfoMessage("Information", "Create bill successfully!");
+                
+                formBillPrinter f = new formBillPrinter(id);
+                f.setVisible(true);
             }
             catch(Exception ex) {
                 ex.printStackTrace();
@@ -424,4 +451,16 @@ public class HoaDonChiTietController {
 
         return errorStr;
     }
+        private Object[][] convertTableData(JTable table) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            int rowCount = model.getRowCount();
+            int colCount = model.getColumnCount();
+            Object[][] data = new Object[rowCount][colCount];
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < colCount; j++) {
+                    data[i][j] = model.getValueAt(i, j); 
+                }
+            }
+            return data;
+        }
 }

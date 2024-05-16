@@ -24,7 +24,7 @@ public class formKhachHang extends javax.swing.JPanel {
             new String[] {}
 	));
 	scrollPane.setViewportView(table);
-        controller = new KhachHangController(txfName, txfPhone, txfAddress, txfFind, txdate, txfID, cbGender, btnAdd, btnEdit, btnCancel, btnSave, cbFilter, btnFind, table);
+        controller = new KhachHangController(txfName, txfPhone, txfAddress, txfFind, txdate, txfID, cbGender, btnAdd, btnEdit, btnCancel, btnSave, cbFilter, btnFind, table, btnExport);
     }
     
     public KhachHangController getController() {
@@ -68,6 +68,7 @@ public class formKhachHang extends javax.swing.JPanel {
         btnFind = new javax.swing.JButton();
         scrollPane = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        btnExport = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(658, 518));
@@ -125,11 +126,11 @@ public class formKhachHang extends javax.swing.JPanel {
         add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 289, -1, -1));
 
         cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Name" }));
-        add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, 289, -1, -1));
-        add(txfFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(324, 289, 200, -1));
+        add(cbFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 290, -1, -1));
+        add(txfFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 200, -1));
 
         btnFind.setText("Find");
-        add(btnFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(536, 289, 80, -1));
+        add(btnFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 290, 80, -1));
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -145,6 +146,9 @@ public class formKhachHang extends javax.swing.JPanel {
         scrollPane.setViewportView(table);
 
         add(scrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 320, 630, 220));
+
+        btnExport.setText("Export");
+        add(btnExport, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 290, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -152,6 +156,7 @@ public class formKhachHang extends javax.swing.JPanel {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnExport;
     private javax.swing.JButton btnFind;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cbFilter;
