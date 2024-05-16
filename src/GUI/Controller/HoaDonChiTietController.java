@@ -15,6 +15,7 @@ import DAO.impl.HoaDonChiTietDaoImpl;
 import DAO.impl.HoaDonDaoImpl;
 import DAO.impl.KhachHangDaoImpl;
 import DAO.impl.SanPhamDaoImpl;
+import GUI.formBillPrinter;
 import Model.HoaDonChiTietModel;
 import Model.HoaDonModel;
 import Model.KhachHangModel;
@@ -277,6 +278,7 @@ public class HoaDonChiTietController {
 	
 	private void createBill() {
             if (cbCus.getSelectedItem() == null) {
+                
                 MyUtils.showErrorMessage("Error", "Please choose customer first!");
                 return;
             }
@@ -284,6 +286,7 @@ public class HoaDonChiTietController {
             DefaultTableModel tableModel = (DefaultTableModel)table.getModel();
 
             if (tableModel.getRowCount() == 0) {
+                
                 MyUtils.showErrorMessage("Error", "At least one product is required to create bill!");
                 return;
             }
@@ -309,7 +312,10 @@ public class HoaDonChiTietController {
                 clearTable();
                 txfQuantity.setText("");
                 txfTotal.setText("0");
-                MyUtils.showInfoMessage("Information", "Create bill successfully!");
+                //MyUtils.showInfoMessage("Information", "Create bill successfully!");
+                
+                formBillPrinter f = new formBillPrinter(id);
+                f.setVisible(true);
             }
             catch(Exception ex) {
                 ex.printStackTrace();
